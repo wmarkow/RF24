@@ -64,8 +64,8 @@ private:
   GPIO gpio;
 #endif
 
-  uint8_t ce_pin; /**< "Chip Enable" pin, activates the RX or TX role */
-  uint8_t csn_pin; /**< SPI Chip select */
+  uint16_t ce_pin; /**< "Chip Enable" pin, activates the RX or TX role */
+  uint16_t csn_pin; /**< SPI Chip select */
   uint16_t spi_speed; /**< SPI Bus Speed */
 #if defined (RF24_LINUX) || defined (XMEGA_D3)
   uint8_t spi_rxbuff[32+1] ; //SPI receive buffer (payload max 32 bytes)
@@ -76,7 +76,6 @@ private:
   bool dynamic_payloads_enabled; /**< Whether dynamic payloads are enabled. */
   uint8_t pipe0_reading_address[5]; /**< Last address set on pipe 0 for reading. */
   uint8_t addr_width; /**< The address width to use - 3,4 or 5 bytes. */
-  uint32_t txRxDelay; /**< Var for adjusting delays depending on datarate */
   
 
 protected:
@@ -108,7 +107,7 @@ public:
    * @param _cepin The pin attached to Chip Enable on the RF module
    * @param _cspin The pin attached to Chip Select
    */
-  RF24(uint8_t _cepin, uint8_t _cspin);
+  RF24(uint16_t _cepin, uint16_t _cspin);
   //#if defined (RF24_LINUX)
   
     /**
@@ -122,7 +121,7 @@ public:
   * @param spispeed For RPi, the SPI speed in MHZ ie: BCM2835_SPI_SPEED_8MHZ
   */
   
-  RF24(uint8_t _cepin, uint8_t _cspin, uint32_t spispeed );
+  RF24(uint16_t _cepin, uint16_t _cspin, uint32_t spispeed );
   //#endif
 
   #if defined (RF24_LINUX)
@@ -136,6 +135,11 @@ public:
    * @code radio.begin() @endcode
    */
   bool begin(void);
+
+  /**
+   * Checks if the chip is connected to the SPI bus
+   */
+  bool isChipConnected();
 
   /**
    * Start listening on the pipes opened for reading.
@@ -783,6 +787,17 @@ s   *
   void enableDynamicPayloads(void);
   
   /**
+   * Disable dynamically-sized payloads
+   *
+   * This disables dynamic payloads on ALL pipes. Since Ack Payloads
+   * requires Dynamic Payloads, Ack Payloads are also disabled.
+   * If dynamic payloads are later re-enabled and ack payloads are desired
+   * then enableAckPayload() must be called again as well.
+   *
+   */
+  void disableDynamicPayloads(void);
+  
+  /**
    * Enable dynamic ACKs (single write multicast or unicast) for chosen messages
    *
    * @note To enable full multicast or per-pipe multicast, use setAutoAck()
@@ -906,6 +921,31 @@ s   *
   */
   void maskIRQ(bool tx_ok,bool tx_fail,bool rx_ready);
   
+  /**
+  * 
+  * The driver will delay for this duration when stopListening() is called
+  * 
+  * When responding to payloads, faster devices like ARM(RPi) are much faster than Arduino:
+  * 1. Arduino sends data to RPi, switches to RX mode
+  * 2. The RPi receives the data, switches to TX mode and sends before the Arduino radio is in RX mode
+  * 3. If AutoACK is disabled, this can be set as low as 0. If AA/ESB enabled, set to 100uS minimum on RPi
+  *
+  * @warning If set to 0, ensure 130uS delay after stopListening() and before any sends
+  */
+  
+  uint32_t txDelay;
+
+  /**
+  * 
+  * On all devices but Linux and ATTiny, a small delay is added to the CSN toggling function
+  * 
+  * This is intended to minimise the speed of SPI polling due to radio commands
+  *
+  * If using interrupts or timed requests, this can be set to 0 Default:5
+  */
+  
+  uint32_t csDelay;
+  
   /**@}*/
   /**
    * @name Deprecated
@@ -948,6 +988,13 @@ s   *
    * @param address The 40-bit address of the pipe to open.
    */
   void openWritingPipe(uint64_t address);
+
+  /**
+   * Empty the receive buffer
+   *
+   * @return Current value of status register
+   */
+  uint8_t flush_rx(void);
 
 private:
 
@@ -1038,13 +1085,6 @@ private:
    * @return Current value of status register
    */
   uint8_t read_payload(void* buf, uint8_t len);
-
-  /**
-   * Empty the receive buffer
-   *
-   * @return Current value of status register
-   */
-  uint8_t flush_rx(void);
 
   /**
    * Retrieve the current status of the chip
@@ -1433,14 +1473,28 @@ private:
  *
  * Setup:<br>
  * 1. Install the digitalIO library<br>
- * 2. Open RF24_config.h in a text editor. Uncomment the line #define SOFTSPI<br>
- * 3. In your sketch, add #include DigitalIO.h
+ * 2. Open RF24_config.h in a text editor. 
+      Uncomment the line 
+      @code
+      #define SOFTSPI
+      @endcode
+      or add the build flag/option
+      @code
+      -DSOFTSPI
+      @endcode
+ * 3. In your sketch, add
+ *     @code
+ *     #include DigitalIO.h
+ *     @endcode
  *
  * @note Note: Pins are listed as follows and can be modified by editing the RF24_config.h file<br>
  *
- *     const uint8_t SOFT_SPI_MISO_PIN = 16;
- *     const uint8_t SOFT_SPI_MOSI_PIN = 15;
- *     const uint8_t SOFT_SPI_SCK_PIN = 14;
+ *     #define SOFT_SPI_MISO_PIN 16
+ *     #define SOFT_SPI_MOSI_PIN 15
+ *     #define SOFT_SPI_SCK_PIN 14
+ * Or add the build flag/option
+ *
+ *     -DSOFT_SPI_MISO_PIN=16 -DSOFT_SPI_MOSI_PIN=15 -DSOFT_SPI_SCK_PIN=14
  *
  * <br>
  * **Alternate Hardware (UART) Driven  SPI**
@@ -1957,4 +2011,3 @@ private:
  */
 
 #endif // __RF24_H__
-
