@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>RF24</artifactId>
+	<groupId>com.github.nRF24</groupId>
+	<version>1.0.0-SNAPSHOT</version>
+	
+    <name>RF24</name>
+    <packaging>pom</packaging>
+
+	<build>
+	<plugins>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <version>2.7.2-SNAPSHOT</version>
+		<configuration>
+			<encoding>UTF-8</encoding>
+		</configuration>
+        <executions>
+          <execution>
+			<id>format_with_nasa_formatter</id>
+            <phase>validate</phase>
+			<goals>
+              <goal>format</goal>
+            </goals>
+			<configuration>
+				
+				<directories>
+					<directory>./</directory>
+				</directories>
+				<includes>
+					<include>**/*.c</include>
+					<include>**/*.cpp</include>
+					<include>**/*.h</include>
+					<include>**/*.ino</include>
+					<include>**/*.pde</include>
+				</includes>
+				<excludes>
+					<exclude>examples/**/*.*</exclude>
+				</excludes>
+				<configCppFile>nasa_formatter.xml</configCppFile>
+			</configuration>
+          </execution>
+		  <execution>
+			<id>format_with_arduino_formatter</id>
+            <phase>validate</phase>
+			<goals>
+              <goal>format</goal>
+            </goals>
+			<configuration>
+				
+				<directories>
+					<directory>./examples</directory>
+				</directories>
+				<includes>
+					<include>**/*.ino</include>
+					<include>**/*.pde</include>
+				</includes>
+				<configCppFile>arduino_formatter.xml</configCppFile>
+			</configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+	</build>
+</project>
