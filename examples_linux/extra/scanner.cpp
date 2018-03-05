@@ -7,8 +7,8 @@
  
  
  03/17/2013 : Charles-Henri Hallard (http://hallard.me)
-              Modified to use with Arduipi board http://hallard.me/arduipi
-						  Changed to use modified bcm2835 and RF24 library 
+ Modified to use with Arduipi board http://hallard.me/arduipi
+ Changed to use modified bcm2835 and RF24 library 
 
  */
 
@@ -53,91 +53,90 @@ RF24 radio(22, 0);
 const uint8_t num_channels = 126;
 uint8_t values[num_channels];
 
-
 const int num_reps = 100;
-int reset_array=0;
-
+int reset_array = 0;
 
 int main(int argc, char** argv)
 {
-  //
-  // Print preamble
-  //
+   //
+   // Print preamble
+   //
 
-  //Serial.begin(115200);
-  //printf_begin();
-  printf("RF24/examples/scanner/\n");
+   //Serial.begin(115200);
+   //printf_begin();
+   printf("RF24/examples/scanner/\n");
 
-  //
-  // Setup and configure rf radio
-  //
-  radio.begin();
-	
-  radio.setAutoAck(false);
+   //
+   // Setup and configure rf radio
+   //
+   radio.begin();
 
-  // Get into standby mode
-  radio.startListening();
-  radio.stopListening();
+   radio.setAutoAck(false);
 
-  radio.printDetails();
+   // Get into standby mode
+   radio.startListening();
+   radio.stopListening();
 
-  // Print out header, high then low digit
-  int i = 0;
-	
-  while ( i < num_channels )
-  {
-    printf("%x",i>>4);
-    ++i;
-  }
-  printf("\n");
-	
-  i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",i&0xf);
-    ++i;
-  }
-  printf("\n");       
-	
-  // forever loop
-  while(1)
-  {
-    // Clear measurement values
-    memset(values,0,sizeof(values));
+   radio.printDetails();
 
-    // Scan all channels num_reps times
-    int rep_counter = num_reps;
-    while(rep_counter--)
-    {
+   // Print out header, high then low digit
+   int i = 0;
 
-      int i = num_channels;
-      while (i--)
+   while (i < num_channels)
+   {
+      printf("%x", i >> 4);
+      ++i;
+   }
+   printf("\n");
+
+   i = 0;
+   while (i < num_channels)
+   {
+      printf("%x", i & 0xf);
+      ++i;
+   }
+   printf("\n");
+
+   // forever loop
+   while (1)
+   {
+      // Clear measurement values
+      memset(values, 0, sizeof(values));
+
+      // Scan all channels num_reps times
+      int rep_counter = num_reps;
+      while (rep_counter--)
       {
 
-        // Select this channel
-	radio.setChannel(i);
+         int i = num_channels;
+         while (i--)
+         {
 
-	// Listen for a little
-	radio.startListening();
-	delayMicroseconds(128);
-	radio.stopListening();
+            // Select this channel
+            radio.setChannel(i);
 
-	// Did we get a carrier?
-	if ( radio.testCarrier() ) ++values[i];
+            // Listen for a little
+            radio.startListening();
+            delayMicroseconds(128);
+            radio.stopListening();
+
+            // Did we get a carrier?
+            if (radio.testCarrier())
+               ++values[i];
+         }
       }
-    }
 
-    // Print out channel measurements, clamped to a single hex digit
-    i = 0;
-    while ( i < num_channels )
-    {
-      printf("%x",min(0xf,(values[i]&0xf)));
-      ++i;
-    }
-    printf("\n");
-  }
+      // Print out channel measurements, clamped to a single hex digit
+      i = 0;
+      while (i < num_channels)
+      {
+         printf("%x", min(0xf, (values[i] & 0xf)));
+         ++i;
+      }
+      printf("\n");
+   }
 
-  return 0;
+   return 0;
 }
 
 // vim:ai:cin:sts=2 sw=2 ft=cpp

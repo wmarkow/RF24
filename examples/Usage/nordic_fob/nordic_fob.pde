@@ -26,20 +26,20 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins 9 & 10
 
-RF24 radio(9,10);
+RF24 radio(9, 10);
 
 //
 // Payload
 //
 
-struct payload_t
-{
+struct payload_t {
   uint8_t buttons;
   uint16_t id;
   uint8_t empty;
 };
 
-const char* button_names[] = { "Up", "Down", "Left", "Right", "Center" }; 
+const char* button_names[] = {
+  "Up", "Down", "Left", "Right", "Center"};
 const int num_buttons = 5;
 
 //
@@ -52,8 +52,7 @@ uint16_t flip_endian(uint16_t in);
 // Setup
 //
 
-void setup(void)
-{
+void setup(void) {
   //
   // Print preamble
   //
@@ -72,7 +71,7 @@ void setup(void)
   radio.setPayloadSize(4);
   radio.setAutoAck(false);
   radio.setCRCLength(RF24_CRC_8);
-  radio.openReadingPipe(1,0xE7E7E7E7E7LL);
+  radio.openReadingPipe(1, 0xE7E7E7E7E7LL);
 
   //
   // Start listening
@@ -91,39 +90,35 @@ void setup(void)
 // Loop
 //
 
-void loop(void)
-{
+void loop(void) {
   //
   // Receive each packet, dump it out
   //
 
-    // if there is data ready
-    if ( radio.available() )
-    {
-      // Get the packet from the radio
-      payload_t payload;
-      radio.read( &payload, sizeof(payload) );
+  // if there is data ready
+  if (radio.available()) {
+    // Get the packet from the radio
+    payload_t payload;
+    radio.read(&payload, sizeof(payload));
 
-      // Print the ID of this message.  Note that the message
-      // is sent 'big-endian', so we have to flip it.
-      printf("#%05u Buttons ",flip_endian(payload.id));
+    // Print the ID of this message.  Note that the message
+    // is sent 'big-endian', so we have to flip it.
+    printf("#%05u Buttons ", flip_endian(payload.id));
 
-      // Print the name of each button 
-      int i = num_buttons;
-      while (i--)
-      {
-	if ( ! ( payload.buttons & _BV(i) ) )
-	{
-	  printf("%s ",button_names[i]);
-	}
+    // Print the name of each button 
+    int i = num_buttons;
+    while (i--) {
+      if (!(payload.buttons & _BV(i))) {
+        printf("%s ", button_names[i]);
       }
-
-      // If no buttons, print None
-      if ( payload.buttons == _BV(num_buttons) - 1 )
-	printf("None");
-
-      printf("\r\n");
     }
+
+    // If no buttons, print None
+    if (payload.buttons == _BV(num_buttons) - 1)
+      printf("None");
+
+    printf("\r\n");
+  }
 }
 
 //
@@ -131,8 +126,7 @@ void loop(void)
 //
 
 // Change a big-endian word into a little-endian
-uint16_t flip_endian(uint16_t in)
-{
+uint16_t flip_endian(uint16_t in) {
   uint16_t low = in >> 8;
   uint16_t high = in << 8;
 

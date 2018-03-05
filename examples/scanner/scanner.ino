@@ -28,7 +28,7 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins 7 & 8
 
-RF24 radio(7,8);
+RF24 radio(7, 8);
 
 //
 // Channel info
@@ -41,8 +41,7 @@ uint8_t values[num_channels];
 // Setup
 //
 
-void setup(void)
-{
+void setup(void) {
   //
   // Print preamble
   //
@@ -66,16 +65,14 @@ void setup(void)
 
   // Print out header, high then low digit
   int i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",i>>4);
+  while (i < num_channels) {
+    printf("%x", i >> 4);
     ++i;
   }
   Serial.println();
   i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",i&0xf);
+  while (i < num_channels) {
+    printf("%x", i & 0xf);
     ++i;
   }
   Serial.println();
@@ -87,18 +84,15 @@ void setup(void)
 
 const int num_reps = 100;
 
-void loop(void)
-{
+void loop(void) {
   // Clear measurement values
-  memset(values,0,sizeof(values));
+  memset(values, 0, sizeof(values));
 
   // Scan all channels num_reps times
   int rep_counter = num_reps;
-  while (rep_counter--)
-  {
+  while (rep_counter--) {
     int i = num_channels;
-    while (i--)
-    {
+    while (i--) {
       // Select this channel
       radio.setChannel(i);
 
@@ -108,7 +102,7 @@ void loop(void)
       radio.stopListening();
 
       // Did we get a carrier?
-      if ( radio.testCarrier() ){
+      if (radio.testCarrier()) {
         ++values[i];
       }
     }
@@ -116,9 +110,8 @@ void loop(void)
 
   // Print out channel measurements, clamped to a single hex digit
   int i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",min(0xf,values[i]));
+  while (i < num_channels) {
+    printf("%x", min(0xf, values[i]));
     ++i;
   }
   Serial.println();

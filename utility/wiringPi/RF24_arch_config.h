@@ -1,4 +1,3 @@
-
 /*
  Copyright (C) 2011 J. Coliz <maniacbug@ymail.com>
 
@@ -51,6 +50,5 @@ typedef uint16_t prog_uint16_t;
 #define pgm_read_byte(p) (*(p))
 
 #endif // __ARCH_CONFIG_H__
-
 
 /*@}*/

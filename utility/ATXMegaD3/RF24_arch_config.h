@@ -1,4 +1,3 @@
-
 /*
  Copyright (C) 2011 J. Coliz <maniacbug@ymail.com>
 
@@ -7,13 +6,13 @@
  version 2 as published by the Free Software Foundation.
 
  */
- 
- /**
+
+/**
  * @file RF24_arch_config.h
  * General defines and includes for RF24/Linux
  */
 
- /**
+/**
  * Example of RF24_arch_config.h for RF24 portability
  *
  * @defgroup Porting_General Porting: General
@@ -21,8 +20,7 @@
  * 
  * @{
  */
- 
- 
+
 #ifndef __RF24_ARCH_CONFIG_H__
 #define __RF24_ARCH_CONFIG_H__
 
@@ -78,8 +76,6 @@ typedef uint16_t prog_uint16_t;
 #define delayMicroseconds(usec) __usleep(usec)
 #define millis() __millis()
 
-
 #endif // __RF24_ARCH_CONFIG_H__
 
-
-/*@}*/	
+/*@}*/

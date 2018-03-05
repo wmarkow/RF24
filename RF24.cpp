@@ -54,7 +54,7 @@ void RF24::csn(bool mode)
 
 #if !defined (RF24_LINUX)
    digitalWrite(csn_pin, mode);
-   delayMicroseconds(csDelay);
+   delayMicroseconds (csDelay);
 #endif
 
 }
@@ -75,14 +75,14 @@ inline void RF24::beginTransaction()
 #if defined (RF24_SPI_TRANSACTIONS)
    _SPI.beginTransaction(SPISettings(RF24_SPI_SPEED, MSBFIRST, SPI_MODE0));
 #endif
-   csn(LOW);
+   csn (LOW);
 }
 
 /****************************************************************************/
 
 inline void RF24::endTransaction()
 {
-   csn(HIGH);
+   csn (HIGH);
 #if defined (RF24_SPI_TRANSACTIONS)
    _SPI.endTransaction();
 #endif
@@ -117,7 +117,7 @@ uint8_t RF24::read_register(uint8_t reg, uint8_t* buf, uint8_t len)
 #else
 
    beginTransaction();
-   status = _SPI.transfer( R_REGISTER | ( REGISTER_MASK & reg));
+   status = _SPI.transfer(R_REGISTER | (REGISTER_MASK & reg));
    while (len--)
    {
       *buf++ = _SPI.transfer(0xff);
@@ -151,7 +151,7 @@ uint8_t RF24::read_register(uint8_t reg)
 #else
 
    beginTransaction();
-   _SPI.transfer( R_REGISTER | ( REGISTER_MASK & reg));
+   _SPI.transfer(R_REGISTER | (REGISTER_MASK & reg));
    result = _SPI.transfer(0xff);
    endTransaction();
 
@@ -182,7 +182,7 @@ uint8_t RF24::write_register(uint8_t reg, const uint8_t* buf, uint8_t len)
 #else
 
    beginTransaction();
-   status = _SPI.transfer( W_REGISTER | ( REGISTER_MASK & reg));
+   status = _SPI.transfer(W_REGISTER | (REGISTER_MASK & reg));
    while (len--)
       _SPI.transfer(*buf++);
    endTransaction();
@@ -198,7 +198,7 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 {
    uint8_t status;
 
-   IF_SERIAL_DEBUG(printf_P(PSTR("write_register(%02x,%02x)\r\n"),reg,value));
+   IF_SERIAL_DEBUG(printf_P(PSTR("write_register(%02x,%02x)\r\n"), reg, value));
 
 #if defined (RF24_LINUX)
    beginTransaction();
@@ -213,7 +213,7 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 #else
 
    beginTransaction();
-   status = _SPI.transfer( W_REGISTER | ( REGISTER_MASK & reg));
+   status = _SPI.transfer(W_REGISTER | (REGISTER_MASK & reg));
    _SPI.transfer(value);
    endTransaction();
 
@@ -315,7 +315,7 @@ uint8_t RF24::read_payload(void* buf, uint8_t data_len)
 #else
 
    beginTransaction();
-   status = _SPI.transfer( R_RX_PAYLOAD);
+   status = _SPI.transfer(R_RX_PAYLOAD);
    while (data_len--)
    {
       *current++ = _SPI.transfer(0xFF);
@@ -335,14 +335,14 @@ uint8_t RF24::read_payload(void* buf, uint8_t data_len)
 
 uint8_t RF24::flush_rx(void)
 {
-   return spiTrans( FLUSH_RX);
+   return spiTrans(FLUSH_RX);
 }
 
 /****************************************************************************/
 
 uint8_t RF24::flush_tx(void)
 {
-   return spiTrans( FLUSH_TX);
+   return spiTrans(FLUSH_TX);
 }
 
 /****************************************************************************/
@@ -481,23 +481,23 @@ static const char rf24_datarate_e_str_0[] PROGMEM = "1MBPS";
 static const char rf24_datarate_e_str_1[] PROGMEM = "2MBPS";
 static const char rf24_datarate_e_str_2[] PROGMEM = "250KBPS";
 static const char * const rf24_datarate_e_str_P[] PROGMEM =
-{ rf24_datarate_e_str_0, rf24_datarate_e_str_1, rf24_datarate_e_str_2, };
+{  rf24_datarate_e_str_0, rf24_datarate_e_str_1, rf24_datarate_e_str_2,};
 static const char rf24_model_e_str_0[] PROGMEM = "nRF24L01";
 static const char rf24_model_e_str_1[] PROGMEM = "nRF24L01+";
 static const char * const rf24_model_e_str_P[] PROGMEM =
-{ rf24_model_e_str_0, rf24_model_e_str_1, };
+{  rf24_model_e_str_0, rf24_model_e_str_1,};
 static const char rf24_crclength_e_str_0[] PROGMEM = "Disabled";
 static const char rf24_crclength_e_str_1[] PROGMEM = "8 bits";
 static const char rf24_crclength_e_str_2[] PROGMEM = "16 bits";
 static const char * const rf24_crclength_e_str_P[] PROGMEM =
-{ rf24_crclength_e_str_0, rf24_crclength_e_str_1, rf24_crclength_e_str_2, };
+{  rf24_crclength_e_str_0, rf24_crclength_e_str_1, rf24_crclength_e_str_2,};
 static const char rf24_pa_dbm_e_str_0[] PROGMEM = "PA_MIN";
 static const char rf24_pa_dbm_e_str_1[] PROGMEM = "PA_LOW";
 static const char rf24_pa_dbm_e_str_2[] PROGMEM = "PA_HIGH";
 static const char rf24_pa_dbm_e_str_3[] PROGMEM = "PA_MAX";
 static const char * const rf24_pa_dbm_e_str_P[] PROGMEM =
-{ rf24_pa_dbm_e_str_0, rf24_pa_dbm_e_str_1, rf24_pa_dbm_e_str_2,
-      rf24_pa_dbm_e_str_3, };
+{  rf24_pa_dbm_e_str_0, rf24_pa_dbm_e_str_1, rf24_pa_dbm_e_str_2,
+   rf24_pa_dbm_e_str_3,};
 
 #if defined (RF24_LINUX)
 static const char rf24_csn_e_str_0[] = "CE0 (PI Hardware Driven)";
@@ -551,9 +551,9 @@ void RF24::printDetails(void)
 
 #endif //Linux
 
-   print_status(get_status());
+   print_status (get_status());
 
-   print_address_register(PSTR("RX_ADDR_P0-1"), RX_ADDR_P0, 2);
+print_address_register   (PSTR("RX_ADDR_P0-1"), RX_ADDR_P0, 2);
    print_byte_register(PSTR("RX_ADDR_P2-5"), RX_ADDR_P2, 4);
    print_address_register(PSTR("TX_ADDR\t"), TX_ADDR);
 
@@ -631,8 +631,8 @@ bool RF24::begin(void)
       pinMode(csn_pin, OUTPUT);
 
    _SPI.begin();
-   ce(LOW);
-   csn(HIGH);
+   ce (LOW);
+   csn (HIGH);
 #if defined (__ARDUINO_X86__)
    delay(100);
 #endif
@@ -647,7 +647,7 @@ bool RF24::begin(void)
    delay(5);
 
    // Reset NRF_CONFIG and enable 16-bit CRC.
-   write_register( NRF_CONFIG, 0x0C);
+   write_register(NRF_CONFIG, 0x0C);
 
    // Set 1500uS (minimum for 32B payload in ESB@250KBPS) timeouts, to make testing a little easier
    // WARNING: If this is ever lowered, either 250KBS mode with AA is broken or maximum packet
@@ -659,7 +659,7 @@ bool RF24::begin(void)
 
    // check for connected module and if this is a p nRF24l01 variant
    //
-   if (setDataRate(RF24_250KBPS))
+   if (setDataRate (RF24_250KBPS))
    {
       p_variant = true;
    }
@@ -671,7 +671,7 @@ bool RF24::begin(void)
 
    // Then set the data rate to the slowest (and most reliable) speed supported by all
    // hardware.
-   setDataRate(RF24_1MBPS);
+   setDataRate (RF24_1MBPS);
 
    // Initialize CRC and request 2-byte (16bit) CRC
    //setCRCLength( RF24_CRC_16 ) ;
@@ -727,7 +727,7 @@ void RF24::startListening(void)
 #endif
    write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
    write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
-   ce(HIGH);
+   ce (HIGH);
    // Restore the pipe0 adddress, if exists
    if (pipe0_reading_address[0] > 0)
    {
@@ -752,13 +752,13 @@ void RF24::startListening(void)
 /****************************************************************************/
 static const uint8_t child_pipe_enable[] PROGMEM =
 {
-ERX_P0, ERX_P1, ERX_P2, ERX_P3, ERX_P4, ERX_P5 };
+   ERX_P0, ERX_P1, ERX_P2, ERX_P3, ERX_P4, ERX_P5};
 
 void RF24::stopListening(void)
 {
-   ce(LOW);
+   ce (LOW);
 
-   delayMicroseconds(txDelay);
+   delayMicroseconds (txDelay);
 
    if (read_register(FEATURE) & _BV(EN_ACK_PAY))
    {
@@ -779,7 +779,7 @@ void RF24::stopListening(void)
    write_register(EN_RXADDR,
          read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[0]))); // Enable RX on pipe0
 
-   //delayMicroseconds(100);
+         //delayMicroseconds(100);
 
 }
 
@@ -787,7 +787,7 @@ void RF24::stopListening(void)
 
 void RF24::powerDown(void)
 {
-   ce(LOW); // Guarantee CE is low on powerDown
+   ce (LOW); // Guarantee CE is low on powerDown
    write_register(NRF_CONFIG, read_register(NRF_CONFIG) & ~_BV(PWR_UP));
 }
 
@@ -837,7 +837,7 @@ bool RF24::write(const void* buf, uint8_t len, const bool multicast)
    uint32_t timer = millis();
 #endif
 
-   while (!(get_status() & ( _BV(TX_DS) | _BV(MAX_RT))))
+   while (!(get_status() & (_BV(TX_DS) | _BV(MAX_RT))))
    {
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
       if(millis() - timer > 95)
@@ -852,7 +852,7 @@ bool RF24::write(const void* buf, uint8_t len, const bool multicast)
 #endif
    }
 
-   ce(LOW);
+   ce (LOW);
 
    uint8_t status = write_register(NRF_STATUS,
          _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
@@ -917,9 +917,9 @@ bool RF24::writeBlocking(const void* buf, uint8_t len, uint32_t timeout)
 void RF24::reUseTX()
 {
    write_register(NRF_STATUS, _BV(MAX_RT));			  //Clear max retry flag
-   spiTrans( REUSE_TX_PL);
-   ce(LOW);										  //Re-Transfer packet
-   ce(HIGH);
+   spiTrans (REUSE_TX_PL);
+   ce (LOW);										  //Re-Transfer packet
+   ce (HIGH);
 }
 
 /****************************************************************************/
@@ -936,7 +936,7 @@ bool RF24::writeFast(const void* buf, uint8_t len, const bool multicast)
 #endif
 
    while ((get_status() & (_BV(TX_FULL))))
-   {//Blocking only if FIFO is full. This will loop and block until TX is successful or fail
+   { //Blocking only if FIFO is full. This will loop and block until TX is successful or fail
 
       if (get_status() & _BV(MAX_RT))
       {
@@ -980,7 +980,7 @@ void RF24::startFastWrite(const void* buf, uint8_t len, const bool multicast,
    write_payload(buf, len, multicast ? W_TX_PAYLOAD_NO_ACK : W_TX_PAYLOAD);
    if (startTx)
    {
-      ce(HIGH);
+      ce (HIGH);
    }
 
 }
@@ -996,11 +996,11 @@ void RF24::startWrite(const void* buf, uint8_t len, const bool multicast)
 
    //write_payload( buf, len );
    write_payload(buf, len, multicast ? W_TX_PAYLOAD_NO_ACK : W_TX_PAYLOAD);
-   ce(HIGH);
+   ce (HIGH);
 #if defined(CORE_TEENSY) || !defined(ARDUINO) || defined (RF24_SPIDEV) || defined (RF24_DUE)
    delayMicroseconds(10);
 #endif
-   ce(LOW);
+   ce (LOW);
 
 }
 
@@ -1023,7 +1023,7 @@ bool RF24::txStandBy()
       if (get_status() & _BV(MAX_RT))
       {
          write_register(NRF_STATUS, _BV(MAX_RT));
-         ce(LOW);
+         ce (LOW);
          flush_tx();    //Non blocking, flush the data
          return 0;
       }
@@ -1038,7 +1038,7 @@ bool RF24::txStandBy()
 #endif
    }
 
-   ce(LOW);			   //Set STANDBY-I mode
+   ce (LOW);			   //Set STANDBY-I mode
    return 1;
 }
 
@@ -1050,7 +1050,7 @@ bool RF24::txStandBy(uint32_t timeout, bool startTx)
    if (startTx)
    {
       stopListening();
-      ce(HIGH);
+      ce (HIGH);
    }
    uint32_t start = millis();
 
@@ -1059,8 +1059,8 @@ bool RF24::txStandBy(uint32_t timeout, bool startTx)
       if (get_status() & _BV(MAX_RT))
       {
          write_register(NRF_STATUS, _BV(MAX_RT));
-         ce(LOW);										  //Set re-transmit
-         ce(HIGH);
+         ce (LOW);										  //Set re-transmit
+         ce (HIGH);
          if (millis() - start >= timeout)
          {
             ce(LOW);
@@ -1079,7 +1079,7 @@ bool RF24::txStandBy(uint32_t timeout, bool startTx)
 #endif
    }
 
-   ce(LOW);				   //Set STANDBY-I mode
+   ce (LOW);				   //Set STANDBY-I mode
    return 1;
 
 }
@@ -1112,7 +1112,7 @@ uint8_t RF24::getDynamicPayloadSize(void)
    endTransaction();
 #else
    beginTransaction();
-   _SPI.transfer( R_RX_PL_WID);
+   _SPI.transfer(R_RX_PL_WID);
    result = _SPI.transfer(0xff);
    endTransaction();
 #endif
@@ -1213,10 +1213,10 @@ void RF24::openWritingPipe(const uint8_t *address)
 /****************************************************************************/
 static const uint8_t child_pipe[] PROGMEM =
 {
-RX_ADDR_P0, RX_ADDR_P1, RX_ADDR_P2, RX_ADDR_P3, RX_ADDR_P4, RX_ADDR_P5 };
+   RX_ADDR_P0, RX_ADDR_P1, RX_ADDR_P2, RX_ADDR_P3, RX_ADDR_P4, RX_ADDR_P5};
 static const uint8_t child_payload_size[] PROGMEM =
 {
-RX_PW_P0, RX_PW_P1, RX_PW_P2, RX_PW_P3, RX_PW_P4, RX_PW_P5 };
+   RX_PW_P0, RX_PW_P1, RX_PW_P2, RX_PW_P3, RX_PW_P4, RX_PW_P5};
 
 void RF24::openReadingPipe(uint8_t child, uint64_t address)
 {
@@ -1244,8 +1244,8 @@ void RF24::openReadingPipe(uint8_t child, uint64_t address)
       // pipes at once.  However, I thought it would make the calling code
       // more simple to do it this way.
       write_register(EN_RXADDR,
-            read_register(
-                  EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+            read_register(EN_RXADDR)
+                  | _BV(pgm_read_byte(&child_pipe_enable[child])));
    }
 }
 
@@ -1294,8 +1294,8 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
       // pipes at once.  However, I thought it would make the calling code
       // more simple to do it this way.
       write_register(EN_RXADDR,
-            read_register(
-                  EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+            read_register(EN_RXADDR)
+                  | _BV(pgm_read_byte(&child_pipe_enable[child])));
 
    }
 }
@@ -1305,8 +1305,8 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
 void RF24::closeReadingPipe(uint8_t pipe)
 {
    write_register(EN_RXADDR,
-         read_register(
-               EN_RXADDR) & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
+         read_register(EN_RXADDR)
+               & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
 }
 
 /****************************************************************************/
@@ -1314,7 +1314,7 @@ void RF24::closeReadingPipe(uint8_t pipe)
 void RF24::toggle_features(void)
 {
    beginTransaction();
-   _SPI.transfer( ACTIVATE);
+   _SPI.transfer(ACTIVATE);
    _SPI.transfer(0x73);
    endTransaction();
 }
@@ -1328,15 +1328,15 @@ void RF24::enableDynamicPayloads(void)
    //toggle_features();
    write_register(FEATURE, read_register(FEATURE) | _BV(EN_DPL));
 
-   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));
+   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n", read_register(FEATURE)));
 
    // Enable dynamic payload on all pipes
    //
    // Not sure the use case of only having dynamic payload on certain
    // pipes, so the library does not support it.
    write_register(DYNPD,
-         read_register(
-               DYNPD) | _BV(DPL_P5) | _BV(DPL_P4) | _BV(DPL_P3) | _BV(DPL_P2) | _BV(DPL_P1) | _BV(DPL_P0));
+         read_register(DYNPD) | _BV(DPL_P5) | _BV(DPL_P4) | _BV(DPL_P3)
+               | _BV(DPL_P2) | _BV(DPL_P1) | _BV(DPL_P0));
 
    dynamic_payloads_enabled = true;
 }
@@ -1349,7 +1349,7 @@ void RF24::disableDynamicPayloads(void)
    //toggle_features();
    write_register(FEATURE, 0);
 
-   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));
+   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n", read_register(FEATURE)));
 
    // Disable dynamic payload on all pipes
    //
@@ -1372,7 +1372,7 @@ void RF24::enableAckPayload(void)
    write_register(FEATURE,
          read_register(FEATURE) | _BV(EN_ACK_PAY) | _BV(EN_DPL));
 
-   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));
+   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n", read_register(FEATURE)));
 
    //
    // Enable dynamic payload on pipes 0 & 1
@@ -1392,7 +1392,7 @@ void RF24::enableDynamicAck(void)
    //toggle_features();
    write_register(FEATURE, read_register(FEATURE) | _BV(EN_DYN_ACK));
 
-   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));
+   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n", read_register(FEATURE)));
 
 }
 
@@ -1458,7 +1458,7 @@ void RF24::setAutoAck(uint8_t pipe, bool enable)
 {
    if (pipe <= 6)
    {
-      uint8_t en_aa = read_register( EN_AA);
+      uint8_t en_aa = read_register(EN_AA);
       if (enable)
       {
          en_aa |= _BV(pipe);
@@ -1467,7 +1467,7 @@ void RF24::setAutoAck(uint8_t pipe, bool enable)
       {
          en_aa &= ~_BV(pipe);
       }
-      write_register( EN_AA, en_aa);
+      write_register(EN_AA, en_aa);
    }
 }
 
@@ -1494,14 +1494,14 @@ void RF24::setPALevel(uint8_t level)
 
    if (level > 3)
    {  						// If invalid level, go to max PA
-      level = (RF24_PA_MAX << 1) + 1;// +1 to support the SI24R1 chip extra bit
+      level = (RF24_PA_MAX << 1) + 1; // +1 to support the SI24R1 chip extra bit
    }
    else
    {
       level = (level << 1) + 1;	 		// Else set level as requested
    }
 
-   write_register( RF_SETUP, setup |= level);	// Write it to the chip
+   write_register(RF_SETUP, setup |= level);	// Write it to the chip
 }
 
 /****************************************************************************/
@@ -1593,7 +1593,7 @@ rf24_datarate_e RF24::getDataRate(void)
 
 void RF24::setCRCLength(rf24_crclength_e length)
 {
-   uint8_t config = read_register(NRF_CONFIG) & ~( _BV(CRCO) | _BV(EN_CRC));
+   uint8_t config = read_register(NRF_CONFIG) & ~(_BV(CRCO) | _BV(EN_CRC));
 
    // switch uses RAM (evil!)
    if (length == RF24_CRC_DISABLED)
@@ -1609,7 +1609,7 @@ void RF24::setCRCLength(rf24_crclength_e length)
       config |= _BV(EN_CRC);
       config |= _BV(CRCO);
    }
-   write_register( NRF_CONFIG, config);
+   write_register(NRF_CONFIG, config);
 }
 
 /****************************************************************************/
@@ -1618,7 +1618,7 @@ rf24_crclength_e RF24::getCRCLength(void)
 {
    rf24_crclength_e result = RF24_CRC_DISABLED;
 
-   uint8_t config = read_register(NRF_CONFIG) & ( _BV(CRCO) | _BV(EN_CRC));
+   uint8_t config = read_register(NRF_CONFIG) & (_BV(CRCO) | _BV(EN_CRC));
    uint8_t AA = read_register(EN_AA);
 
    if (config & _BV(EN_CRC) || AA)
@@ -1637,7 +1637,7 @@ rf24_crclength_e RF24::getCRCLength(void)
 void RF24::disableCRC(void)
 {
    uint8_t disable = read_register(NRF_CONFIG) & ~_BV(EN_CRC);
-   write_register( NRF_CONFIG, disable);
+   write_register(NRF_CONFIG, disable);
 }
 
 /****************************************************************************/
