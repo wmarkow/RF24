@@ -481,7 +481,7 @@ unsigned int bcm2835_millis(void)
 
    ms = (now.tv_sec * 1000000 + now.tv_usec) / 1000 ;
 
-   return ((uint32_t) (ms - epoch ));
+   return ((uint32_t)(ms - epoch));
 }
 
 /*
@@ -659,13 +659,13 @@ void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len)
    while ((TXCnt < len) || (RXCnt < len))
    {
       /* TX fifo not full, so add some more bytes */
-      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD)) && (TXCnt < len ))
+      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD)) && (TXCnt < len))
       {
          bcm2835_peri_write_nb(fifo, tbuf[TXCnt]);
          TXCnt++;
       }
       /* Rx fifo not empty, so get the next received bytes */
-      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)) && ( RXCnt < len ))
+      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)) && (RXCnt < len))
       {
          rbuf[RXCnt] = bcm2835_peri_read_nb(fifo);
          RXCnt++;
@@ -750,8 +750,8 @@ int bcm2835_i2c_begin(void)
 {
    uint16_t cdiv;
 
-   if (   bcm2835_bsc0 == MAP_FAILED
-          || bcm2835_bsc1 == MAP_FAILED)
+   if (bcm2835_bsc0 == MAP_FAILED
+         || bcm2835_bsc1 == MAP_FAILED)
       return 0; /* bcm2835_init() failed, or not root */
 
 #ifdef I2C_V1
@@ -826,7 +826,7 @@ void bcm2835_i2c_set_baudrate(uint32_t baudrate)
    uint32_t divider;
    /* use 0xFFFE mask to limit a max value and round down any odd number */
    divider = (BCM2835_CORE_CLK_HZ / baudrate) & 0xFFFE;
-   bcm2835_i2c_setClockDivider( (uint16_t)divider );
+   bcm2835_i2c_setClockDivider((uint16_t)divider);
 }
 
 /* Writes an number of bytes to I2C */
@@ -849,14 +849,14 @@ uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
    uint8_t reason = BCM2835_I2C_REASON_OK;
 
    /* Clear FIFO */
-   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1 );
+   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1);
    /* Clear Status */
    bcm2835_peri_write(status,
                       BCM2835_BSC_S_CLKT | BCM2835_BSC_S_ERR | BCM2835_BSC_S_DONE);
    /* Set Data Length */
    bcm2835_peri_write(dlen, len);
    /* pre populate FIFO with max buffer */
-   while ( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
+   while (remaining && (i < BCM2835_BSC_FIFO_SIZE))
    {
       bcm2835_peri_write_nb(fifo, buf[i]);
       i++;
@@ -867,9 +867,9 @@ uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
    bcm2835_peri_write(control, BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST);
 
    /* Transfer is over when BCM2835_BSC_S_DONE */
-   while (!(bcm2835_peri_read(status) & BCM2835_BSC_S_DONE ))
+   while (!(bcm2835_peri_read(status) & BCM2835_BSC_S_DONE))
    {
-      while ( remaining && (bcm2835_peri_read(status) & BCM2835_BSC_S_TXD ))
+      while (remaining && (bcm2835_peri_read(status) & BCM2835_BSC_S_TXD))
       {
          /* Write to FIFO */
          bcm2835_peri_write(fifo, buf[i]);
@@ -921,7 +921,7 @@ uint8_t bcm2835_i2c_read(char* buf, uint32_t len)
    uint8_t reason = BCM2835_I2C_REASON_OK;
 
    /* Clear FIFO */
-   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1 );
+   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1);
    /* Clear Status */
    bcm2835_peri_write_nb(status,
                          BCM2835_BSC_S_CLKT | BCM2835_BSC_S_ERR | BCM2835_BSC_S_DONE);
@@ -997,7 +997,7 @@ uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len)
    uint8_t reason = BCM2835_I2C_REASON_OK;
 
    /* Clear FIFO */
-   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1 );
+   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1);
    /* Clear Status */
    bcm2835_peri_write(status,
                       BCM2835_BSC_S_CLKT | BCM2835_BSC_S_ERR | BCM2835_BSC_S_DONE);
@@ -1009,7 +1009,7 @@ uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len)
    bcm2835_peri_write(control, BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST);
 
    /* poll for transfer has started */
-   while ( !( bcm2835_peri_read(status) & BCM2835_BSC_S_TA ) )
+   while (!(bcm2835_peri_read(status) & BCM2835_BSC_S_TA))
    {
       /* Linux may cause us to miss entire transfer stage */
       if (bcm2835_peri_read(status) & BCM2835_BSC_S_DONE)
@@ -1019,7 +1019,7 @@ uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len)
    /* Send a repeated start with read bit set in address */
    bcm2835_peri_write(dlen, len);
    bcm2835_peri_write(control,
-                      BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST  | BCM2835_BSC_C_READ );
+                      BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST  | BCM2835_BSC_C_READ);
 
    /* Wait for write to complete and first byte back. */
    bcm2835_delayMicroseconds(i2c_byte_wait_us * 3);
@@ -1092,7 +1092,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    uint8_t reason = BCM2835_I2C_REASON_OK;
 
    /* Clear FIFO */
-   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1 );
+   bcm2835_peri_set_bits(control, BCM2835_BSC_C_CLEAR_1, BCM2835_BSC_C_CLEAR_1);
 
    /* Clear Status */
    bcm2835_peri_write(status,
@@ -1102,7 +1102,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    bcm2835_peri_write(dlen, cmds_len);
 
    /* pre populate FIFO with max buffer */
-   while ( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
+   while (remaining && (i < BCM2835_BSC_FIFO_SIZE))
    {
       bcm2835_peri_write_nb(fifo, cmds[i]);
       i++;
@@ -1113,7 +1113,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    bcm2835_peri_write(control, BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST);
 
    /* poll for transfer has started (way to do repeated start, from BCM2835 datasheet) */
-   while ( !( bcm2835_peri_read(status) & BCM2835_BSC_S_TA ) )
+   while (!(bcm2835_peri_read(status) & BCM2835_BSC_S_TA))
    {
       /* Linux may cause us to miss entire transfer stage */
       if (bcm2835_peri_read_nb(status) & BCM2835_BSC_S_DONE)
@@ -1126,7 +1126,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    /* Send a repeated start with read bit set in address */
    bcm2835_peri_write(dlen, buf_len);
    bcm2835_peri_write(control,
-                      BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST  | BCM2835_BSC_C_READ );
+                      BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST  | BCM2835_BSC_C_READ);
 
    /* Wait for write to complete and first byte back. */
    bcm2835_delayMicroseconds(i2c_byte_wait_us * (cmds_len + 1));
@@ -1219,8 +1219,8 @@ void bcm2835_st_delay(uint64_t offset_micros, uint64_t micros)
 
 void bcm2835_pwm_set_clock(uint32_t divisor)
 {
-   if (   bcm2835_clk == MAP_FAILED
-          || bcm2835_pwm == MAP_FAILED)
+   if (bcm2835_clk == MAP_FAILED
+         || bcm2835_pwm == MAP_FAILED)
       return; /* bcm2835_init() failed or not root */
 
    /* From Gerts code */
@@ -1241,8 +1241,8 @@ void bcm2835_pwm_set_clock(uint32_t divisor)
 
 void bcm2835_pwm_set_mode(uint8_t channel, uint8_t markspace, uint8_t enabled)
 {
-   if (   bcm2835_clk == MAP_FAILED
-          || bcm2835_pwm == MAP_FAILED)
+   if (bcm2835_clk == MAP_FAILED
+         || bcm2835_pwm == MAP_FAILED)
       return; /* bcm2835_init() failed or not root */
 
    uint32_t control = bcm2835_peri_read(bcm2835_pwm + BCM2835_PWM_CONTROL);
@@ -1278,8 +1278,8 @@ void bcm2835_pwm_set_mode(uint8_t channel, uint8_t markspace, uint8_t enabled)
 
 void bcm2835_pwm_set_range(uint8_t channel, uint32_t range)
 {
-   if (   bcm2835_clk == MAP_FAILED
-          || bcm2835_pwm == MAP_FAILED)
+   if (bcm2835_clk == MAP_FAILED
+         || bcm2835_pwm == MAP_FAILED)
       return; /* bcm2835_init() failed or not root */
 
    if (channel == 0)
@@ -1290,8 +1290,8 @@ void bcm2835_pwm_set_range(uint8_t channel, uint32_t range)
 
 void bcm2835_pwm_set_data(uint8_t channel, uint32_t data)
 {
-   if (   bcm2835_clk == MAP_FAILED
-          || bcm2835_pwm == MAP_FAILED)
+   if (bcm2835_clk == MAP_FAILED
+         || bcm2835_pwm == MAP_FAILED)
       return; /* bcm2835_init() failed or not root */
 
    if (channel == 0)
@@ -1377,7 +1377,7 @@ int bcm2835_init(void)
    if (geteuid() == 0)
    {
       /* Open the master /dev/mem device */
-      if ((memfd = open("/dev/mem", O_RDWR | O_SYNC) ) < 0)
+      if ((memfd = open("/dev/mem", O_RDWR | O_SYNC)) < 0)
       {
          fprintf(stderr, "bcm2835_init: Unable to open /dev/mem: %s\n",
                  strerror(errno)) ;
@@ -1408,7 +1408,7 @@ int bcm2835_init(void)
    {
       /* Not root, try /dev/gpiomem */
       /* Open the master /dev/mem device */
-      if ((memfd = open("/dev/gpiomem", O_RDWR | O_SYNC) ) < 0)
+      if ((memfd = open("/dev/gpiomem", O_RDWR | O_SYNC)) < 0)
       {
          fprintf(stderr, "bcm2835_init: Unable to open /dev/gpiomem: %s\n",
                  strerror(errno)) ;

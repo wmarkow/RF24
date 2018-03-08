@@ -123,7 +123,7 @@ public:
    * @param spispeed For RPi, the SPI speed in MHZ ie: BCM2835_SPI_SPEED_8MHZ
    */
 
-   RF24(uint16_t _cepin, uint16_t _cspin, uint32_t spispeed );
+   RF24(uint16_t _cepin, uint16_t _cspin, uint32_t spispeed);
    //#endif
 
 #if defined (RF24_LINUX)
@@ -204,7 +204,7 @@ public:
     * @endcode
     * @return No return value. Use available().
     */
-   void read( void* buf, uint8_t len );
+   void read(void* buf, uint8_t len);
 
    /**
     * Be sure to call openWritingPipe() first to set the destination
@@ -229,7 +229,7 @@ public:
     * @endcode
     * @return True if the payload was delivered successfully false if not
     */
-   bool write( const void* buf, uint8_t len );
+   bool write(const void* buf, uint8_t len);
 
    /**
     * New: Open a pipe for writing via byte array. Old addressing format retained
@@ -377,7 +377,7 @@ public:
    * @param len Number of bytes to be sent
    * @param multicast Request ACK (0), NOACK (1)
    */
-   bool write( const void* buf, uint8_t len, const bool multicast );
+   bool write(const void* buf, uint8_t len, const bool multicast);
 
    /**
     * This will not block until the 3 FIFO buffers are filled with data.
@@ -407,7 +407,7 @@ public:
     * @param len Number of bytes to be sent
     * @return True if the payload was delivered successfully false if not
     */
-   bool writeFast( const void* buf, uint8_t len );
+   bool writeFast(const void* buf, uint8_t len);
 
    /**
    * WriteFast for single NOACK writes. Disables acknowledgements/autoretries for a single write.
@@ -420,7 +420,7 @@ public:
    * @param len Number of bytes to be sent
    * @param multicast Request ACK (0) or NOACK (1)
    */
-   bool writeFast( const void* buf, uint8_t len, const bool multicast );
+   bool writeFast(const void* buf, uint8_t len, const bool multicast);
 
    /**
     * This function extends the auto-retry mechanism to any specified duration.
@@ -448,7 +448,7 @@ public:
     * @param timeout User defined timeout in milliseconds.
     * @return True if the payload was loaded into the buffer successfully false if not
     */
-   bool writeBlocking( const void* buf, uint8_t len, uint32_t timeout );
+   bool writeBlocking(const void* buf, uint8_t len, uint32_t timeout);
 
    /**
     * This function should be called as soon as transmission is finished to
@@ -562,8 +562,8 @@ public:
     * @param multicast Request ACK (0) or NOACK (1)
     * @return True if the payload was delivered successfully false if not
     */
-   void startFastWrite( const void* buf, uint8_t len, const bool multicast,
-                        bool startTx = 1 );
+   void startFastWrite(const void* buf, uint8_t len, const bool multicast,
+                       bool startTx = 1);
 
    /**
     * Non-blocking write to the open writing pipe
@@ -585,7 +585,7 @@ public:
     * @param multicast Request ACK (0) or NOACK (1)
     *
     */
-   void startWrite( const void* buf, uint8_t len, const bool multicast );
+   void startWrite(const void* buf, uint8_t len, const bool multicast);
 
    /**
     * This function is mainly used internally to take advantage of the auto payload
@@ -658,7 +658,7 @@ public:
    * Can be safely called without having previously opened a pipe.
    * @param pipe Which pipe # to close, 0-5.
    */
-   void closeReadingPipe( uint8_t pipe ) ;
+   void closeReadingPipe(uint8_t pipe) ;
 
    /**
    * Enable error detection by un-commenting #define FAILURE_HANDLING in RF24_config.h
@@ -844,7 +844,7 @@ public:
     * @param pipe Which pipeline to modify
     * @param enable Whether to enable (true) or disable (false) auto-acks
     */
-   void setAutoAck( uint8_t pipe, bool enable ) ;
+   void setAutoAck(uint8_t pipe, bool enable) ;
 
    /**
     * Set Power Amplifier (PA) level to one of four levels:
@@ -857,7 +857,7 @@ public:
     *
     * @param level Desired PA level.
     */
-   void setPALevel ( uint8_t level );
+   void setPALevel(uint8_t level);
 
    /**
     * Fetches the current PA level.
@@ -867,7 +867,7 @@ public:
     *
     * @return Returns values 0 to 3 representing the PA Level.
     */
-   uint8_t getPALevel( void );
+   uint8_t getPALevel(void);
 
    /**
     * Set the transmission data rate
@@ -886,7 +886,7 @@ public:
     * is one of 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS, as defined in the
     * rf24_datarate_e enum.
     */
-   rf24_datarate_e getDataRate( void ) ;
+   rf24_datarate_e getDataRate(void) ;
 
    /**
     * Set the CRC length
@@ -907,7 +907,7 @@ public:
     *
     * @warning CRC cannot be disabled if auto-ack/ESB is enabled.
     */
-   void disableCRC( void ) ;
+   void disableCRC(void) ;
 
    /**
    * The radio will generate interrupt signals when a transmission is complete,

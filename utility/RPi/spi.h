@@ -80,7 +80,7 @@ uint8_t SPI::transfer(uint8_t _data)
 
 void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
 {
-   bcm2835_spi_transfernb( tbuf, rbuf, len);
+   bcm2835_spi_transfernb(tbuf, rbuf, len);
 }
 
 void SPI::transfern(char* buf, uint32_t len)

@@ -20,7 +20,7 @@ void board_start(const char* program_name)
    SerialUSB.println("Press BUT");
 
    // Wait for button press
-   while ( !isButtonPressed() )
+   while (!isButtonPressed())
    {
    }
 
@@ -40,9 +40,9 @@ void board_start(const char* program_name)
  * In order to use it you MUST ADD __attribute__((weak))
  * to _write in libmaple/syscalls.c
 */
-extern "C" int _write (int file, char * ptr, int len)
+extern "C" int _write(int file, char * ptr, int len)
 {
-   if ( (file != 1) && (file != 2) )
+   if ((file != 1) && (file != 2))
       return 0;
    else
       SerialUSB.write(ptr, len);
@@ -54,12 +54,12 @@ extern "C" int _write (int file, char * ptr, int len)
  * the re-entrant newlib, so these get called instead of the
  * non_r versions.
  */
-extern "C" int _write_r (void*, int file, char * ptr, int len)
+extern "C" int _write_r(void*, int file, char * ptr, int len)
 {
-   return _write( file, ptr, len);
+   return _write(file, ptr, len);
 }
 
-__attribute__((constructor)) __attribute__ ((weak)) void premain()
+__attribute__((constructor)) __attribute__((weak)) void premain()
 {
    init();
 }

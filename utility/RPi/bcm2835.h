@@ -1356,7 +1356,7 @@ extern void bcm2835_gpio_set_pad(uint8_t group, uint32_t control);
   again execute the calling thread.
   \param[in] millis Delay in milliseconds
 */
-extern void bcm2835_delay (unsigned int millis);
+extern void bcm2835_delay(unsigned int millis);
 
 /*! Delays for the specified number of microseconds.
   Uses a combination of nanosleep() and a busy wait loop on the BCM2835 system timers,
@@ -1371,7 +1371,7 @@ extern void bcm2835_delay (unsigned int millis);
   result in a delay of about 80 microseconds. Your mileage may vary.
   \param[in] micros Delay in microseconds
 */
-extern void bcm2835_delayMicroseconds (uint64_t micros);
+extern void bcm2835_delayMicroseconds(uint64_t micros);
 
 /// Indicate the number of milliseconds since startup of PI
 /// This function is like the Arduino millis function

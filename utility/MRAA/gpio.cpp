@@ -37,7 +37,7 @@ void GPIO::open(int port, int DDR)
    {
       gpio_0 = new mraa::Gpio(port, 0);
       gpio_0->useMmap(true);
-      gpio_0->dir( (mraa::Dir)DDR);
+      gpio_0->dir((mraa::Dir)DDR);
    }/*else
 	if(port == gpio_cs_pin){
 		gpio_1 = new mraa::Gpio(port,0);
@@ -82,7 +82,7 @@ void GPIO::write(int port, int value)
 
    if (port == gpio_ce_pin)
    {
-      gpio_0->write( value);
+      gpio_0->write(value);
    }/*else
 	if(port == gpio_cs_pin){
 		gpio_1->write( value);

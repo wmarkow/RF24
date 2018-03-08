@@ -49,10 +49,10 @@ void intHandler()
    // Pong back role.  Receive each packet, dump it out, and send it back
    //
 
-   if ( role == role_pong_back )
+   if (role == role_pong_back)
    {
       // if there is data ready
-      if ( radio.available() )
+      if (radio.available())
       {
          // Dump the payloads until we've gotten everything
          uint8_t len = 0;
@@ -61,7 +61,7 @@ void intHandler()
          {
             // Fetch the payload, and see if this was the last one.
             len = radio.getDynamicPayloadSize();
-            radio.read( receive_payload, len );
+            radio.read(receive_payload, len);
 
             // Put a zero at the end for easy printing
             receive_payload[len] = 0;
@@ -74,7 +74,7 @@ void intHandler()
          radio.stopListening();
 
          // Send the final one back.
-         radio.write( receive_payload, len );
+         radio.write(receive_payload, len);
          printf("Sent response.\n\r");
 
          // Now, resume listening so we catch the next packets.
@@ -121,7 +121,7 @@ int main(int argc, char** argv)
    }
    /***********************************/
 
-   if ( role == role_ping_out )
+   if (role == role_ping_out)
    {
       radio.openWritingPipe(pipes[0]);
       radio.openReadingPipe(1, pipes[1]);
@@ -149,7 +149,7 @@ int main(int argc, char** argv)
 
          // Take the time, and send it.  This will block until complete
          printf("Now sending length %i...", next_payload_size);
-         radio.write( send_payload, next_payload_size );
+         radio.write(send_payload, next_payload_size);
 
          // Now, continue listening
          radio.startListening();
@@ -157,12 +157,12 @@ int main(int argc, char** argv)
          // Wait here until we get a response, or timeout
          unsigned long started_waiting_at = millis();
          bool timeout = false;
-         while ( ! radio.available() && ! timeout )
-            if (millis() - started_waiting_at > 500 )
+         while (! radio.available() && ! timeout)
+            if (millis() - started_waiting_at > 500)
                timeout = true;
 
          // Describe the results
-         if ( timeout )
+         if (timeout)
          {
             printf("Failed, response timed out.\n\r");
          }
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
          {
             // Grab the response, compare, and send to debugging spew
             uint8_t len = radio.getDynamicPayloadSize();
-            radio.read( receive_payload, len );
+            radio.read(receive_payload, len);
 
             // Put a zero at the end for easy printing
             receive_payload[len] = 0;
@@ -181,7 +181,7 @@ int main(int argc, char** argv)
 
          // Update size for next time.
          next_payload_size += payload_size_increments_by;
-         if ( next_payload_size > max_payload_size )
+         if (next_payload_size > max_payload_size)
             next_payload_size = min_payload_size;
 
          // Try again 1s later

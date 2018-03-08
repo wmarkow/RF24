@@ -84,7 +84,7 @@ int main(int argc, char** argv)
    // Print out header, high then low digit
    int i = 0;
 
-   while ( i < num_channels )
+   while (i < num_channels)
    {
       printf("%x", i >> 4);
       ++i;
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
    printf("\n");
 
    i = 0;
-   while ( i < num_channels )
+   while (i < num_channels)
    {
       printf("%x", i & 0xf);
       ++i;
@@ -123,13 +123,13 @@ int main(int argc, char** argv)
             radio.stopListening();
 
             // Did we get a carrier?
-            if ( radio.testCarrier() ) ++values[i];
+            if (radio.testCarrier()) ++values[i];
          }
       }
 
       // Print out channel measurements, clamped to a single hex digit
       i = 0;
-      while ( i < num_channels )
+      while (i < num_channels)
       {
          printf("%x", min(0xf, (values[i] & 0xf)));
          ++i;

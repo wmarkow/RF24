@@ -97,10 +97,10 @@ int main(int argc, char** argv)
       // Start listening
       radio.startListening();
 
-      while ( radio.available(&pipe) )
+      while (radio.available(&pipe))
       {
          len = radio.getDynamicPayloadSize();
-         radio.read( receivePayload, len );
+         radio.read(receivePayload, len);
 
          // Display it on screen
          printf("Recv: size=%i payload=%s pipe=%i", len, receivePayload, pipe);
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
          radio.stopListening();
 
          // if pipe is 7, do not send it back
-         if ( pipe != 7 )
+         if (pipe != 7)
          {
             radio.write(receivePayload, len);
             receivePayload[len] = 0;
@@ -123,7 +123,7 @@ int main(int argc, char** argv)
          pipe++;
 
          // reset pipe to 0
-         if ( pipe > 6 )
+         if (pipe > 6)
             pipe = 0;
       }
 

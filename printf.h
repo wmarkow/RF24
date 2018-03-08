@@ -19,16 +19,16 @@
 
 #if defined (ARDUINO) && !defined (__arm__) && !defined(__ARDUINO_X86__)
 
-int serial_putc( char c, FILE * )
+int serial_putc(char c, FILE *)
 {
-   Serial.write( c );
+   Serial.write(c);
 
    return c;
 }
 
 void printf_begin(void)
 {
-   fdevopen( &serial_putc, 0 );
+   fdevopen(&serial_putc, 0);
 }
 
 #elif defined (__arm__)
@@ -36,9 +36,9 @@ void printf_begin(void)
 void printf_begin(void) {}
 
 #elif defined(__ARDUINO_X86__)
-int serial_putc( char c, FILE * )
+int serial_putc(char c, FILE *)
 {
-   Serial.write( c );
+   Serial.write(c);
 
    return c;
 }

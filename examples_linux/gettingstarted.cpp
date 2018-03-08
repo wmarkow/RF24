@@ -125,7 +125,7 @@ int main(int argc, char** argv)
    // This simple sketch opens two pipes for these two nodes to communicate
    // back and forth.
 
-   if ( !radioNumber )
+   if (!radioNumber)
    {
       radio.openWritingPipe(pipes[0]);
       radio.openReadingPipe(1, pipes[1]);
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
          printf("Now sending...\n");
          unsigned long time = millis();
 
-         bool ok = radio.write( &time, sizeof(unsigned long) );
+         bool ok = radio.write(&time, sizeof(unsigned long));
 
          if (!ok)
          {
@@ -163,15 +163,15 @@ int main(int argc, char** argv)
          // Wait here until we get a response, or timeout (250ms)
          unsigned long started_waiting_at = millis();
          bool timeout = false;
-         while ( ! radio.available() && ! timeout )
+         while (! radio.available() && ! timeout)
          {
-            if (millis() - started_waiting_at > 200 )
+            if (millis() - started_waiting_at > 200)
                timeout = true;
          }
 
 
          // Describe the results
-         if ( timeout )
+         if (timeout)
          {
             printf("Failed, response timed out.\n");
          }
@@ -179,7 +179,7 @@ int main(int argc, char** argv)
          {
             // Grab the response, compare, and send to debugging spew
             unsigned long got_time;
-            radio.read( &got_time, sizeof(unsigned long) );
+            radio.read(&got_time, sizeof(unsigned long));
 
             // Spew it
             printf("Got response %lu, round-trip delay: %lu\n", got_time,
@@ -192,11 +192,11 @@ int main(int argc, char** argv)
       // Pong back role.  Receive each packet, dump it out, and send it back
       //
 
-      if ( role == role_pong_back )
+      if (role == role_pong_back)
       {
 
          // if there is data ready
-         if ( radio.available() )
+         if (radio.available())
          {
             // Dump the payloads until we've gotten everything
             unsigned long got_time;
@@ -204,11 +204,11 @@ int main(int argc, char** argv)
             // Fetch the payload, and see if this was the last one.
             while (radio.available())
             {
-               radio.read( &got_time, sizeof(unsigned long) );
+               radio.read(&got_time, sizeof(unsigned long));
             }
             radio.stopListening();
 
-            radio.write( &got_time, sizeof(unsigned long) );
+            radio.write(&got_time, sizeof(unsigned long));
 
             // Now, resume listening so we catch the next packets.
             radio.startListening();

@@ -114,7 +114,7 @@ int main(int argc, char** argv)
    }
    /***********************************/
 
-   if ( role == role_ping_out )
+   if (role == role_ping_out)
    {
       radio.openWritingPipe(addresses[1]);
       radio.openReadingPipe(1, addresses[0]);

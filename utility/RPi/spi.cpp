@@ -9,7 +9,7 @@ SPI::SPI()
 }
 
 
-void SPI::begin( int busNo )
+void SPI::begin(int busNo)
 {
    if (!bcm2835_init())
    {
@@ -22,7 +22,7 @@ void SPI::begin( int busNo )
 void SPI::beginTransaction(SPISettings settings)
 {
 
-   pthread_mutex_lock (&spiMutex);
+   pthread_mutex_lock(&spiMutex);
    setBitOrder(settings.border);
    setDataMode(settings.dmode);
    setClockDivider(settings.clck);
@@ -30,7 +30,7 @@ void SPI::beginTransaction(SPISettings settings)
 
 void SPI::endTransaction()
 {
-   pthread_mutex_unlock (&spiMutex);
+   pthread_mutex_unlock(&spiMutex);
 }
 
 void SPI::setBitOrder(uint8_t bit_order)

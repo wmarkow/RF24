@@ -115,7 +115,7 @@ int main(int argc, char** argv)
    /***********************************/
    // This opens two pipes for these two nodes to communicate
    // back and forth.
-   if ( !radioNumber )
+   if (!radioNumber)
    {
       radio.openWritingPipe(addresses[0]);
       radio.openReadingPipe(1, addresses[1]);
@@ -147,8 +147,8 @@ int main(int argc, char** argv)
          unsigned long time =
             millis();                          // Record the current microsecond count
 
-         if ( radio.write(&counter,
-                          1) )                          // Send the counter variable to the other radio
+         if (radio.write(&counter,
+                         1))                           // Send the counter variable to the other radio
          {
             if (!radio.available())                             // If nothing in the buffer, we got an ack but it is blank
             {
@@ -156,10 +156,10 @@ int main(int argc, char** argv)
             }
             else
             {
-               while (radio.available() )                      // If an ack with payload was received
+               while (radio.available())                       // If an ack with payload was received
                {
-                  radio.read( &gotByte,
-                              1 );                  // Read it, and display the response time
+                  radio.read(&gotByte,
+                             1);                   // Read it, and display the response time
                   printf("Got response %d, round-trip delay: %lu ms\n\r", gotByte,
                          millis() - time);
                   counter++;                                  // Increment the counter variable
@@ -177,18 +177,18 @@ int main(int argc, char** argv)
 
       /****************** Pong Back Role ***************************/
 
-      if ( role == role_pong_back )
+      if (role == role_pong_back)
       {
          uint8_t pipeNo,
                  gotByte;           		        // Declare variables for the pipe and the byte received
-         if ( radio.available(&pipeNo))                 	// Read all available payloads
+         if (radio.available(&pipeNo))                 	// Read all available payloads
          {
-            radio.read( &gotByte, 1 );
+            radio.read(&gotByte, 1);
             // Since this is a call-response. Respond directly with an ack payload.
             gotByte +=
                1;  								// Ack payloads are much more efficient than switching to transmit mode to respond to a call
             radio.writeAckPayload(pipeNo, &gotByte,
-                                  1 );   // This can be commented out to send empty payloads.
+                                  1);    // This can be commented out to send empty payloads.
             printf("Loaded next response %d \n\r", gotByte);
             delay(900); //Delay after a response to minimize CPU usage on RPi
             //Expects a payload every second
