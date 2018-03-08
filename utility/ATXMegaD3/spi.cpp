@@ -43,7 +43,8 @@ void SPI::init()
    port->DIRSET = SPI_MOSI_bm | SPI_SCK_bm | SPI_SS_bm;
 
    //device->CTRL = 0;
-   device->CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc | SPI_PRESCALER_DIV4_gc;
+   device->CTRL = SPI_ENABLE_bm | SPI_MASTER_bm | SPI_MODE_0_gc |
+                  SPI_PRESCALER_DIV4_gc;
    device->INTCTRL =0; //Disable interrupts
 
 }

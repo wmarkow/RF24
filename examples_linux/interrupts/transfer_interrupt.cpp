@@ -98,7 +98,8 @@ int main(int argc, char** argv)
    radio.setPALevel(RF24_PA_MAX);
    radio.setDataRate(RF24_1MBPS);
    radio.setAutoAck(1);                     // Ensure autoACK is enabled
-   radio.setRetries(2,15);                  // Optionally, increase the delay between retries & # of retries
+   radio.setRetries(2,
+                    15);                  // Optionally, increase the delay between retries & # of retries
    radio.setCRCLength(RF24_CRC_8);          // Use 8-bit CRC for performance
    radio.printDetails();
    /********* Role chooser ***********/
@@ -109,7 +110,8 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit)\n>";
    getline(cin,input);
 
-   attachInterrupt(23, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
+   attachInterrupt(23, INT_EDGE_FALLING,
+                   intHandler); //Attach interrupt to bcm pin 23
 
    if(input.length() == 1)
    {

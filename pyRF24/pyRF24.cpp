@@ -43,55 +43,66 @@ bp::object read_wrap(RF24& ref, int maxlen)
 {
    char *buf = new char[maxlen+1];
    ref.read(buf, maxlen);
-   bp::object py_ba(bp::handle<>(PyByteArray_FromStringAndSize(buf, maxlen<ref.getPayloadSize()?maxlen:ref.getPayloadSize())));
+   bp::object py_ba(bp::handle<>(PyByteArray_FromStringAndSize(buf,
+                                 maxlen<ref.getPayloadSize()?maxlen:ref.getPayloadSize())));
    delete[] buf;
    return py_ba;
 }
 
 bool write_wrap1(RF24& ref, bp::object buf)
 {
-   return ref.write(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf));
+   return ref.write(get_bytes_or_bytearray_str(buf),
+                    get_bytes_or_bytearray_ln(buf));
 }
 
 bool write_wrap2(RF24& ref, bp::object buf, const bool multicast)
 {
-   return ref.write(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), multicast);
+   return ref.write(get_bytes_or_bytearray_str(buf),
+                    get_bytes_or_bytearray_ln(buf), multicast);
 }
 
 void writeAckPayload_wrap(RF24& ref, uint8_t pipe, bp::object buf)
 {
-   ref.writeAckPayload(pipe, get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf));
+   ref.writeAckPayload(pipe, get_bytes_or_bytearray_str(buf),
+                       get_bytes_or_bytearray_ln(buf));
 
 }
 
 bool writeFast_wrap1(RF24& ref, bp::object buf)
 {
-   return ref.writeFast(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf));
+   return ref.writeFast(get_bytes_or_bytearray_str(buf),
+                        get_bytes_or_bytearray_ln(buf));
 }
 
 bool writeFast_wrap2(RF24& ref, bp::object buf, const bool multicast)
 {
-   return ref.writeFast(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), multicast);
+   return ref.writeFast(get_bytes_or_bytearray_str(buf),
+                        get_bytes_or_bytearray_ln(buf), multicast);
 }
 
 bool writeBlocking_wrap(RF24& ref, bp::object buf, uint32_t timeout)
 {
-   return ref.writeBlocking(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), timeout);
+   return ref.writeBlocking(get_bytes_or_bytearray_str(buf),
+                            get_bytes_or_bytearray_ln(buf), timeout);
 }
 
 void startFastWrite_wrap1(RF24& ref, bp::object buf, const bool multicast)
 {
-   ref.startFastWrite(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), multicast);
+   ref.startFastWrite(get_bytes_or_bytearray_str(buf),
+                      get_bytes_or_bytearray_ln(buf), multicast);
 }
 
-void startFastWrite_wrap2(RF24& ref, bp::object buf, const bool multicast, bool startTx)
+void startFastWrite_wrap2(RF24& ref, bp::object buf, const bool multicast,
+                          bool startTx)
 {
-   ref.startFastWrite(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), multicast, startTx);
+   ref.startFastWrite(get_bytes_or_bytearray_str(buf),
+                      get_bytes_or_bytearray_ln(buf), multicast, startTx);
 }
 
 void startWrite_wrap(RF24& ref, bp::object buf, const bool multicast)
 {
-   ref.startWrite(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf), multicast);
+   ref.startWrite(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf),
+                  multicast);
 }
 
 void openWritingPipe_wrap(RF24& ref, const bp::object address)
@@ -101,7 +112,8 @@ void openWritingPipe_wrap(RF24& ref, const bp::object address)
 
 void openReadingPipe_wrap(RF24& ref, uint8_t number, const bp::object address)
 {
-   ref.openReadingPipe(number, (const uint8_t *)(get_bytes_or_bytearray_str(address)));
+   ref.openReadingPipe(number,
+                       (const uint8_t *)(get_bytes_or_bytearray_str(address)));
 }
 
 bp::tuple whatHappened_wrap(RF24& ref)
@@ -272,10 +284,13 @@ BOOST_PYTHON_MODULE(RF24)
 
 // ******************** RF24 class  **************************
 //
-   bp::class_< RF24 >( "RF24", bp::init< uint8_t, uint8_t >(( bp::arg("_cepin"), bp::arg("_cspin") )) )
-   .def( bp::init< uint8_t, uint8_t, uint32_t >(( bp::arg("_cepin"), bp::arg("_cspin"), bp::arg("spispeed") )) )
+   bp::class_< RF24 >( "RF24", bp::init< uint8_t, uint8_t >(( bp::arg("_cepin"),
+                       bp::arg("_cspin") )) )
+   .def( bp::init< uint8_t, uint8_t, uint32_t >(( bp::arg("_cepin"),
+         bp::arg("_cspin"), bp::arg("spispeed") )) )
    .def("available", (bool ( ::RF24::* )(  ) )( &::RF24::available ) )
-   .def("available_pipe", &available_wrap )    // needed to rename this method as python does not allow such overloading
+   .def("available_pipe",
+        &available_wrap )    // needed to rename this method as python does not allow such overloading
    .def("begin", &RF24::begin)
    .def("closeReadingPipe", &RF24::closeReadingPipe)
    .def("disableCRC", &RF24::disableCRC)
@@ -290,11 +305,16 @@ BOOST_PYTHON_MODULE(RF24)
    .def("isAckPayloadAvailable", &RF24::isAckPayloadAvailable)
    .def("isPVariant", &RF24::isPVariant)
    .def("isValid", &RF24::isValid)
-   .def("maskIRQ", &RF24::maskIRQ, ( bp::arg("tx_ok"), bp::arg("tx_fail"), bp::arg("rx_ready")))
-   .def("openReadingPipe", &openReadingPipe_wrap, (bp::arg("number"), bp::arg("address")))
-   .def("openReadingPipe", (void ( ::RF24::* )( ::uint8_t,::uint64_t ) )( &::RF24::openReadingPipe), (bp::arg("number"), bp::arg("address")))
+   .def("maskIRQ", &RF24::maskIRQ, ( bp::arg("tx_ok"), bp::arg("tx_fail"),
+                                     bp::arg("rx_ready")))
+   .def("openReadingPipe", &openReadingPipe_wrap, (bp::arg("number"),
+         bp::arg("address")))
+   .def("openReadingPipe", (void ( ::RF24::* )( ::uint8_t,
+                            ::uint64_t ) )( &::RF24::openReadingPipe), (bp::arg("number"),
+                                  bp::arg("address")))
    .def("openWritingPipe", &openWritingPipe_wrap, (bp::arg("address")))
-   .def("openWritingPipe", (void ( ::RF24::* )( ::uint64_t ) )( &::RF24::openWritingPipe), ( bp::arg("address") ) )
+   .def("openWritingPipe", (void ( ::RF24::* )( ::uint64_t ) )(
+           &::RF24::openWritingPipe), ( bp::arg("address") ) )
    .def("powerDown", &RF24::powerDown)
    .def("powerUp", &RF24::powerUp)
    .def("printDetails", &RF24::printDetails)
@@ -302,26 +322,34 @@ BOOST_PYTHON_MODULE(RF24)
    .def("read", &read_wrap, (bp::arg("maxlen")))
    .def("rxFifoFull", &RF24::rxFifoFull)
    .def("setAddressWidth", &RF24::setAddressWidth)
-   .def("setAutoAck", (void ( ::RF24::* )( bool ) )( &::RF24::setAutoAck ), ( bp::arg("enable") ) )
-   .def("setAutoAck", (void ( ::RF24::* )( ::uint8_t,bool ) )( &::RF24::setAutoAck ), ( bp::arg("pipe"), bp::arg("enable") ) )
+   .def("setAutoAck", (void ( ::RF24::* )( bool ) )( &::RF24::setAutoAck ),
+        ( bp::arg("enable") ) )
+   .def("setAutoAck", (void ( ::RF24::* )( ::uint8_t,
+                                           bool ) )( &::RF24::setAutoAck ), ( bp::arg("pipe"), bp::arg("enable") ) )
    .def("setCRCLength", &RF24::setCRCLength, ( bp::arg("length") ) )
    .def("setChannel", &RF24::setChannel, ( bp::arg("channel") ) )
    .def("setDataRate", &RF24::setDataRate, ( bp::arg("speed") ) )
    .def("setPALevel", &RF24::setPALevel, ( bp::arg("level") ) )
    .def("setRetries", &RF24::setRetries, (bp::arg("delay"), bp::arg("count")))
-   .def("startFastWrite", &startFastWrite_wrap1, ( bp::arg("buf"), bp::arg("len"), bp::arg("multicast") ) )
-   .def("startFastWrite", &startFastWrite_wrap2, ( bp::arg("buf"), bp::arg("len"), bp::arg("multicast"), bp::arg("startTx") ) )
+   .def("startFastWrite", &startFastWrite_wrap1, ( bp::arg("buf"), bp::arg("len"),
+         bp::arg("multicast") ) )
+   .def("startFastWrite", &startFastWrite_wrap2, ( bp::arg("buf"), bp::arg("len"),
+         bp::arg("multicast"), bp::arg("startTx") ) )
    .def("startListening", &RF24::startListening)
-   .def("startWrite", &startWrite_wrap, ( bp::arg("buf"), bp::arg("len"), bp::arg("multicast") ) )
+   .def("startWrite", &startWrite_wrap, ( bp::arg("buf"), bp::arg("len"),
+                                          bp::arg("multicast") ) )
    .def("stopListening", &RF24::stopListening)
    .def("testCarrier", &RF24::testCarrier)
    .def("testRPD", &RF24::testRPD)
-   .def("txStandBy", (bool ( ::RF24::* )( ::uint32_t,bool))(&RF24::txStandBy), txStandBy_wrap1( bp::args("timeout", "startTx") ) )
+   .def("txStandBy", (bool ( ::RF24::* )( ::uint32_t,bool))(&RF24::txStandBy),
+        txStandBy_wrap1( bp::args("timeout", "startTx") ) )
    .def("whatHappened", &whatHappened_wrap)
    .def("write", &write_wrap1, ( bp::arg("buf") ) )
    .def("write", &write_wrap2, ( bp::arg("buf"), bp::arg("multicast") ) )
-   .def("writeAckPayload", writeAckPayload_wrap, ( bp::arg("pipe"), bp::arg("buf") ) )
-   .def("writeBlocking", &writeBlocking_wrap, ( bp::arg("buf"), bp::arg("timeout") ) )
+   .def("writeAckPayload", writeAckPayload_wrap, ( bp::arg("pipe"),
+         bp::arg("buf") ) )
+   .def("writeBlocking", &writeBlocking_wrap, ( bp::arg("buf"),
+         bp::arg("timeout") ) )
    .def("writeFast", &writeFast_wrap1, ( bp::arg("buf") ) )
    .def("writeFast", &writeFast_wrap2, ( bp::arg("buf"), bp::arg("multicast") ) )
    .add_property("payloadSize", &RF24::getPayloadSize, &RF24::setPayloadSize)

@@ -227,7 +227,8 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 
 /****************************************************************************/
 
-uint8_t RF24::write_payload(const void* buf, uint8_t data_len, const uint8_t writeType)
+uint8_t RF24::write_payload(const void* buf, uint8_t data_len,
+                            const uint8_t writeType)
 {
    uint8_t status;
    const uint8_t* current = reinterpret_cast<const uint8_t*>(buf);
@@ -436,7 +437,8 @@ void RF24::print_address_register(const char* name, uint8_t reg, uint8_t qty)
 
 RF24::RF24(uint16_t _cepin, uint16_t _cspin):
    ce_pin(_cepin), csn_pin(_cspin), p_variant(false),
-   payload_size(32), dynamic_payloads_enabled(false), addr_width(5),csDelay(5)//,pipe0_reading_address(0)
+   payload_size(32), dynamic_payloads_enabled(false), addr_width(5),
+   csDelay(5)//,pipe0_reading_address(0)
 {
    pipe0_reading_address[0]=0;
 }
@@ -446,7 +448,9 @@ RF24::RF24(uint16_t _cepin, uint16_t _cspin):
 #if defined (RF24_LINUX) && !defined (MRAA)//RPi constructor
 
 RF24::RF24(uint16_t _cepin, uint16_t _cspin, uint32_t _spi_speed):
-   ce_pin(_cepin),csn_pin(_cspin),spi_speed(_spi_speed),p_variant(false), payload_size(32), dynamic_payloads_enabled(false),addr_width(5)//,pipe0_reading_address(0)
+   ce_pin(_cepin),csn_pin(_cspin),spi_speed(_spi_speed),p_variant(false),
+   payload_size(32), dynamic_payloads_enabled(false),
+   addr_width(5)//,pipe0_reading_address(0)
 {
    pipe0_reading_address[0]=0;
 }
@@ -616,10 +620,14 @@ void RF24::printDetails(void)
    print_byte_register(PSTR("CONFIG\t"),NRF_CONFIG);
    print_byte_register(PSTR("DYNPD/FEATURE"),DYNPD,2);
 
-   printf_P(PSTR("Data Rate\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_datarate_e_str_P[getDataRate()]));
-   printf_P(PSTR("Model\t\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_model_e_str_P[isPVariant()]));
-   printf_P(PSTR("CRC Length\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_crclength_e_str_P[getCRCLength()]));
-   printf_P(PSTR("PA Power\t = " PRIPSTR "\r\n"),  pgm_read_word(&rf24_pa_dbm_e_str_P[getPALevel()]));
+   printf_P(PSTR("Data Rate\t = " PRIPSTR "\r\n"),
+            pgm_read_word(&rf24_datarate_e_str_P[getDataRate()]));
+   printf_P(PSTR("Model\t\t = " PRIPSTR "\r\n"),
+            pgm_read_word(&rf24_model_e_str_P[isPVariant()]));
+   printf_P(PSTR("CRC Length\t = " PRIPSTR "\r\n"),
+            pgm_read_word(&rf24_crclength_e_str_P[getCRCLength()]));
+   printf_P(PSTR("PA Power\t = " PRIPSTR "\r\n"),
+            pgm_read_word(&rf24_pa_dbm_e_str_P[getPALevel()]));
 
 }
 
@@ -831,7 +839,9 @@ void RF24::stopListening(void)
       powerUp();
    }
 #endif
-   write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[0]))); // Enable RX on pipe0
+   write_register(EN_RXADDR,
+                  read_register(EN_RXADDR) | _BV(pgm_read_byte(
+                           &child_pipe_enable[0]))); // Enable RX on pipe0
 
    //delayMicroseconds(100);
 
@@ -908,7 +918,8 @@ bool RF24::write( const void* buf, uint8_t len, const bool multicast )
 
    ce(LOW);
 
-   uint8_t status = write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+   uint8_t status = write_register(NRF_STATUS,
+                                   _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 
    //Max retries exceeded
    if( status & _BV(MAX_RT))
@@ -934,9 +945,11 @@ bool RF24::writeBlocking( const void* buf, uint8_t len, uint32_t timeout )
    //This way the FIFO will fill up and allow blocking until packets go through
    //The radio will auto-clear everything in the FIFO as long as CE remains high
 
-   uint32_t timer = millis();							  //Get the time that the payload transmission started
+   uint32_t timer =
+      millis();							  //Get the time that the payload transmission started
 
-   while( ( get_status()  & ( _BV(TX_FULL) )))  		  //Blocking only if FIFO is full. This will loop and block until TX is successful or timeout
+   while( ( get_status()  & ( _BV(
+                                 TX_FULL) )))  		  //Blocking only if FIFO is full. This will loop and block until TX is successful or timeout
    {
 
       if( get_status() & _BV(MAX_RT))  					 //If MAX Retries have been reached
@@ -988,7 +1001,8 @@ bool RF24::writeFast( const void* buf, uint8_t len, const bool multicast )
    uint32_t timer = millis();
 #endif
 
-   while( ( get_status()  & ( _BV(TX_FULL) )))  			  //Blocking only if FIFO is full. This will loop and block until TX is successful or fail
+   while( ( get_status()  & ( _BV(
+                                 TX_FULL) )))  			  //Blocking only if FIFO is full. This will loop and block until TX is successful or fail
    {
 
       if( get_status() & _BV(MAX_RT))
@@ -1026,7 +1040,8 @@ bool RF24::writeFast( const void* buf, uint8_t len )
 //Otherwise we enter Standby-II mode, which is still faster than standby mode
 //Also, we remove the need to keep writing the config register over and over and delaying for 150 us each time if sending a stream of data
 
-void RF24::startFastWrite( const void* buf, uint8_t len, const bool multicast, bool startTx)   //TMRh20
+void RF24::startFastWrite( const void* buf, uint8_t len, const bool multicast,
+                           bool startTx)   //TMRh20
 {
 
    //write_payload( buf,len);
@@ -1229,7 +1244,8 @@ void RF24::whatHappened(bool& tx_ok,bool& tx_fail,bool& rx_ready)
 {
    // Read the status & reset the status in one easy call
    // Or is that such a good idea?
-   uint8_t status = write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+   uint8_t status = write_register(NRF_STATUS,
+                                   _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 
    // Report to the user what happened
    tx_ok = status & _BV(TX_DS);
@@ -1292,16 +1308,19 @@ void RF24::openReadingPipe(uint8_t child, uint64_t address)
    {
       // For pipes 2-5, only write the LSB
       if ( child < 2 )
-         write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), addr_width);
+         write_register(pgm_read_byte(&child_pipe[child]),
+                        reinterpret_cast<const uint8_t*>(&address), addr_width);
       else
-         write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), 1);
+         write_register(pgm_read_byte(&child_pipe[child]),
+                        reinterpret_cast<const uint8_t*>(&address), 1);
 
       write_register(pgm_read_byte(&child_payload_size[child]),payload_size);
 
       // Note it would be more efficient to set all of the bits for all open
       // pipes at once.  However, I thought it would make the calling code
       // more simple to do it this way.
-      write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+      write_register(EN_RXADDR,
+                     read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
    }
 }
 
@@ -1349,7 +1368,8 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
       // Note it would be more efficient to set all of the bits for all open
       // pipes at once.  However, I thought it would make the calling code
       // more simple to do it this way.
-      write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+      write_register(EN_RXADDR,
+                     read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
 
    }
 }
@@ -1358,7 +1378,8 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
 
 void RF24::closeReadingPipe( uint8_t pipe )
 {
-   write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
+   write_register(EN_RXADDR,
+                  read_register(EN_RXADDR) & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
 }
 
 /****************************************************************************/
@@ -1387,7 +1408,8 @@ void RF24::enableDynamicPayloads(void)
    //
    // Not sure the use case of only having dynamic payload on certain
    // pipes, so the library does not support it.
-   write_register(DYNPD,read_register(DYNPD) | _BV(DPL_P5) | _BV(DPL_P4) | _BV(DPL_P3) | _BV(DPL_P2) | _BV(DPL_P1) | _BV(DPL_P0));
+   write_register(DYNPD,read_register(DYNPD) | _BV(DPL_P5) | _BV(DPL_P4) | _BV(
+                     DPL_P3) | _BV(DPL_P2) | _BV(DPL_P1) | _BV(DPL_P0));
 
    dynamic_payloads_enabled = true;
 }

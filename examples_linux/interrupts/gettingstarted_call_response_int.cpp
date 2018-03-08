@@ -41,7 +41,8 @@ int interruptPin = 23;
 const uint8_t addresses[][6] = {"1Node","2Node"};
 
 volatile bool role_ping_out = 1, role_pong_back = 0, role = 0;
-uint8_t counter = 1;                                                          // A single byte to keep track of the data being sent back and forth
+uint8_t counter =
+   1;                                                          // A single byte to keep track of the data being sent back and forth
 
 volatile bool gotResponse = false;
 
@@ -50,13 +51,16 @@ void intHandler()
 
    if ( role == role_pong_back )
    {
-      uint8_t pipeNo, gotByte;           		        // Declare variables for the pipe and the byte received
+      uint8_t pipeNo,
+              gotByte;           		        // Declare variables for the pipe and the byte received
       if( radio.available(&pipeNo))                 	// Read all available payloads
       {
          radio.read( &gotByte, 1 );
          // Since this is a call-response. Respond directly with an ack payload.
-         gotByte += 1;  								// Ack payloads are much more efficient than switching to transmit mode to respond to a call
-         radio.writeAckPayload(pipeNo,&gotByte, 1 );   // This can be commented out to send empty payloads.
+         gotByte +=
+            1;  								// Ack payloads are much more efficient than switching to transmit mode to respond to a call
+         radio.writeAckPayload(pipeNo,&gotByte,
+                               1 );   // This can be commented out to send empty payloads.
          printf("Loaded next response %d \n\r", gotByte);
 
       }
@@ -112,7 +116,8 @@ int main(int argc, char** argv)
    radio.writeAckPayload(1,&counter,1);
 
    radio.maskIRQ(1,1,0); //Mask tx_ok & tx_fail interrupts
-   attachInterrupt(interruptPin, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
+   attachInterrupt(interruptPin, INT_EDGE_FALLING,
+                   intHandler); //Attach interrupt to bcm pin 23
 
 // forever loop
    while (1)
@@ -121,16 +126,20 @@ int main(int argc, char** argv)
 
       /****************** Ping Out Role ***************************/
 
-      if (role == role_ping_out)                                // Radio is in ping mode
+      if (role ==
+            role_ping_out)                                // Radio is in ping mode
       {
 
          uint8_t gotByte;                                        // Initialize a variable for the incoming response
 
          radio.stopListening();                                  // First, stop listening so we can talk.
-         printf("Now sending %d as payload. ",counter);          // Use a simple byte counter as payload
-         unsigned long time = millis();                          // Record the current microsecond count
+         printf("Now sending %d as payload. ",
+                counter);          // Use a simple byte counter as payload
+         unsigned long time =
+            millis();                          // Record the current microsecond count
 
-         if ( radio.write(&counter,1) )                          // Send the counter variable to the other radio
+         if ( radio.write(&counter,
+                          1) )                          // Send the counter variable to the other radio
          {
             if(!radio.available())                              // If nothing in the buffer, we got an ack but it is blank
             {
@@ -141,7 +150,8 @@ int main(int argc, char** argv)
 
                while(radio.available() )                       // If an ack with payload was received
                {
-                  radio.read( &gotByte, 1 );                  // Read it, and display the response time
+                  radio.read( &gotByte,
+                              1 );                  // Read it, and display the response time
                   printf("Got response %d, round-trip delay: %lu ms\n\r",gotByte,millis()-time);
                   counter++;                                  // Increment the counter variable
                }

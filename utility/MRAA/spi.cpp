@@ -11,11 +11,13 @@ SPI::SPI()
 
 void SPI::begin(int busNo)
 {
-   mspi = new mraa::Spi(busNo); // init mraa spi bus, it will handle chip select internally. For CS pin wiring user must check SPI details in hardware manual
+   mspi = new mraa::Spi(
+      busNo); // init mraa spi bus, it will handle chip select internally. For CS pin wiring user must check SPI details in hardware manual
 
    mspi->mode(mraa::SPI_MODE0);
    mspi->bitPerWord(8);
-   mspi->frequency(8000000); // Prophet: this will try to set 8MHz, however MRAA will reset to max platform speed and syslog a message of it
+   mspi->frequency(
+      8000000); // Prophet: this will try to set 8MHz, however MRAA will reset to max platform speed and syslog a message of it
 }
 
 void SPI::end()

@@ -41,7 +41,8 @@ int interruptPin = 23;
 const uint8_t addresses[][6] = {"1Node","2Node"};
 
 bool role_ping_out = 1, role_pong_back = 0, role = 0;
-uint8_t counter = 1;                                                          // A single byte to keep track of the data being sent back and forth
+uint8_t counter =
+   1;                                                          // A single byte to keep track of the data being sent back and forth
 uint32_t timer = 0;
 
 void intHandler()
@@ -143,7 +144,8 @@ int main(int argc, char** argv)
    radio.startListening();
    radio.writeAckPayload(1,&counter,1);
 
-   attachInterrupt(interruptPin, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
+   attachInterrupt(interruptPin, INT_EDGE_FALLING,
+                   intHandler); //Attach interrupt to bcm pin 23
 
 // forever loop
    while (1)
@@ -152,16 +154,19 @@ int main(int argc, char** argv)
 
       /****************** Ping Out Role ***************************/
 
-      if (role == role_ping_out)                                // Radio is in ping mode
+      if (role ==
+            role_ping_out)                                // Radio is in ping mode
       {
 
          //uint8_t gotByte;                                      // Initialize a variable for the incoming response
 
          radio.stopListening();                                  // First, stop listening so we can talk.
-         printf("Now sending %d as payload. ",counter);          // Use a simple byte counter as payload
+         printf("Now sending %d as payload. ",
+                counter);          // Use a simple byte counter as payload
          timer = millis();                                       // Record the current microsecond count
 
-         radio.startWrite(&counter,1,false);                         // Send the counter variable to the other radio
+         radio.startWrite(&counter,1,
+                          false);                         // Send the counter variable to the other radio
          sleep(1);  // Try again later
       }
 

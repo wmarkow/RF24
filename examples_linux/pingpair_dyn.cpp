@@ -71,7 +71,8 @@ const int max_payload_size = 32;
 const int payload_size_increments_by = 1;
 int next_payload_size = min_payload_size;
 
-char receive_payload[max_payload_size+1]; // +1 to allow room for a terminating NULL char
+char receive_payload[max_payload_size
+                     +1]; // +1 to allow room for a terminating NULL char
 
 int main(int argc, char** argv)
 {

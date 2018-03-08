@@ -28,7 +28,8 @@
  *
  * For use with setPALevel()
  */
-typedef enum { RF24_PA_MIN = 0,RF24_PA_LOW, RF24_PA_HIGH, RF24_PA_MAX, RF24_PA_ERROR } rf24_pa_dbm_e ;
+typedef enum { RF24_PA_MIN = 0,RF24_PA_LOW, RF24_PA_HIGH, RF24_PA_MAX, RF24_PA_ERROR } rf24_pa_dbm_e
+;
 
 /**
  * Data rate.  How fast data moves through the air.
@@ -69,7 +70,8 @@ private:
    uint16_t spi_speed; /**< SPI Bus Speed */
 #if defined (RF24_LINUX) || defined (XMEGA_D3)
    uint8_t spi_rxbuff[32+1] ; //SPI receive buffer (payload max 32 bytes)
-   uint8_t spi_txbuff[32+1] ; //SPI transmit buffer (payload max 32 bytes + 1 byte for the command)
+   uint8_t spi_txbuff[32+1]
+   ; //SPI transmit buffer (payload max 32 bytes + 1 byte for the command)
 #endif
    bool p_variant; /* False for RF24L01 and true for RF24L01P */
    uint8_t payload_size; /**< Fixed size of payloads */
@@ -560,7 +562,8 @@ public:
     * @param multicast Request ACK (0) or NOACK (1)
     * @return True if the payload was delivered successfully false if not
     */
-   void startFastWrite( const void* buf, uint8_t len, const bool multicast, bool startTx = 1 );
+   void startFastWrite( const void* buf, uint8_t len, const bool multicast,
+                        bool startTx = 1 );
 
    /**
     * Non-blocking write to the open writing pipe

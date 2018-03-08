@@ -1155,7 +1155,8 @@ extern void bcm2835_peri_write_nb(volatile uint32_t* paddr, uint32_t value);
   \param[in] mask Bitmask that defines the bits that will be altered in the register.
   \sa Physical Addresses
 */
-extern void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value, uint32_t mask);
+extern void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value,
+                                  uint32_t mask);
 /*! @}    end of lowlevel */
 
 /*! \defgroup gpio GPIO register access
@@ -1581,7 +1582,8 @@ extern uint8_t bcm2835_i2c_read(char* buf, uint32_t len);
   \param[in] len Number of bytes in the buf buffer, and the number of bytes to received.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len);
+extern uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf,
+      uint32_t len);
 
 /*! Allows sending an arbitrary number of bytes to I2C slaves before issuing a repeated
   start (with no prior stop) and reading a response.
@@ -1593,7 +1595,8 @@ extern uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t l
   \param[in] buf_len Number of bytes to receive in the buf buffer.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf, uint32_t buf_len);
+extern uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len,
+      char* buf, uint32_t buf_len);
 
 /*! @} */
 
@@ -1636,7 +1639,8 @@ extern void bcm2835_pwm_set_clock(uint32_t divisor);
   \param[in] markspace Set true if you want Mark-Space mode. 0 for Balanced mode.
   \param[in] enabled Set true to enable this channel and produce PWM pulses.
 */
-extern void bcm2835_pwm_set_mode(uint8_t channel, uint8_t markspace, uint8_t enabled);
+extern void bcm2835_pwm_set_mode(uint8_t channel, uint8_t markspace,
+                                 uint8_t enabled);
 
 /*! Sets the maximum range of the PWM output.
   The data value can vary between 0 and this range to control PWM output
