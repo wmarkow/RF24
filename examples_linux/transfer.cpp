@@ -164,7 +164,10 @@ int main(int argc, char** argv)
          }
          stopTime = millis();
 
-         if(!radio.txStandBy()) { counter+=3; }
+         if(!radio.txStandBy())
+         {
+            counter+=3;
+         }
 
          float numBytes = cycles*32;
          float rate = numBytes / (stopTime - startTime);

@@ -101,14 +101,20 @@ uint8_t RF24::read_register(uint8_t reg, uint8_t* buf, uint8_t len)
 
    *ptx++ = ( R_REGISTER | ( REGISTER_MASK & reg ) );
 
-   while (len--) { *ptx++ = RF24_NOP; } // Dummy operation, just for reading
+   while (len--)
+   {
+      *ptx++ = RF24_NOP;   // Dummy operation, just for reading
+   }
 
    _SPI.transfernb( (char *) spi_txbuff, (char *) spi_rxbuff, size);
 
    status = *prx++; // status is 1st byte of receive buffer
 
    // decrement before to skip status byte
-   while ( --size ) { *buf++ = *prx++; }
+   while ( --size )
+   {
+      *buf++ = *prx++;
+   }
    endTransaction(); //unlocks mutex and setting csn high
 
 #else
@@ -898,7 +904,10 @@ bool RF24::writeBlocking( const void* buf, uint8_t len, uint32_t timeout )
       if( get_status() & _BV(MAX_RT))  					 //If MAX Retries have been reached
       {
          reUseTX();										  //Set re-transmit and clear the MAX_RT interrupt flag
-         if(millis() - timer > timeout) { return 0; }		 //If this payload has exceeded the user-defined timeout, exit and return 0
+         if(millis() - timer > timeout)
+         {
+            return 0;   //If this payload has exceeded the user-defined timeout, exit and return 0
+         }
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
       if(millis() - timer > (timeout+95) )
@@ -1123,7 +1132,12 @@ uint8_t RF24::getDynamicPayloadSize(void)
    endTransaction();
 #endif
 
-   if(result > 32) { flush_rx(); delay(2); return 0; }
+   if(result > 32)
+   {
+      flush_rx();
+      delay(2);
+      return 0;
+   }
    return result;
 }
 

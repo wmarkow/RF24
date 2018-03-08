@@ -160,7 +160,10 @@ int main(int argc, char** argv)
             }
 
          }
-         else {        printf("Sending failed.\n\r"); }           // If no ack response, sending failed
+         else
+         {
+            printf("Sending failed.\n\r");   // If no ack response, sending failed
+         }
 
          sleep(1);  // Try again later
       }

@@ -645,7 +645,10 @@ public:
     *
     * @return true if this is a legitimate radio
     */
-   bool isValid() { return ce_pin != 0xff && csn_pin != 0xff; }
+   bool isValid()
+   {
+      return ce_pin != 0xff && csn_pin != 0xff;
+   }
 
    /**
    * Close a pipe after it has been previously opened.

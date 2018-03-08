@@ -26,7 +26,10 @@ public:
    {
       init(clock,bitOrder,dataMode);
    }
-   SPISettings() { init(RF24_SPI_SPEED, MSBFIRST, SPI_MODE0); }
+   SPISettings()
+   {
+      init(RF24_SPI_SPEED, MSBFIRST, SPI_MODE0);
+   }
 
    uint32_t clck;
    uint8_t border;
