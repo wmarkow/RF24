@@ -13,10 +13,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-GPIO::GPIO() {
+GPIO::GPIO()
+{
 }
 
-GPIO::~GPIO() {
+GPIO::~GPIO()
+{
 }
 
 void GPIO::open(int port, int DDR)
@@ -30,10 +32,12 @@ void GPIO::open(int port, int DDR)
    char file[128];
    sprintf(file, "/sys/class/gpio/gpio%d/direction", port);
 
-   while( ( f = fopen(file,"w")) == NULL ) { //Wait 10 seconds for the file to be accessible if not open on first attempt
+   while( ( f = fopen(file,"w")) == NULL )   //Wait 10 seconds for the file to be accessible if not open on first attempt
+   {
       sleep(1);
       counter++;
-      if(counter > 10) {
+      if(counter > 10)
+      {
          perror("Could not open /sys/class/gpio/gpio%d/direction");
          exit(0);
       }
@@ -68,7 +72,8 @@ int GPIO::read(int port)
    return i;
 
 }
-void GPIO::write(int port, int value) {
+void GPIO::write(int port, int value)
+{
    FILE *f;
 
    char file[128];

@@ -45,11 +45,14 @@ uint8_t counter = 1;                                                          //
 
 volatile bool gotResponse = false;
 
-void intHandler() {
+void intHandler()
+{
 
-   if ( role == role_pong_back ) {
+   if ( role == role_pong_back )
+   {
       uint8_t pipeNo, gotByte;           		        // Declare variables for the pipe and the byte received
-      if( radio.available(&pipeNo)) {               	// Read all available payloads
+      if( radio.available(&pipeNo))                 	// Read all available payloads
+      {
          radio.read( &gotByte, 1 );
          // Since this is a call-response. Respond directly with an ack payload.
          gotByte += 1;  								// Ack payloads are much more efficient than switching to transmit mode to respond to a call
@@ -60,7 +63,8 @@ void intHandler() {
    }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 
 
    cout << "RPi/RF24/examples/gettingstarted_call_response_int\n";
@@ -78,11 +82,15 @@ int main(int argc, char** argv) {
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit)\n>";
    getline(cin,input);
 
-   if(input.length() == 1) {
+   if(input.length() == 1)
+   {
       myChar = input[0];
-      if(myChar == '0') {
+      if(myChar == '0')
+      {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
-      } else {
+      }
+      else
+      {
          cout << "Role: Ping Out, starting transmission " << endl << endl;
          role = role_ping_out;
       }
@@ -90,10 +98,13 @@ int main(int argc, char** argv) {
    /***********************************/
    // This opens two pipes for these two nodes to communicate
    // back and forth.
-   if ( !radioNumber )    {
+   if ( !radioNumber )
+   {
       radio.openWritingPipe(addresses[0]);
       radio.openReadingPipe(1,addresses[1]);
-   } else {
+   }
+   else
+   {
       radio.openWritingPipe(addresses[1]);
       radio.openReadingPipe(1,addresses[0]);
    }
@@ -104,12 +115,14 @@ int main(int argc, char** argv) {
    attachInterrupt(interruptPin, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
 
 // forever loop
-   while (1) {
+   while (1)
+   {
 
 
       /****************** Ping Out Role ***************************/
 
-      if (role == role_ping_out) {                              // Radio is in ping mode
+      if (role == role_ping_out)                                // Radio is in ping mode
+      {
 
          uint8_t gotByte;                                        // Initialize a variable for the incoming response
 
@@ -117,19 +130,25 @@ int main(int argc, char** argv) {
          printf("Now sending %d as payload. ",counter);          // Use a simple byte counter as payload
          unsigned long time = millis();                          // Record the current microsecond count
 
-         if ( radio.write(&counter,1) ) {                        // Send the counter variable to the other radio
-            if(!radio.available()) {                            // If nothing in the buffer, we got an ack but it is blank
+         if ( radio.write(&counter,1) )                          // Send the counter variable to the other radio
+         {
+            if(!radio.available())                              // If nothing in the buffer, we got an ack but it is blank
+            {
                printf("Got blank response. round-trip delay: %lu ms\n\r",millis()-time);
-            } else {
+            }
+            else
+            {
 
-               while(radio.available() ) {                     // If an ack with payload was received
+               while(radio.available() )                       // If an ack with payload was received
+               {
                   radio.read( &gotByte, 1 );                  // Read it, and display the response time
                   printf("Got response %d, round-trip delay: %lu ms\n\r",gotByte,millis()-time);
                   counter++;                                  // Increment the counter variable
                }
             }
 
-         } else {        printf("Sending failed.\n\r"); }         // If no ack response, sending failed
+         }
+         else {        printf("Sending failed.\n\r"); }           // If no ack response, sending failed
 
          sleep(1);  // Try again later
       }

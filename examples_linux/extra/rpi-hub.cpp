@@ -36,7 +36,8 @@ using namespace std;
 // Radio pipe addresses for the 2 nodes to communicate.
 // First pipe is for writing, 2nd, 3rd, 4th, 5th & 6th is for reading...
 const uint64_t pipes[6] =
-{  0xF0F0F0F0D2LL, 0xF0F0F0F0E1LL,
+{
+   0xF0F0F0F0D2LL, 0xF0F0F0F0E1LL,
    0xF0F0F0F0E2LL, 0xF0F0F0F0E3LL,
    0xF0F0F0F0F1, 0xF0F0F0F0F2
 };

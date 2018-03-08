@@ -31,7 +31,8 @@
  */
 
 
-class GPIO {
+class GPIO
+{
 public:
 
    /* Constants */

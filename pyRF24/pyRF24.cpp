@@ -130,7 +130,8 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(txStandBy_wrap1, RF24::txStandBy, 0, 2)
 // from both RF24 and bcm2835
 //
 
-BOOST_PYTHON_MODULE(RF24) {
+BOOST_PYTHON_MODULE(RF24)
+{
 
 #ifdef BCM2835_H
    bp::enum_< RPiGPIOPin>("RPiGPIOPin")

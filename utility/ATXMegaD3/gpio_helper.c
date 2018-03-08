@@ -18,23 +18,28 @@ PORT_t * GPIO_getPort(int pinnum, uint8_t * pin_bm)
    {
       port = &PORTA;
       *pin_bm = (1<<pinnum);
-   } else if ( (pinnum >= XMEGA_PORTB_PIN0) && (pinnum<= XMEGA_PORTB_PIN7) )
+   }
+   else if ( (pinnum >= XMEGA_PORTB_PIN0) && (pinnum<= XMEGA_PORTB_PIN7) )
    {
       port = &PORTB;
       *pin_bm = (1<<(pinnum-8));
-   } else if ( (pinnum >= XMEGA_PORTC_PIN0) && (pinnum<= XMEGA_PORTC_PIN7) )
+   }
+   else if ( (pinnum >= XMEGA_PORTC_PIN0) && (pinnum<= XMEGA_PORTC_PIN7) )
    {
       port = &PORTC;
       *pin_bm = (1<<(pinnum-16));
-   } else if ( (pinnum >= XMEGA_PORTD_PIN0) && (pinnum<= XMEGA_PORTD_PIN7) )
+   }
+   else if ( (pinnum >= XMEGA_PORTD_PIN0) && (pinnum<= XMEGA_PORTD_PIN7) )
    {
       port = &PORTD;
       *pin_bm = (1<<(pinnum-24));
-   } else if ( (pinnum >= XMEGA_PORTE_PIN0) && (pinnum<= XMEGA_PORTE_PIN7) )
+   }
+   else if ( (pinnum >= XMEGA_PORTE_PIN0) && (pinnum<= XMEGA_PORTE_PIN7) )
    {
       port = &PORTE;
       *pin_bm = (1<<(pinnum-32));
-   } else if ( (pinnum >= XMEGA_PORTF_PIN0) && (pinnum<= XMEGA_PORTF_PIN7) )
+   }
+   else if ( (pinnum >= XMEGA_PORTF_PIN0) && (pinnum<= XMEGA_PORTF_PIN7) )
    {
       port = &PORTF;
       *pin_bm = (1<<(pinnum-40));

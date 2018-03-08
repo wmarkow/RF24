@@ -42,7 +42,8 @@ char receive_payload[max_payload_size+1]; // +1 to allow room for a terminating 
 bool role_ping_out = 1, role_pong_back = 0;
 bool role = 0;
 
-void intHandler() {
+void intHandler()
+{
    //
    // Pong back role.  Receive each packet, dump it out, and send it back
    //
@@ -82,7 +83,8 @@ void intHandler() {
 }
 
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 
 
    // Print preamble:
@@ -103,21 +105,28 @@ int main(int argc, char** argv) {
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit) \n>";
    getline(cin,input);
 
-   if(input.length() == 1) {
+   if(input.length() == 1)
+   {
       myChar = input[0];
-      if(myChar == '0') {
+      if(myChar == '0')
+      {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
-      } else {
+      }
+      else
+      {
          cout << "Role: Ping Out, starting transmission " << endl << endl;
          role = role_ping_out;
       }
    }
    /***********************************/
 
-   if ( role == role_ping_out )    {
+   if ( role == role_ping_out )
+   {
       radio.openWritingPipe(pipes[0]);
       radio.openReadingPipe(1,pipes[1]);
-   } else {
+   }
+   else
+   {
       radio.openWritingPipe(pipes[1]);
       radio.openReadingPipe(1,pipes[0]);
       radio.startListening();

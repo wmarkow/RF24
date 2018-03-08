@@ -83,7 +83,8 @@ void intHandler()
    }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 
    bool role_ping_out = 1, role_pong_back = 0;
    bool role = 0;
@@ -110,36 +111,45 @@ int main(int argc, char** argv) {
 
    attachInterrupt(23, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
 
-   if(input.length() == 1) {
+   if(input.length() == 1)
+   {
       myChar = input[0];
-      if(myChar == '0') {
+      if(myChar == '0')
+      {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
-      } else {
+      }
+      else
+      {
          cout << "Role: Ping Out, starting transmission " << endl << endl;
          role = role_ping_out;
       }
    }
    /***********************************/
 
-   if ( role == role_ping_out )    {
+   if ( role == role_ping_out )
+   {
       radio.openWritingPipe(addresses[1]);
       radio.openReadingPipe(1,addresses[0]);
       radio.stopListening();
-   } else {
+   }
+   else
+   {
       radio.openWritingPipe(addresses[0]);
       radio.openReadingPipe(1,addresses[1]);
       radio.startListening();
    }
 
 
-   for(int i=0; i<32; i++) {
+   for(int i=0; i<32; i++)
+   {
       data[i] = rand() % 255;               			//Load the buffer with random data
    }
 
    // forever loop
    while (1)
    {
-      if (role == role_ping_out) {
+      if (role == role_ping_out)
+      {
          sleep(2);
          printf("Initiating Basic Data Transfer\n\r");
 
@@ -148,9 +158,11 @@ int main(int argc, char** argv) {
          // unsigned long pauseTime = millis();		//Uncomment if autoAck == 1 ( NOACK )
          startTime = millis();
 
-         for(int i=0; i<cycles; i++) {        		//Loop through a number of cycles
+         for(int i=0; i<cycles; i++)          		//Loop through a number of cycles
+         {
             data[0] = i;                        //Change the first byte of the payload for identification
-            if(!radio.writeFast(&data,32)) {    //Write to the FIFO buffers
+            if(!radio.writeFast(&data,32))      //Write to the FIFO buffers
+            {
                counter++;                      //Keep count of failed payloads
             }
 
@@ -178,7 +190,8 @@ int main(int argc, char** argv) {
 
       if(role == role_pong_back)
       {
-         if(millis() - rxTimer > 1000) {
+         if(millis() - rxTimer > 1000)
+         {
             rxTimer = millis();
             printf("Rate: ");
             float numBytes = counter*32;

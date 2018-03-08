@@ -30,7 +30,8 @@
 
 
 
-class SPIClass {
+class SPIClass
+{
 public:
    static byte transfer(byte _data);
 

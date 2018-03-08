@@ -20,7 +20,8 @@
 #include "gpio_helper.h"
 
 
-class GPIO {
+class GPIO
+{
 public:
    /* Constants */
    static const int DIRECTION_OUT = 1;

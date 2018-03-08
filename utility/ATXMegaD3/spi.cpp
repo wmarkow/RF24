@@ -17,7 +17,8 @@ void SPI::begin(uint8_t _port)
    {
       device = &SPIC;
       port = &PORTC;
-   } else if (_port==XMEGA_SPI_PORT_D) // Select SPI on PORTD
+   }
+   else if (_port==XMEGA_SPI_PORT_D)   // Select SPI on PORTD
    {
       device = &SPID;
       port = &PORTD;

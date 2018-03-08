@@ -5,7 +5,8 @@
 
 #include "gpio.h"
 
-GPIO::GPIO() {
+GPIO::GPIO()
+{
    // Prophet: basic members initialization
    gpio_ce_pin = -1;
    //gpio_cs_pin = -1;
@@ -13,7 +14,8 @@ GPIO::GPIO() {
    //gpio_1 = NULL;
 }
 
-GPIO::~GPIO() {
+GPIO::~GPIO()
+{
    // Prophet: this should free memory, and unexport pins when RF24 and/or GPIO gets deleted or goes out of scope
    this->close(gpio_ce_pin);
    //this->close(gpio_cs_pin);
@@ -31,7 +33,8 @@ void GPIO::begin(uint8_t ce_pin, uint8_t cs_pin)
 }
 void GPIO::open(int port, int DDR)
 {
-   if(port == gpio_ce_pin) {
+   if(port == gpio_ce_pin)
+   {
       gpio_0 = new mraa::Gpio(port,0);
       gpio_0->useMmap(true);
       gpio_0->dir( (mraa::Dir)DDR);
@@ -49,7 +52,8 @@ void GPIO::close(int port)
    // checking for mraa::Gpio context existence to be sure, that GPIO::begin was called
    if(port == gpio_ce_pin)
    {
-      if (gpio_0 != NULL)	{
+      if (gpio_0 != NULL)
+      {
          delete gpio_0;
       }
    }
@@ -63,7 +67,8 @@ void GPIO::close(int port)
 
 int GPIO::read(int port)
 {
-   if(port == gpio_ce_pin) {
+   if(port == gpio_ce_pin)
+   {
       return gpio_0->read();
    }/*else
 	if(port == gpio_cs_pin){
@@ -72,9 +77,11 @@ int GPIO::read(int port)
    return -1;
 }
 
-void GPIO::write(int port, int value) {
+void GPIO::write(int port, int value)
+{
 
-   if(port == gpio_ce_pin) {
+   if(port == gpio_ce_pin)
+   {
       gpio_0->write( value);
    }/*else
 	if(port == gpio_cs_pin){

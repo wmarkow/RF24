@@ -38,7 +38,8 @@ using namespace std;
 
 
 
-class SPI {
+class SPI
+{
 public:
 
    /**

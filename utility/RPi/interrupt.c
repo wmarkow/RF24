@@ -94,7 +94,8 @@ void *interruptHandler (void *arg)
    pinPass = -1 ;
 
    for (;;)
-      if (waitForInterrupt (myPin, -1) > 0) {
+      if (waitForInterrupt (myPin, -1) > 0)
+      {
          pthread_mutex_lock (&pinMutex) ;
          isrFunctions [myPin] () ;
          pthread_mutex_unlock (&pinMutex) ;
@@ -217,10 +218,12 @@ int detachInterrupt (int pin)
    return 1;
 }
 
-void rfNoInterrupts() {
+void rfNoInterrupts()
+{
    pthread_mutex_lock (&pinMutex) ;
 }
 
-void rfInterrupts() {
+void rfInterrupts()
+{
    pthread_mutex_unlock (&pinMutex) ;
 }

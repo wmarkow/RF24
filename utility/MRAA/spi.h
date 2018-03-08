@@ -13,7 +13,8 @@
 #include <stdio.h>
 #include "mraa.hpp"
 
-class SPI {
+class SPI
+{
 public:
 
    SPI();
@@ -40,7 +41,8 @@ uint8_t SPI::transfer(uint8_t _data)
    return mspi->writeByte(_data);
 }
 
-void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len) {
+void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
+{
    mspi->transfer((uint8_t*)tbuf, (uint8_t*)rbuf, len);
 }
 

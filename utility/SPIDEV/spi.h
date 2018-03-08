@@ -30,7 +30,8 @@
 #define RF24_SPIDEV_SPEED 8000000
 #endif
 
-class SPI {
+class SPI
+{
 public:
 
    /**
@@ -63,7 +64,8 @@ public:
    * @param buf Pointer to a buffer of data
    * @param len Length of the data
    */
-   void transfern(char* buf, uint32_t len) {
+   void transfern(char* buf, uint32_t len)
+   {
       transfernb(buf, buf, len);
    }
 

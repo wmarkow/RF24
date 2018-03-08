@@ -16,7 +16,8 @@ void GPIO::open(int port, int DDR)
    if (DDR==0)
    {
       p->DIRCLR=pin;
-   } else if (DDR==1)
+   }
+   else if (DDR==1)
    {
       p->DIRSET = pin;
    }
@@ -41,7 +42,8 @@ void GPIO::write(int port,int value)
    if (value==0)
    {
       p->OUTCLR=pin;
-   } else if (value==1)
+   }
+   else if (value==1)
    {
       p->OUTSET = pin;
    }

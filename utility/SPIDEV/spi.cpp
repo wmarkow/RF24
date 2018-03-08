@@ -20,10 +20,12 @@
 
 #define RF24_SPIDEV_BITS 8
 
-SPI::SPI():fd(-1) {
+SPI::SPI():fd(-1)
+{
 }
 
-void SPI::begin(int busNo) {
+void SPI::begin(int busNo)
+{
 
    /* set spidev accordingly to busNo like:
     * busNo = 23 -> /dev/spidev2.3
@@ -151,7 +153,8 @@ void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
    }
 }
 
-SPI::~SPI() {
+SPI::~SPI()
+{
    if (!(this->fd < 0))
       close(this->fd);
 }

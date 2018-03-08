@@ -44,23 +44,29 @@ bool role_ping_out = 1, role_pong_back = 0, role = 0;
 uint8_t counter = 1;                                                          // A single byte to keep track of the data being sent back and forth
 uint32_t timer = 0;
 
-void intHandler() {
+void intHandler()
+{
 
    bool tx_ok,tx_fail,rx;
    radio.whatHappened(tx_ok,tx_fail,rx);
 
-   if(tx_fail) {
+   if(tx_fail)
+   {
       printf("Sending failed.\n\r");
    }
 
-   if(role == role_ping_out && tx_ok) {
-      if(!radio.available()) {
+   if(role == role_ping_out && tx_ok)
+   {
+      if(!radio.available())
+      {
          printf("Got blank response. round-trip delay: %u ms\n\r",millis()-timer);
       }
    }
 
-   if(role == role_ping_out ) {
-      while(radio.available() ) {
+   if(role == role_ping_out )
+   {
+      while(radio.available() )
+      {
          uint8_t gotByte;
          radio.read( &gotByte, 1 );
          printf("Got response %d, round-trip delay: %u ms\n\r",gotByte,millis()-timer);
@@ -68,12 +74,15 @@ void intHandler() {
       }
    }
 
-   if ( role == role_pong_back) {
-      if(tx_ok) {
+   if ( role == role_pong_back)
+   {
+      if(tx_ok)
+      {
          printf("Ack Payload Sent\n");
       }
       uint8_t pipeNo, gotByte;
-      if( radio.available(&pipeNo)) {
+      if( radio.available(&pipeNo))
+      {
          radio.read( &gotByte, 1 );
 
          gotByte += 1;
@@ -86,7 +95,8 @@ void intHandler() {
 }
 
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 
 
    cout << "RPi/RF24/examples/gettingstarted_call_response\n";
@@ -104,11 +114,15 @@ int main(int argc, char** argv) {
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit)\n>";
    getline(cin,input);
 
-   if(input.length() == 1) {
+   if(input.length() == 1)
+   {
       myChar = input[0];
-      if(myChar == '0') {
+      if(myChar == '0')
+      {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
-      } else {
+      }
+      else
+      {
          cout << "Role: Ping Out, starting transmission " << endl << endl;
          role = role_ping_out;
       }
@@ -116,10 +130,13 @@ int main(int argc, char** argv) {
    /***********************************/
    // This opens two pipes for these two nodes to communicate
    // back and forth.
-   if ( !radioNumber )    {
+   if ( !radioNumber )
+   {
       radio.openWritingPipe(addresses[0]);
       radio.openReadingPipe(1,addresses[1]);
-   } else {
+   }
+   else
+   {
       radio.openWritingPipe(addresses[1]);
       radio.openReadingPipe(1,addresses[0]);
    }
@@ -129,12 +146,14 @@ int main(int argc, char** argv) {
    attachInterrupt(interruptPin, INT_EDGE_FALLING, intHandler); //Attach interrupt to bcm pin 23
 
 // forever loop
-   while (1) {
+   while (1)
+   {
 
 
       /****************** Ping Out Role ***************************/
 
-      if (role == role_ping_out) {                              // Radio is in ping mode
+      if (role == role_ping_out)                                // Radio is in ping mode
+      {
 
          //uint8_t gotByte;                                      // Initialize a variable for the incoming response
 

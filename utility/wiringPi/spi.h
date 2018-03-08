@@ -19,7 +19,8 @@
 #include <inttypes.h>
 
 using namespace std;
-class SPI {
+class SPI
+{
 public:
    /**
    * SPI default constructor
