@@ -552,21 +552,51 @@ void RF24::printDetails(void)
    printf("Clock Speed\t = " );
    switch (spi_speed)
    {
-   case BCM2835_SPI_SPEED_64MHZ : printf("64 Mhz");	break ;
-   case BCM2835_SPI_SPEED_32MHZ : printf("32 Mhz");	break ;
-   case BCM2835_SPI_SPEED_16MHZ : printf("16 Mhz");	break ;
-   case BCM2835_SPI_SPEED_8MHZ  : printf("8 Mhz");	break ;
-   case BCM2835_SPI_SPEED_4MHZ  : printf("4 Mhz");	break ;
-   case BCM2835_SPI_SPEED_2MHZ  : printf("2 Mhz");	break ;
-   case BCM2835_SPI_SPEED_1MHZ  : printf("1 Mhz");	break ;
-   case BCM2835_SPI_SPEED_512KHZ: printf("512 KHz");	break ;
-   case BCM2835_SPI_SPEED_256KHZ: printf("256 KHz");	break ;
-   case BCM2835_SPI_SPEED_128KHZ: printf("128 KHz");	break ;
-   case BCM2835_SPI_SPEED_64KHZ : printf("64 KHz");	break ;
-   case BCM2835_SPI_SPEED_32KHZ : printf("32 KHz");	break ;
-   case BCM2835_SPI_SPEED_16KHZ : printf("16 KHz");	break ;
-   case BCM2835_SPI_SPEED_8KHZ  : printf("8 KHz");	break ;
-   default : printf("8 Mhz");	break ;
+   case BCM2835_SPI_SPEED_64MHZ :
+      printf("64 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_32MHZ :
+      printf("32 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_16MHZ :
+      printf("16 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_8MHZ  :
+      printf("8 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_4MHZ  :
+      printf("4 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_2MHZ  :
+      printf("2 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_1MHZ  :
+      printf("1 Mhz");
+      break ;
+   case BCM2835_SPI_SPEED_512KHZ:
+      printf("512 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_256KHZ:
+      printf("256 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_128KHZ:
+      printf("128 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_64KHZ :
+      printf("64 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_32KHZ :
+      printf("32 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_16KHZ :
+      printf("16 KHz");
+      break ;
+   case BCM2835_SPI_SPEED_8KHZ  :
+      printf("8 KHz");
+      break ;
+   default :
+      printf("8 Mhz");
+      break ;
    }
    printf("\n================ NRF Configuration ================\n");
 
@@ -611,12 +641,20 @@ bool RF24::begin(void)
 #ifdef RF24_RPi
    switch(csn_pin)      //Ensure valid hardware CS pin
    {
-   case 0: break;
-   case 1: break;
+   case 0:
+      break;
+   case 1:
+      break;
    // Allow BCM2835 enums for RPi
-   case 8: csn_pin = 0; break;
-   case 7: csn_pin = 1; break;
-   default: csn_pin = 0; break;
+   case 8:
+      csn_pin = 0;
+      break;
+   case 7:
+      csn_pin = 1;
+      break;
+   default:
+      csn_pin = 0;
+      break;
    }
 #endif
 
@@ -1079,7 +1117,9 @@ bool RF24::txStandBy(uint32_t timeout, bool startTx)
          ce(HIGH);
          if(millis() - start >= timeout)
          {
-            ce(LOW); flush_tx(); return 0;
+            ce(LOW);
+            flush_tx();
+            return 0;
          }
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
