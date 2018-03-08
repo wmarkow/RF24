@@ -3,7 +3,7 @@
 
 /*
  Copyright (C) 2011 James Coliz, Jr. <maniacbug@ymail.com>
- 
+
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  version 2 as published by the Free Software Foundation.
@@ -46,40 +46,40 @@ short values[num_channels];
 
 void setup(void)
 {
-  //
-  // Print preamble
-  //
-  
-  Serial.begin(115200);
-  printf_begin();
-  printf("\n\rRF24/examples/scanner/\n\r");
-  
-  //
-  // Setup and configure rf radio
-  //
-  
-  radio.begin();
-  radio.setAutoAck(false);
+   //
+   // Print preamble
+   //
 
-  // Get into standby mode
-  radio.startListening();
-  radio.stopListening();
+   Serial.begin(115200);
+   printf_begin();
+   printf("\n\rRF24/examples/scanner/\n\r");
 
-  // Print out header, high then low digit 
-  int i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",i>>4);
-    ++i;
-  }
-  printf("\n\r");
-  i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",i&0xf);
-    ++i;
-  }
-  printf("\n\r");
+   //
+   // Setup and configure rf radio
+   //
+
+   radio.begin();
+   radio.setAutoAck(false);
+
+   // Get into standby mode
+   radio.startListening();
+   radio.stopListening();
+
+   // Print out header, high then low digit
+   int i = 0;
+   while ( i < num_channels )
+   {
+      printf("%x",i>>4);
+      ++i;
+   }
+   printf("\n\r");
+   i = 0;
+   while ( i < num_channels )
+   {
+      printf("%x",i&0xf);
+      ++i;
+   }
+   printf("\n\r");
 }
 
 //
@@ -90,38 +90,38 @@ const short num_reps = 100;
 
 void loop(void)
 {
-  // Clear measurement values 
-  memset(values,0,num_channels);
+   // Clear measurement values
+   memset(values,0,num_channels);
 
-  // Scan all channels num_reps times
-  int rep_counter = num_reps;
-  while (rep_counter--)
-  {
-    int i = num_channels;
-    while (i--)
-    {
-      // Select this channel
-      radio.setChannel(i);
+   // Scan all channels num_reps times
+   int rep_counter = num_reps;
+   while (rep_counter--)
+   {
+      int i = num_channels;
+      while (i--)
+      {
+         // Select this channel
+         radio.setChannel(i);
 
-      // Listen for a little
-      radio.startListening();
-      delayMicroseconds(128);
-      radio.stopListening();
+         // Listen for a little
+         radio.startListening();
+         delayMicroseconds(128);
+         radio.stopListening();
 
-      // Did we get a carrier?
-      if ( radio.testCarrier() )
-	++values[i];
-    }
-  }
+         // Did we get a carrier?
+         if ( radio.testCarrier() )
+            ++values[i];
+      }
+   }
 
-  // Print out channel measurements, clamped to a single hex digit 
-  int i = 0;
-  while ( i < num_channels )
-  {
-    printf("%x",min(0xf,values[i]&0xf));
-    ++i;
-  }
-  printf("\n\r");
+   // Print out channel measurements, clamped to a single hex digit
+   int i = 0;
+   while ( i < num_channels )
+   {
+      printf("%x",min(0xf,values[i]&0xf));
+      ++i;
+   }
+   printf("\n\r");
 }
 
 

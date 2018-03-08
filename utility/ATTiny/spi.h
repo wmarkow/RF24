@@ -5,7 +5,7 @@
  * \cond HIDDEN_SYMBOLS
  * Class declaration for SPI helper files
  */
- 
+
 #include <stdio.h>
 #include <Arduino.h>
 #include <avr/pgmspace.h>
@@ -32,19 +32,19 @@
 
 class SPIClass {
 public:
-  static byte transfer(byte _data);
+   static byte transfer(byte _data);
 
-  // SPI Configuration methods
+   // SPI Configuration methods
 
-  inline static void attachInterrupt();
-  inline static void detachInterrupt(); // Default
+   inline static void attachInterrupt();
+   inline static void detachInterrupt(); // Default
 
-  static void begin(); // Default
-  static void end();
+   static void begin(); // Default
+   static void end();
 
-  static void setBitOrder(uint8_t);
-  static void setDataMode(uint8_t);
-  static void setClockDivider(uint8_t);
+   static void setBitOrder(uint8_t);
+   static void setDataMode(uint8_t);
+   static void setClockDivider(uint8_t);
 };
 extern SPIClass SPI;
 
