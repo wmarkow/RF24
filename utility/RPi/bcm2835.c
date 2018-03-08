@@ -656,16 +656,16 @@ void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len)
    bcm2835_peri_set_bits(paddr, BCM2835_SPI0_CS_TA, BCM2835_SPI0_CS_TA);
 
    /* Use the FIFO's to reduce the interbyte times */
-   while((TXCnt < len) || (RXCnt < len))
+   while ((TXCnt < len) || (RXCnt < len))
    {
       /* TX fifo not full, so add some more bytes */
-      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD)) && (TXCnt < len ))
+      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD)) && (TXCnt < len ))
       {
          bcm2835_peri_write_nb(fifo, tbuf[TXCnt]);
          TXCnt++;
       }
       /* Rx fifo not empty, so get the next received bytes */
-      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)) && ( RXCnt < len ))
+      while (((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)) && ( RXCnt < len ))
       {
          rbuf[RXCnt] = bcm2835_peri_read_nb(fifo);
          RXCnt++;
@@ -856,7 +856,7 @@ uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
    /* Set Data Length */
    bcm2835_peri_write(dlen, len);
    /* pre populate FIFO with max buffer */
-   while( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
+   while ( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
    {
       bcm2835_peri_write_nb(fifo, buf[i]);
       i++;
@@ -867,7 +867,7 @@ uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
    bcm2835_peri_write(control, BCM2835_BSC_C_I2CEN | BCM2835_BSC_C_ST);
 
    /* Transfer is over when BCM2835_BSC_S_DONE */
-   while(!(bcm2835_peri_read(status) & BCM2835_BSC_S_DONE ))
+   while (!(bcm2835_peri_read(status) & BCM2835_BSC_S_DONE ))
    {
       while ( remaining && (bcm2835_peri_read(status) & BCM2835_BSC_S_TXD ))
       {
@@ -1012,7 +1012,7 @@ uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len)
    while ( !( bcm2835_peri_read(status) & BCM2835_BSC_S_TA ) )
    {
       /* Linux may cause us to miss entire transfer stage */
-      if(bcm2835_peri_read(status) & BCM2835_BSC_S_DONE)
+      if (bcm2835_peri_read(status) & BCM2835_BSC_S_DONE)
          break;
    }
 
@@ -1102,7 +1102,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    bcm2835_peri_write(dlen, cmds_len);
 
    /* pre populate FIFO with max buffer */
-   while( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
+   while ( remaining && ( i < BCM2835_BSC_FIFO_SIZE ) )
    {
       bcm2835_peri_write_nb(fifo, cmds[i]);
       i++;
@@ -1116,7 +1116,7 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
    while ( !( bcm2835_peri_read(status) & BCM2835_BSC_S_TA ) )
    {
       /* Linux may cause us to miss entire transfer stage */
-      if(bcm2835_peri_read_nb(status) & BCM2835_BSC_S_DONE)
+      if (bcm2835_peri_read_nb(status) & BCM2835_BSC_S_DONE)
          break;
    }
 
@@ -1211,7 +1211,7 @@ void bcm2835_st_delay(uint64_t offset_micros, uint64_t micros)
 {
    uint64_t compare = offset_micros + micros;
 
-   while(bcm2835_st_read() < compare)
+   while (bcm2835_st_read() < compare)
       ;
 }
 

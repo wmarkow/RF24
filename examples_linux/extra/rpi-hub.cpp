@@ -89,7 +89,7 @@ int main(int argc, char** argv)
    printf("Output below : \n");
    delay(1);
 
-   while(1)
+   while (1)
    {
       char receivePayload[32];
       uint8_t pipe = 1;

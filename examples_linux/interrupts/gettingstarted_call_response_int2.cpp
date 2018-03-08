@@ -51,22 +51,22 @@ void intHandler()
    bool tx_ok, tx_fail, rx;
    radio.whatHappened(tx_ok, tx_fail, rx);
 
-   if(tx_fail)
+   if (tx_fail)
    {
       printf("Sending failed.\n\r");
    }
 
-   if(role == role_ping_out && tx_ok)
+   if (role == role_ping_out && tx_ok)
    {
-      if(!radio.available())
+      if (!radio.available())
       {
          printf("Got blank response. round-trip delay: %u ms\n\r", millis() - timer);
       }
    }
 
-   if(role == role_ping_out )
+   if (role == role_ping_out )
    {
-      while(radio.available() )
+      while (radio.available() )
       {
          uint8_t gotByte;
          radio.read( &gotByte, 1 );
@@ -78,12 +78,12 @@ void intHandler()
 
    if ( role == role_pong_back)
    {
-      if(tx_ok)
+      if (tx_ok)
       {
          printf("Ack Payload Sent\n");
       }
       uint8_t pipeNo, gotByte;
-      if( radio.available(&pipeNo))
+      if ( radio.available(&pipeNo))
       {
          radio.read( &gotByte, 1 );
 
@@ -116,10 +116,10 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit)\n>";
    getline(cin, input);
 
-   if(input.length() == 1)
+   if (input.length() == 1)
    {
       myChar = input[0];
-      if(myChar == '0')
+      if (myChar == '0')
       {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
       }

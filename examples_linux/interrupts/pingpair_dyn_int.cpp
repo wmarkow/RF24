@@ -106,10 +106,10 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit) \n>";
    getline(cin, input);
 
-   if(input.length() == 1)
+   if (input.length() == 1)
    {
       myChar = input[0];
-      if(myChar == '0')
+      if (myChar == '0')
       {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
       }

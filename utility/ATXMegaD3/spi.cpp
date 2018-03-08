@@ -31,7 +31,7 @@ uint8_t SPI::transfer(uint8_t tx_)
 {
    register8_t data;
    device->DATA = tx_;
-   while(!(device->STATUS & (1 << 7)));
+   while (!(device->STATUS & (1 << 7)));
    data = device->DATA;
    //PORTF.OUT = data;
    return data;
@@ -60,7 +60,7 @@ SPI::~SPI()
 
 }
 
-void operator delete(void * p) // or delete(void *, std::size_t)
+void operator delete (void * p) // or delete(void *, std::size_t)
 {
 
 }

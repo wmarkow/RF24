@@ -108,10 +108,10 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit) \n>";
    getline(cin, input);
 
-   if(input.length() == 1)
+   if (input.length() == 1)
    {
       myChar = input[0];
-      if(myChar == '0')
+      if (myChar == '0')
       {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
       }
@@ -202,7 +202,7 @@ int main(int argc, char** argv)
             unsigned long got_time;
 
             // Fetch the payload, and see if this was the last one.
-            while(radio.available())
+            while (radio.available())
             {
                radio.read( &got_time, sizeof(unsigned long) );
             }

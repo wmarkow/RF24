@@ -33,7 +33,7 @@ void GPIO::begin(uint8_t ce_pin, uint8_t cs_pin)
 }
 void GPIO::open(int port, int DDR)
 {
-   if(port == gpio_ce_pin)
+   if (port == gpio_ce_pin)
    {
       gpio_0 = new mraa::Gpio(port, 0);
       gpio_0->useMmap(true);
@@ -50,7 +50,7 @@ void GPIO::close(int port)
 {
    // Prophet: using same theme of working with port numbers as with GPIO::open,
    // checking for mraa::Gpio context existence to be sure, that GPIO::begin was called
-   if(port == gpio_ce_pin)
+   if (port == gpio_ce_pin)
    {
       if (gpio_0 != NULL)
       {
@@ -67,7 +67,7 @@ void GPIO::close(int port)
 
 int GPIO::read(int port)
 {
-   if(port == gpio_ce_pin)
+   if (port == gpio_ce_pin)
    {
       return gpio_0->read();
    }/*else
@@ -80,7 +80,7 @@ int GPIO::read(int port)
 void GPIO::write(int port, int value)
 {
 
-   if(port == gpio_ce_pin)
+   if (port == gpio_ce_pin)
    {
       gpio_0->write( value);
    }/*else

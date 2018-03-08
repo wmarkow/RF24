@@ -48,7 +48,7 @@ void RF24::csn(bool mode)
    _SPI.setClockDivider(SPI_CLOCK_DIV2);
 #endif
 #elif defined (RF24_RPi)
-   if(!mode)
+   if (!mode)
       _SPI.chipSelect(csn_pin);
 #endif
 
@@ -283,7 +283,7 @@ uint8_t RF24::read_payload(void* buf, uint8_t data_len)
    uint8_t status;
    uint8_t* current = reinterpret_cast<uint8_t*>(buf);
 
-   if(data_len > payload_size) data_len = payload_size;
+   if (data_len > payload_size) data_len = payload_size;
    uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
 
    //printf("[Reading %u bytes %u blanks]",data_len,blank_len);
@@ -299,7 +299,7 @@ uint8_t RF24::read_payload(void* buf, uint8_t data_len)
    size = data_len + blank_len + 1; // Add register value to transmit buffer
 
    *ptx++ =  R_RX_PAYLOAD;
-   while(--size)
+   while (--size)
       *ptx++ = RF24_NOP;
 
    size = data_len + blank_len + 1; // Size has been lost during while, re affect
@@ -428,7 +428,7 @@ void RF24::print_address_register(const char* name, uint8_t reg, uint8_t qty)
 
       printf_P(PSTR(" 0x"));
       uint8_t* bufptr = buffer + sizeof buffer;
-      while( --bufptr >= buffer )
+      while ( --bufptr >= buffer )
          printf_P(PSTR("%02x"), *bufptr);
    }
 
@@ -649,7 +649,7 @@ bool RF24::begin(void)
 #endif
 
 #ifdef RF24_RPi
-   switch(csn_pin)      //Ensure valid hardware CS pin
+   switch (csn_pin)     //Ensure valid hardware CS pin
    {
    case 0:
       break;
@@ -723,7 +723,7 @@ bool RF24::begin(void)
 
    // check for connected module and if this is a p nRF24l01 variant
    //
-   if( setDataRate( RF24_250KBPS ) )
+   if ( setDataRate( RF24_250KBPS ) )
    {
       p_variant = true ;
    }
@@ -774,7 +774,7 @@ bool RF24::begin(void)
 bool RF24::isChipConnected()
 {
    uint8_t setup = read_register(SETUP_AW);
-   if(setup >= 1 && setup <= 3)
+   if (setup >= 1 && setup <= 3)
    {
       return true;
    }
@@ -804,7 +804,7 @@ void RF24::startListening(void)
 
    // Flush buffers
    //flush_rx();
-   if(read_register(FEATURE) & _BV(EN_ACK_PAY))
+   if (read_register(FEATURE) & _BV(EN_ACK_PAY))
    {
       flush_tx();
    }
@@ -825,7 +825,7 @@ void RF24::stopListening(void)
 
    delayMicroseconds(txDelay);
 
-   if(read_register(FEATURE) & _BV(EN_ACK_PAY))
+   if (read_register(FEATURE) & _BV(EN_ACK_PAY))
    {
       delayMicroseconds(txDelay); //200
       flush_tx();
@@ -903,10 +903,10 @@ bool RF24::write( const void* buf, uint8_t len, const bool multicast )
    uint32_t timer = millis();
 #endif
 
-   while( ! ( get_status()  & ( _BV(TX_DS) | _BV(MAX_RT) )))
+   while ( ! ( get_status()  & ( _BV(TX_DS) | _BV(MAX_RT) )))
    {
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
-      if(millis() - timer > 95)
+      if (millis() - timer > 95)
       {
          errNotify();
 #if defined (FAILURE_HANDLING)
@@ -924,7 +924,7 @@ bool RF24::write( const void* buf, uint8_t len, const bool multicast )
                                    _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 
    //Max retries exceeded
-   if( status & _BV(MAX_RT))
+   if ( status & _BV(MAX_RT))
    {
       flush_tx(); //Only going to be 1 packet int the FIFO at a time using this method, so just flush
       return 0;
@@ -950,20 +950,20 @@ bool RF24::writeBlocking( const void* buf, uint8_t len, uint32_t timeout )
    uint32_t timer =
       millis();							  //Get the time that the payload transmission started
 
-   while( ( get_status()  & ( _BV(
-                                 TX_FULL) )))  		  //Blocking only if FIFO is full. This will loop and block until TX is successful or timeout
+   while ( ( get_status()  & ( _BV(
+                                  TX_FULL) )))  		  //Blocking only if FIFO is full. This will loop and block until TX is successful or timeout
    {
 
-      if( get_status() & _BV(MAX_RT))  					 //If MAX Retries have been reached
+      if ( get_status() & _BV(MAX_RT))  					 //If MAX Retries have been reached
       {
          reUseTX();										  //Set re-transmit and clear the MAX_RT interrupt flag
-         if(millis() - timer > timeout)
+         if (millis() - timer > timeout)
          {
             return 0;   //If this payload has exceeded the user-defined timeout, exit and return 0
          }
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
-      if(millis() - timer > (timeout + 95) )
+      if (millis() - timer > (timeout + 95) )
       {
          errNotify();
 #if defined (FAILURE_HANDLING)
@@ -1003,11 +1003,11 @@ bool RF24::writeFast( const void* buf, uint8_t len, const bool multicast )
    uint32_t timer = millis();
 #endif
 
-   while( ( get_status()  & ( _BV(
-                                 TX_FULL) )))  			  //Blocking only if FIFO is full. This will loop and block until TX is successful or fail
+   while ( ( get_status()  & ( _BV(
+                                  TX_FULL) )))  			  //Blocking only if FIFO is full. This will loop and block until TX is successful or fail
    {
 
-      if( get_status() & _BV(MAX_RT))
+      if ( get_status() & _BV(MAX_RT))
       {
          //reUseTX();										  //Set re-transmit
          write_register(NRF_STATUS, _BV(MAX_RT) );			 //Clear max retry flag
@@ -1015,7 +1015,7 @@ bool RF24::writeFast( const void* buf, uint8_t len, const bool multicast )
          //From the user perspective, if you get a 0, just keep trying to send the same payload
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
-      if(millis() - timer > 95 )
+      if (millis() - timer > 95 )
       {
          errNotify();
 #if defined (FAILURE_HANDLING)
@@ -1048,7 +1048,7 @@ void RF24::startFastWrite( const void* buf, uint8_t len, const bool multicast,
 
    //write_payload( buf,len);
    write_payload( buf, len, multicast ? W_TX_PAYLOAD_NO_ACK : W_TX_PAYLOAD ) ;
-   if(startTx)
+   if (startTx)
    {
       ce(HIGH);
    }
@@ -1089,9 +1089,9 @@ bool RF24::txStandBy()
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
    uint32_t timeout = millis();
 #endif
-   while( ! (read_register(FIFO_STATUS) & _BV(TX_EMPTY)) )
+   while ( ! (read_register(FIFO_STATUS) & _BV(TX_EMPTY)) )
    {
-      if( get_status() & _BV(MAX_RT))
+      if ( get_status() & _BV(MAX_RT))
       {
          write_register(NRF_STATUS, _BV(MAX_RT) );
          ce(LOW);
@@ -1099,7 +1099,7 @@ bool RF24::txStandBy()
          return 0;
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
-      if( millis() - timeout > 95)
+      if ( millis() - timeout > 95)
       {
          errNotify();
 #if defined (FAILURE_HANDLING)
@@ -1118,21 +1118,21 @@ bool RF24::txStandBy()
 bool RF24::txStandBy(uint32_t timeout, bool startTx)
 {
 
-   if(startTx)
+   if (startTx)
    {
       stopListening();
       ce(HIGH);
    }
    uint32_t start = millis();
 
-   while( ! (read_register(FIFO_STATUS) & _BV(TX_EMPTY)) )
+   while ( ! (read_register(FIFO_STATUS) & _BV(TX_EMPTY)) )
    {
-      if( get_status() & _BV(MAX_RT))
+      if ( get_status() & _BV(MAX_RT))
       {
          write_register(NRF_STATUS, _BV(MAX_RT) );
          ce(LOW);										  //Set re-transmit
          ce(HIGH);
-         if(millis() - start >= timeout)
+         if (millis() - start >= timeout)
          {
             ce(LOW);
             flush_tx();
@@ -1140,7 +1140,7 @@ bool RF24::txStandBy(uint32_t timeout, bool startTx)
          }
       }
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
-      if( millis() - start > (timeout + 95))
+      if ( millis() - start > (timeout + 95))
       {
          errNotify();
 #if defined (FAILURE_HANDLING)
@@ -1189,7 +1189,7 @@ uint8_t RF24::getDynamicPayloadSize(void)
    endTransaction();
 #endif
 
-   if(result > 32)
+   if (result > 32)
    {
       flush_rx();
       delay(2);
@@ -1330,7 +1330,7 @@ void RF24::openReadingPipe(uint8_t child, uint64_t address)
 void RF24::setAddressWidth(uint8_t a_width)
 {
 
-   if(a_width -= 2)
+   if (a_width -= 2)
    {
       write_register(SETUP_AW, a_width % 4);
       addr_width = (a_width % 4) + 2;
@@ -1536,7 +1536,7 @@ void RF24::setAutoAck( uint8_t pipe, bool enable )
    if ( pipe <= 6 )
    {
       uint8_t en_aa = read_register( EN_AA ) ;
-      if( enable )
+      if ( enable )
       {
          en_aa |= _BV(pipe) ;
       }
@@ -1569,7 +1569,7 @@ void RF24::setPALevel(uint8_t level)
 
    uint8_t setup = read_register(RF_SETUP) & 0xF8;
 
-   if(level > 3)    						// If invalid level, go to max PA
+   if (level > 3)    						// If invalid level, go to max PA
    {
       level = (RF24_PA_MAX << 1) + 1;		// +1 to support the SI24R1 chip extra bit
    }
@@ -1605,7 +1605,7 @@ bool RF24::setDataRate(rf24_datarate_e speed)
 #else //16Mhz Arduino
    txDelay = 85;
 #endif
-   if( speed == RF24_250KBPS )
+   if ( speed == RF24_250KBPS )
    {
       // Must set the RF_DR_LOW to 1; RF_DR_HIGH (used to be RF_DR) is already 0
       // Making it '10'.

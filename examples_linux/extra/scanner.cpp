@@ -100,14 +100,14 @@ int main(int argc, char** argv)
    printf("\n");
 
    // forever loop
-   while(1)
+   while (1)
    {
       // Clear measurement values
       memset(values, 0, sizeof(values));
 
       // Scan all channels num_reps times
       int rep_counter = num_reps;
-      while(rep_counter--)
+      while (rep_counter--)
       {
 
          int i = num_channels;

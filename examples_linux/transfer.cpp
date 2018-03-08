@@ -99,10 +99,10 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit)\n>";
    getline(cin, input);
 
-   if(input.length() == 1)
+   if (input.length() == 1)
    {
       myChar = input[0];
-      if(myChar == '0')
+      if (myChar == '0')
       {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
       }
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
    }
 
 
-   for(int i = 0; i < 32; i++)
+   for (int i = 0; i < 32; i++)
    {
       data[i] = rand() % 255;               			//Load the buffer with random data
    }
@@ -147,10 +147,10 @@ int main(int argc, char** argv)
          // unsigned long pauseTime = millis();		//Uncomment if autoAck == 1 ( NOACK )
          startTime = millis();
 
-         for(int i = 0; i < cycles; i++)          		//Loop through a number of cycles
+         for (int i = 0; i < cycles; i++)          		//Loop through a number of cycles
          {
             data[0] = i;                        //Change the first byte of the payload for identification
-            if(!radio.writeFast(&data, 32))     //Write to the FIFO buffers
+            if (!radio.writeFast(&data, 32))    //Write to the FIFO buffers
             {
                counter++;                      //Keep count of failed payloads
             }
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
          }
          stopTime = millis();
 
-         if(!radio.txStandBy())
+         if (!radio.txStandBy())
          {
             counter += 3;
          }
@@ -180,14 +180,14 @@ int main(int argc, char** argv)
       }
 
 
-      if(role == role_pong_back)
+      if (role == role_pong_back)
       {
-         while(radio.available())
+         while (radio.available())
          {
             radio.read(&data, 32);
             counter++;
          }
-         if(millis() - rxTimer > 1000)
+         if (millis() - rxTimer > 1000)
          {
             rxTimer = millis();
             printf("Rate: ");

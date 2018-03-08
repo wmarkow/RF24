@@ -99,10 +99,10 @@ int main(int argc, char** argv)
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit)\n>";
    getline(cin, input);
 
-   if(input.length() == 1)
+   if (input.length() == 1)
    {
       myChar = input[0];
-      if(myChar == '0')
+      if (myChar == '0')
       {
          cout << "Role: Pong Back, awaiting transmission " << endl << endl;
       }
@@ -150,13 +150,13 @@ int main(int argc, char** argv)
          if ( radio.write(&counter,
                           1) )                          // Send the counter variable to the other radio
          {
-            if(!radio.available())                              // If nothing in the buffer, we got an ack but it is blank
+            if (!radio.available())                             // If nothing in the buffer, we got an ack but it is blank
             {
                printf("Got blank response. round-trip delay: %lu ms\n\r", millis() - time);
             }
             else
             {
-               while(radio.available() )                       // If an ack with payload was received
+               while (radio.available() )                      // If an ack with payload was received
                {
                   radio.read( &gotByte,
                               1 );                  // Read it, and display the response time
@@ -181,7 +181,7 @@ int main(int argc, char** argv)
       {
          uint8_t pipeNo,
                  gotByte;           		        // Declare variables for the pipe and the byte received
-         if( radio.available(&pipeNo))                 	// Read all available payloads
+         if ( radio.available(&pipeNo))                 	// Read all available payloads
          {
             radio.read( &gotByte, 1 );
             // Since this is a call-response. Respond directly with an ack payload.
