@@ -54,7 +54,7 @@ public:
    * @param port
    * @param value
    */
-   static void write(int port,int value);
+   static void write(int port, int value);
 
    virtual ~GPIO();
 

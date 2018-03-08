@@ -31,7 +31,7 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins 8 & 9
 
-RF24 radio(8,9);
+RF24 radio(8, 9);
 
 //
 // Channel info
@@ -69,14 +69,14 @@ void setup(void)
    int i = 0;
    while ( i < num_channels )
    {
-      printf("%x",i>>4);
+      printf("%x", i >> 4);
       ++i;
    }
    printf("\n\r");
    i = 0;
    while ( i < num_channels )
    {
-      printf("%x",i&0xf);
+      printf("%x", i & 0xf);
       ++i;
    }
    printf("\n\r");
@@ -91,7 +91,7 @@ const short num_reps = 100;
 void loop(void)
 {
    // Clear measurement values
-   memset(values,0,num_channels);
+   memset(values, 0, num_channels);
 
    // Scan all channels num_reps times
    int rep_counter = num_reps;
@@ -118,7 +118,7 @@ void loop(void)
    int i = 0;
    while ( i < num_channels )
    {
-      printf("%x",min(0xf,values[i]&0xf));
+      printf("%x", min(0xf, values[i] & 0xf));
       ++i;
    }
    printf("\n\r");

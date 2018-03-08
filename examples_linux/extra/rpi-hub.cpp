@@ -62,7 +62,7 @@ int main(int argc, char** argv)
    radio.begin();
    radio.enableDynamicPayloads();
    radio.setAutoAck(1);
-   radio.setRetries(15,15);
+   radio.setRetries(15, 15);
    radio.setDataRate(RF24_1MBPS);
    radio.setPALevel(RF24_PA_MAX);
    radio.setChannel(76);
@@ -70,11 +70,11 @@ int main(int argc, char** argv)
 
    // Open 6 pipes for readings ( 5 plus pipe0, also can be used for reading )
    radio.openWritingPipe(pipes[0]);
-   radio.openReadingPipe(1,pipes[1]);
-   radio.openReadingPipe(2,pipes[2]);
-   radio.openReadingPipe(3,pipes[3]);
-   radio.openReadingPipe(4,pipes[4]);
-   radio.openReadingPipe(5,pipes[5]);
+   radio.openReadingPipe(1, pipes[1]);
+   radio.openReadingPipe(2, pipes[2]);
+   radio.openReadingPipe(3, pipes[3]);
+   radio.openReadingPipe(4, pipes[4]);
+   radio.openReadingPipe(5, pipes[5]);
 
    //
    // Start listening
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
          radio.read( receivePayload, len );
 
          // Display it on screen
-         printf("Recv: size=%i payload=%s pipe=%i",len,receivePayload,pipe);
+         printf("Recv: size=%i payload=%s pipe=%i", len, receivePayload, pipe);
 
          // Send back payload to sender
          radio.stopListening();
@@ -111,9 +111,9 @@ int main(int argc, char** argv)
          // if pipe is 7, do not send it back
          if ( pipe != 7 )
          {
-            radio.write(receivePayload,len);
-            receivePayload[len]=0;
-            printf("\t Send: size=%i payload=%s pipe:%i\n",len,receivePayload,pipe);
+            radio.write(receivePayload, len);
+            receivePayload[len] = 0;
+            printf("\t Send: size=%i payload=%s pipe:%i\n", len, receivePayload, pipe);
          }
          else
          {

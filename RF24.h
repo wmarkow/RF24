@@ -28,7 +28,7 @@
  *
  * For use with setPALevel()
  */
-typedef enum { RF24_PA_MIN = 0,RF24_PA_LOW, RF24_PA_HIGH, RF24_PA_MAX, RF24_PA_ERROR } rf24_pa_dbm_e
+typedef enum { RF24_PA_MIN = 0, RF24_PA_LOW, RF24_PA_HIGH, RF24_PA_MAX, RF24_PA_ERROR } rf24_pa_dbm_e
 ;
 
 /**
@@ -69,8 +69,8 @@ private:
    uint16_t csn_pin; /**< SPI Chip select */
    uint16_t spi_speed; /**< SPI Bus Speed */
 #if defined (RF24_LINUX) || defined (XMEGA_D3)
-   uint8_t spi_rxbuff[32+1] ; //SPI receive buffer (payload max 32 bytes)
-   uint8_t spi_txbuff[32+1]
+   uint8_t spi_rxbuff[32 + 1] ; //SPI receive buffer (payload max 32 bytes)
+   uint8_t spi_txbuff[32 + 1]
    ; //SPI transmit buffer (payload max 32 bytes + 1 byte for the command)
 #endif
    bool p_variant; /* False for RF24L01 and true for RF24L01P */
@@ -536,7 +536,7 @@ public:
     * @param[out] tx_fail The send failed, too many retries (MAX_RT)
     * @param[out] rx_ready There is a message waiting to be read (RX_DS)
     */
-   void whatHappened(bool& tx_ok,bool& tx_fail,bool& rx_ready);
+   void whatHappened(bool& tx_ok, bool& tx_fail, bool& rx_ready);
 
    /**
     * Non-blocking write to the open writing pipe used for buffered writes
@@ -925,7 +925,7 @@ public:
    * @param tx_fail  Mask transmit failure interrupts
    * @param rx_ready Mask payload received interrupts
    */
-   void maskIRQ(bool tx_ok,bool tx_fail,bool rx_ready);
+   void maskIRQ(bool tx_ok, bool tx_fail, bool rx_ready);
 
    /**
    *

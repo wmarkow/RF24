@@ -46,7 +46,7 @@ using namespace std;
 //RF24 radio(RPI_V2_GPIO_P1_15, RPI_V2_GPIO_P1_24, BCM2835_SPI_SPEED_8MHZ);
 
 // RPi generic:
-RF24 radio(22,0);
+RF24 radio(22, 0);
 
 /*** RPi Alternate ***/
 //Note: Specify SPI BUS 0 or 1 instead of CS pin number.
@@ -80,7 +80,7 @@ bool radioNumber = 1;
 /********************************/
 
 // Radio pipe addresses for the 2 nodes to communicate.
-const uint8_t pipes[][6] = {"1Node","2Node"};
+const uint8_t pipes[][6] = {"1Node", "2Node"};
 
 
 int main(int argc, char** argv)
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
    radio.begin();
 
    // optionally, increase the delay between retries & # of retries
-   radio.setRetries(15,15);
+   radio.setRetries(15, 15);
    // Dump the configuration of the rf unit for debugging
    radio.printDetails();
 
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
    string input = "";
    char myChar = {0};
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit) \n>";
-   getline(cin,input);
+   getline(cin, input);
 
    if(input.length() == 1)
    {
@@ -128,12 +128,12 @@ int main(int argc, char** argv)
    if ( !radioNumber )
    {
       radio.openWritingPipe(pipes[0]);
-      radio.openReadingPipe(1,pipes[1]);
+      radio.openReadingPipe(1, pipes[1]);
    }
    else
    {
       radio.openWritingPipe(pipes[1]);
-      radio.openReadingPipe(1,pipes[0]);
+      radio.openReadingPipe(1, pipes[0]);
    }
 
    radio.startListening();
@@ -182,7 +182,8 @@ int main(int argc, char** argv)
             radio.read( &got_time, sizeof(unsigned long) );
 
             // Spew it
-            printf("Got response %lu, round-trip delay: %lu\n",got_time,millis()-got_time);
+            printf("Got response %lu, round-trip delay: %lu\n", got_time,
+                   millis() - got_time);
          }
          sleep(1);
       }
@@ -213,7 +214,7 @@ int main(int argc, char** argv)
             radio.startListening();
 
             // Spew it
-            printf("Got payload(%d) %lu...\n",sizeof(unsigned long), got_time);
+            printf("Got payload(%d) %lu...\n", sizeof(unsigned long), got_time);
 
             delay(925); //Delay after payload responded to, minimize RPi CPU time
 

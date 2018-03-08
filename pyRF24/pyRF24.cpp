@@ -41,10 +41,10 @@ int get_bytes_or_bytearray_ln(bp::object buf)
 
 bp::object read_wrap(RF24& ref, int maxlen)
 {
-   char *buf = new char[maxlen+1];
+   char *buf = new char[maxlen + 1];
    ref.read(buf, maxlen);
    bp::object py_ba(bp::handle<>(PyByteArray_FromStringAndSize(buf,
-                                 maxlen<ref.getPayloadSize()?maxlen:ref.getPayloadSize())));
+                                 maxlen < ref.getPayloadSize() ? maxlen : ref.getPayloadSize())));
    delete[] buf;
    return py_ba;
 }
@@ -341,7 +341,7 @@ BOOST_PYTHON_MODULE(RF24)
    .def("stopListening", &RF24::stopListening)
    .def("testCarrier", &RF24::testCarrier)
    .def("testRPD", &RF24::testRPD)
-   .def("txStandBy", (bool ( ::RF24::* )( ::uint32_t,bool))(&RF24::txStandBy),
+   .def("txStandBy", (bool ( ::RF24::* )( ::uint32_t, bool))(&RF24::txStandBy),
         txStandBy_wrap1( bp::args("timeout", "startTx") ) )
    .def("whatHappened", &whatHappened_wrap)
    .def("write", &write_wrap1, ( bp::arg("buf") ) )

@@ -46,7 +46,7 @@ int serial_putc( char c, FILE * )
 void printf_begin(void)
 {
    //JESUS - For reddirect stdout to /dev/ttyGS0 (Serial Monitor port)
-   stdout = freopen("/dev/ttyGS0","w",stdout);
+   stdout = freopen("/dev/ttyGS0", "w", stdout);
    delay(500);
    printf("redirecting to Serial...");
 

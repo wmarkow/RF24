@@ -45,7 +45,7 @@ extern "C" int _write (int file, char * ptr, int len)
    if ( (file != 1) && (file != 2) )
       return 0;
    else
-      SerialUSB.write(ptr,len);
+      SerialUSB.write(ptr, len);
    return len;
 }
 

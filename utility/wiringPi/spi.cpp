@@ -22,7 +22,7 @@
 #define RF24_SPI_SPEED		8 * 1000000 // 8Mhz
 #define RF24_SPI_CHANNEL	0
 
-SPI::SPI():fd(-1)
+SPI::SPI(): fd(-1)
 {
    printf("wiringPi RF24 DRIVER\n");
 }

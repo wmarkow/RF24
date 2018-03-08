@@ -24,7 +24,7 @@ class SPISettings
 public:
    SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode)
    {
-      init(clock,bitOrder,dataMode);
+      init(clock, bitOrder, dataMode);
    }
    SPISettings()
    {

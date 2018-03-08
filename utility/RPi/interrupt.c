@@ -153,7 +153,7 @@ int attachInterrupt (int pin, int mode, void (*function)(void))
 
    if (sysFds [bcmGpioPin] == -1)
    {
-      sprintf (fName, "/sys/class/gpio/gpio%d/value",bcmGpioPin);
+      sprintf (fName, "/sys/class/gpio/gpio%d/value", bcmGpioPin);
       if ((sysFds [bcmGpioPin] = open (fName, O_RDWR)) < 0)
          return printf ("wiringPiISR: unable to open %s: %s\n", fName,
                         strerror (errno)) ;

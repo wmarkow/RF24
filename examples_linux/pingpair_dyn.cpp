@@ -86,7 +86,7 @@ int main(int argc, char** argv)
    // Setup and configure rf radio
    radio.begin();
    radio.enableDynamicPayloads();
-   radio.setRetries(5,15);
+   radio.setRetries(5, 15);
    radio.printDetails();
 
 
@@ -96,7 +96,7 @@ int main(int argc, char** argv)
    string input = "";
    char myChar = {0};
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit) \n>";
-   getline(cin,input);
+   getline(cin, input);
 
    if(input.length() == 1)
    {
@@ -116,12 +116,12 @@ int main(int argc, char** argv)
    if ( role == role_ping_out )
    {
       radio.openWritingPipe(pipes[0]);
-      radio.openReadingPipe(1,pipes[1]);
+      radio.openReadingPipe(1, pipes[1]);
    }
    else
    {
       radio.openWritingPipe(pipes[1]);
-      radio.openReadingPipe(1,pipes[0]);
+      radio.openReadingPipe(1, pipes[0]);
       radio.startListening();
    }
 
@@ -139,7 +139,7 @@ int main(int argc, char** argv)
          radio.stopListening();
 
          // Take the time, and send it.  This will block until complete
-         printf("Now sending length %i...",next_payload_size);
+         printf("Now sending length %i...", next_payload_size);
          radio.write( send_payload, next_payload_size );
 
          // Now, continue listening
@@ -167,7 +167,7 @@ int main(int argc, char** argv)
             receive_payload[len] = 0;
 
             // Spew it
-            printf("Got response size=%i value=%s\n\r",len,receive_payload);
+            printf("Got response size=%i value=%s\n\r", len, receive_payload);
          }
 
          // Update size for next time.
@@ -201,7 +201,7 @@ int main(int argc, char** argv)
                receive_payload[len] = 0;
 
                // Spew it
-               printf("Got payload size=%i value=%s\n\r",len,receive_payload);
+               printf("Got payload size=%i value=%s\n\r", len, receive_payload);
             }
 
             // First, stop listening so we can talk

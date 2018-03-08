@@ -216,7 +216,7 @@ void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value,
 void bcm2835_gpio_fsel(uint8_t pin, uint8_t mode)
 {
    /* Function selects are 10 pins per 32 bit word, 3 bits per pin */
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFSEL0/4 + (pin/10);
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFSEL0 / 4 + (pin / 10);
    uint8_t   shift = (pin % 10) * 3;
    uint32_t  mask = BCM2835_GPIO_FSEL_MASK << shift;
    uint32_t  value = mode << shift;
@@ -226,7 +226,7 @@ void bcm2835_gpio_fsel(uint8_t pin, uint8_t mode)
 /* Set output pin */
 void bcm2835_gpio_set(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPSET0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPSET0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    bcm2835_peri_write(paddr, 1 << shift);
 }
@@ -234,7 +234,7 @@ void bcm2835_gpio_set(uint8_t pin)
 /* Clear output pin */
 void bcm2835_gpio_clr(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPCLR0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPCLR0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    bcm2835_peri_write(paddr, 1 << shift);
 }
@@ -242,21 +242,21 @@ void bcm2835_gpio_clr(uint8_t pin)
 /* Set all output pins in the mask */
 void bcm2835_gpio_set_multi(uint32_t mask)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPSET0/4;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPSET0 / 4;
    bcm2835_peri_write(paddr, mask);
 }
 
 /* Clear all output pins in the mask */
 void bcm2835_gpio_clr_multi(uint32_t mask)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPCLR0/4;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPCLR0 / 4;
    bcm2835_peri_write(paddr, mask);
 }
 
 /* Read input pin */
 uint8_t bcm2835_gpio_lev(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEV0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEV0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = bcm2835_peri_read(paddr);
    return (value & (1 << shift)) ? HIGH : LOW;
@@ -267,7 +267,7 @@ uint8_t bcm2835_gpio_lev(uint8_t pin)
 */
 uint8_t bcm2835_gpio_eds(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = bcm2835_peri_read(paddr);
    return (value & (1 << shift)) ? HIGH : LOW;
@@ -275,7 +275,7 @@ uint8_t bcm2835_gpio_eds(uint8_t pin)
 
 uint32_t bcm2835_gpio_eds_multi(uint32_t mask)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0/4;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0 / 4;
    uint32_t value = bcm2835_peri_read(paddr);
    return (value & mask);
 }
@@ -283,7 +283,7 @@ uint32_t bcm2835_gpio_eds_multi(uint32_t mask)
 /* Write a 1 to clear the bit in EDS */
 void bcm2835_gpio_set_eds(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_write(paddr, value);
@@ -291,21 +291,21 @@ void bcm2835_gpio_set_eds(uint8_t pin)
 
 void bcm2835_gpio_set_eds_multi(uint32_t mask)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0/4;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPEDS0 / 4;
    bcm2835_peri_write(paddr, mask);
 }
 
 /* Rising edge detect enable */
 void bcm2835_gpio_ren(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPREN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPREN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_ren(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPREN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPREN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -314,14 +314,14 @@ void bcm2835_gpio_clr_ren(uint8_t pin)
 /* Falling edge detect enable */
 void bcm2835_gpio_fen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_fen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPFEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -330,14 +330,14 @@ void bcm2835_gpio_clr_fen(uint8_t pin)
 /* High detect enable */
 void bcm2835_gpio_hen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPHEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPHEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_hen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPHEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPHEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -346,14 +346,14 @@ void bcm2835_gpio_clr_hen(uint8_t pin)
 /* Low detect enable */
 void bcm2835_gpio_len(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_len(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPLEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -362,14 +362,14 @@ void bcm2835_gpio_clr_len(uint8_t pin)
 /* Async rising edge detect enable */
 void bcm2835_gpio_aren(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAREN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAREN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_aren(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAREN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAREN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -378,14 +378,14 @@ void bcm2835_gpio_clr_aren(uint8_t pin)
 /* Async falling edge detect enable */
 void bcm2835_gpio_afen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAFEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAFEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, value, value);
 }
 void bcm2835_gpio_clr_afen(uint8_t pin)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAFEN0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPAFEN0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    uint32_t value = 1 << shift;
    bcm2835_peri_set_bits(paddr, 0, value);
@@ -394,7 +394,7 @@ void bcm2835_gpio_clr_afen(uint8_t pin)
 /* Set pullup/down */
 void bcm2835_gpio_pud(uint8_t pud)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPPUD/4;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPPUD / 4;
    bcm2835_peri_write(paddr, pud);
 }
 
@@ -403,7 +403,7 @@ void bcm2835_gpio_pud(uint8_t pud)
 */
 void bcm2835_gpio_pudclk(uint8_t pin, uint8_t on)
 {
-   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPPUDCLK0/4 + pin/32;
+   volatile uint32_t* paddr = bcm2835_gpio + BCM2835_GPPUDCLK0 / 4 + pin / 32;
    uint8_t shift = pin % 32;
    bcm2835_peri_write(paddr, (on ? 1 : 0) << shift);
 }
@@ -414,7 +414,7 @@ uint32_t bcm2835_gpio_pad(uint8_t group)
    if (bcm2835_pads == MAP_FAILED)
       return 0;
 
-   volatile uint32_t* paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27/4 + group;
+   volatile uint32_t* paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27 / 4 + group;
    return bcm2835_peri_read(paddr);
 }
 
@@ -427,7 +427,7 @@ void bcm2835_gpio_set_pad(uint8_t group, uint32_t control)
    if (bcm2835_pads == MAP_FAILED)
       return;
 
-   volatile uint32_t* paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27/4 + group;
+   volatile uint32_t* paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27 / 4 + group;
    bcm2835_peri_write(paddr, control | BCM2835_PAD_PASSWRD);
 }
 
@@ -556,7 +556,7 @@ int bcm2835_spi_begin(void)
    bcm2835_gpio_fsel(RPI_GPIO_P1_23, BCM2835_GPIO_FSEL_ALT0); /* CLK */
 
    /* Set the SPI CS register to the some sensible defaults */
-   paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
+   paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
    bcm2835_peri_write(paddr, 0); /* All 0s */
 
    /* Clear TX and RX fifos */
@@ -587,13 +587,13 @@ void bcm2835_spi_setBitOrder(uint8_t __attribute__((unused)) order)
 */
 void bcm2835_spi_setClockDivider(uint16_t divider)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CLK/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CLK / 4;
    bcm2835_peri_write(paddr, divider);
 }
 
 void bcm2835_spi_setDataMode(uint8_t mode)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
    /* Mask in the CPO and CPHA bits of CS */
    bcm2835_peri_set_bits(paddr, mode << 2,
                          BCM2835_SPI0_CS_CPOL | BCM2835_SPI0_CS_CPHA);
@@ -602,8 +602,8 @@ void bcm2835_spi_setDataMode(uint8_t mode)
 /* Writes (and reads) a single byte to SPI */
 uint8_t bcm2835_spi_transfer(uint8_t value)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
-   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
+   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO / 4;
    uint32_t ret;
 
    /* This is Polled transfer as per section 10.6.1
@@ -639,10 +639,10 @@ uint8_t bcm2835_spi_transfer(uint8_t value)
 /* Writes (and reads) an number of bytes to SPI */
 void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
-   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO/4;
-   uint32_t TXCnt=0;
-   uint32_t RXCnt=0;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
+   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO / 4;
+   uint32_t TXCnt = 0;
+   uint32_t RXCnt = 0;
 
    /* This is Polled transfer as per section 10.6.1
    // BUG ALERT: what happens if we get interupted in this section, and someone else
@@ -656,16 +656,16 @@ void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len)
    bcm2835_peri_set_bits(paddr, BCM2835_SPI0_CS_TA, BCM2835_SPI0_CS_TA);
 
    /* Use the FIFO's to reduce the interbyte times */
-   while((TXCnt < len)||(RXCnt < len))
+   while((TXCnt < len) || (RXCnt < len))
    {
       /* TX fifo not full, so add some more bytes */
-      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD))&&(TXCnt < len ))
+      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_TXD)) && (TXCnt < len ))
       {
          bcm2835_peri_write_nb(fifo, tbuf[TXCnt]);
          TXCnt++;
       }
       /* Rx fifo not empty, so get the next received bytes */
-      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD))&&( RXCnt < len ))
+      while(((bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)) && ( RXCnt < len ))
       {
          rbuf[RXCnt] = bcm2835_peri_read_nb(fifo);
          RXCnt++;
@@ -682,8 +682,8 @@ void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len)
 /* Writes an number of bytes to SPI */
 void bcm2835_spi_writenb(char* tbuf, uint32_t len)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
-   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
+   volatile uint32_t* fifo = bcm2835_spi0 + BCM2835_SPI0_FIFO / 4;
    uint32_t i;
 
    /* This is Polled transfer as per section 10.6.1
@@ -733,14 +733,14 @@ void bcm2835_spi_transfern(char* buf, uint32_t len)
 
 void bcm2835_spi_chipSelect(uint8_t cs)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
    /* Mask in the CS bits of CS */
    bcm2835_peri_set_bits(paddr, cs, BCM2835_SPI0_CS_CS);
 }
 
 void bcm2835_spi_setChipSelectPolarity(uint8_t cs, uint8_t active)
 {
-   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS/4;
+   volatile uint32_t* paddr = bcm2835_spi0 + BCM2835_SPI0_CS / 4;
    uint8_t shift = 21 + cs;
    /* Mask in the appropriate CSPOLn bit */
    bcm2835_peri_set_bits(paddr, active << shift, 1 << shift);
@@ -755,12 +755,12 @@ int bcm2835_i2c_begin(void)
       return 0; /* bcm2835_init() failed, or not root */
 
 #ifdef I2C_V1
-   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_DIV/4;
+   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_DIV / 4;
    /* Set the I2C/BSC0 pins to the Alt 0 function to enable I2C access on them */
    bcm2835_gpio_fsel(RPI_GPIO_P1_03, BCM2835_GPIO_FSEL_ALT0); /* SDA */
    bcm2835_gpio_fsel(RPI_GPIO_P1_05, BCM2835_GPIO_FSEL_ALT0); /* SCL */
 #else
-   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_DIV/4;
+   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_DIV / 4;
    /* Set the I2C/BSC1 pins to the Alt 0 function to enable I2C access on them */
    bcm2835_gpio_fsel(RPI_V2_GPIO_P1_03, BCM2835_GPIO_FSEL_ALT0); /* SDA */
    bcm2835_gpio_fsel(RPI_V2_GPIO_P1_05, BCM2835_GPIO_FSEL_ALT0); /* SCL */
@@ -794,9 +794,9 @@ void bcm2835_i2c_setSlaveAddress(uint8_t addr)
 {
    /* Set I2C Device Address */
 #ifdef I2C_V1
-   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_A/4;
+   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_A / 4;
 #else
-   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_A/4;
+   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_A / 4;
 #endif
    bcm2835_peri_write(paddr, addr);
 }
@@ -808,9 +808,9 @@ void bcm2835_i2c_setSlaveAddress(uint8_t addr)
 void bcm2835_i2c_setClockDivider(uint16_t divider)
 {
 #ifdef I2C_V1
-   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_DIV/4;
+   volatile uint32_t* paddr = bcm2835_bsc0 + BCM2835_BSC_DIV / 4;
 #else
-   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_DIV/4;
+   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_DIV / 4;
 #endif
    bcm2835_peri_write(paddr, divider);
    /* Calculate time for transmitting one byte
@@ -833,15 +833,15 @@ void bcm2835_i2c_set_baudrate(uint32_t baudrate)
 uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
 {
 #ifdef I2C_V1
-   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C / 4;
 #else
-   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C / 4;
 #endif
 
    uint32_t remaining = len;
@@ -905,15 +905,15 @@ uint8_t bcm2835_i2c_write(const char * buf, uint32_t len)
 uint8_t bcm2835_i2c_read(char* buf, uint32_t len)
 {
 #ifdef I2C_V1
-   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C / 4;
 #else
-   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C / 4;
 #endif
 
    uint32_t remaining = len;
@@ -982,15 +982,15 @@ uint8_t bcm2835_i2c_read(char* buf, uint32_t len)
 uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf, uint32_t len)
 {
 #ifdef I2C_V1
-   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C / 4;
 #else
-   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C / 4;
 #endif
    uint32_t remaining = len;
    uint32_t i = 0;
@@ -1076,15 +1076,15 @@ uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len, char* buf,
                                   uint32_t buf_len)
 {
 #ifdef I2C_V1
-   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc0 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc0 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc0 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc0 + BCM2835_BSC_C / 4;
 #else
-   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN/4;
-   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO/4;
-   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S/4;
-   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C/4;
+   volatile uint32_t* dlen    = bcm2835_bsc1 + BCM2835_BSC_DLEN / 4;
+   volatile uint32_t* fifo    = bcm2835_bsc1 + BCM2835_BSC_FIFO / 4;
+   volatile uint32_t* status  = bcm2835_bsc1 + BCM2835_BSC_S / 4;
+   volatile uint32_t* control = bcm2835_bsc1 + BCM2835_BSC_C / 4;
 #endif
 
    uint32_t remaining = cmds_len;
@@ -1182,13 +1182,13 @@ uint64_t bcm2835_st_read(void)
    volatile uint32_t* paddr;
    uint32_t hi, lo;
    uint64_t st;
-   paddr = bcm2835_st + BCM2835_ST_CHI/4;
+   paddr = bcm2835_st + BCM2835_ST_CHI / 4;
    hi = bcm2835_peri_read(paddr);
 
-   paddr = bcm2835_st + BCM2835_ST_CLO/4;
+   paddr = bcm2835_st + BCM2835_ST_CLO / 4;
    lo = bcm2835_peri_read(paddr);
 
-   paddr = bcm2835_st + BCM2835_ST_CHI/4;
+   paddr = bcm2835_st + BCM2835_ST_CHI / 4;
    st = bcm2835_peri_read(paddr);
 
    /* Test for overflow */
@@ -1200,7 +1200,7 @@ uint64_t bcm2835_st_read(void)
    else
    {
       st <<= 32;
-      paddr = bcm2835_st + BCM2835_ST_CLO/4;
+      paddr = bcm2835_st + BCM2835_ST_CLO / 4;
       st += bcm2835_peri_read(paddr);
    }
    return st;
@@ -1338,14 +1338,14 @@ int bcm2835_init(void)
    {
       bcm2835_peripherals = (uint32_t*)BCM2835_PERI_BASE;
 
-      bcm2835_pads = bcm2835_peripherals + BCM2835_GPIO_PADS/4;
-      bcm2835_clk  = bcm2835_peripherals + BCM2835_CLOCK_BASE/4;
-      bcm2835_gpio = bcm2835_peripherals + BCM2835_GPIO_BASE/4;
-      bcm2835_pwm  = bcm2835_peripherals + BCM2835_GPIO_PWM/4;
-      bcm2835_spi0 = bcm2835_peripherals + BCM2835_SPI0_BASE/4;
-      bcm2835_bsc0 = bcm2835_peripherals + BCM2835_BSC0_BASE/4;
-      bcm2835_bsc1 = bcm2835_peripherals + BCM2835_BSC1_BASE/4;
-      bcm2835_st   = bcm2835_peripherals + BCM2835_ST_BASE/4;
+      bcm2835_pads = bcm2835_peripherals + BCM2835_GPIO_PADS / 4;
+      bcm2835_clk  = bcm2835_peripherals + BCM2835_CLOCK_BASE / 4;
+      bcm2835_gpio = bcm2835_peripherals + BCM2835_GPIO_BASE / 4;
+      bcm2835_pwm  = bcm2835_peripherals + BCM2835_GPIO_PWM / 4;
+      bcm2835_spi0 = bcm2835_peripherals + BCM2835_SPI0_BASE / 4;
+      bcm2835_bsc0 = bcm2835_peripherals + BCM2835_BSC0_BASE / 4;
+      bcm2835_bsc1 = bcm2835_peripherals + BCM2835_BSC1_BASE / 4;
+      bcm2835_st   = bcm2835_peripherals + BCM2835_ST_BASE / 4;
       return 1; /* Success */
    }
 
@@ -1393,14 +1393,14 @@ int bcm2835_init(void)
       // which are at fixed offsets within the mapped peripherals block
       // Caution: bcm2835_peripherals is uint32_t*, so divide offsets by 4
       */
-      bcm2835_gpio = bcm2835_peripherals + BCM2835_GPIO_BASE/4;
-      bcm2835_pwm  = bcm2835_peripherals + BCM2835_GPIO_PWM/4;
-      bcm2835_clk  = bcm2835_peripherals + BCM2835_CLOCK_BASE/4;
-      bcm2835_pads = bcm2835_peripherals + BCM2835_GPIO_PADS/4;
-      bcm2835_spi0 = bcm2835_peripherals + BCM2835_SPI0_BASE/4;
-      bcm2835_bsc0 = bcm2835_peripherals + BCM2835_BSC0_BASE/4; /* I2C */
-      bcm2835_bsc1 = bcm2835_peripherals + BCM2835_BSC1_BASE/4; /* I2C */
-      bcm2835_st   = bcm2835_peripherals + BCM2835_ST_BASE/4;
+      bcm2835_gpio = bcm2835_peripherals + BCM2835_GPIO_BASE / 4;
+      bcm2835_pwm  = bcm2835_peripherals + BCM2835_GPIO_PWM / 4;
+      bcm2835_clk  = bcm2835_peripherals + BCM2835_CLOCK_BASE / 4;
+      bcm2835_pads = bcm2835_peripherals + BCM2835_GPIO_PADS / 4;
+      bcm2835_spi0 = bcm2835_peripherals + BCM2835_SPI0_BASE / 4;
+      bcm2835_bsc0 = bcm2835_peripherals + BCM2835_BSC0_BASE / 4; /* I2C */
+      bcm2835_bsc1 = bcm2835_peripherals + BCM2835_BSC1_BASE / 4; /* I2C */
+      bcm2835_st   = bcm2835_peripherals + BCM2835_ST_BASE / 4;
 
       ok = 1;
    }
@@ -1476,7 +1476,7 @@ int main(int argc, char **argv)
    bcm2835_gpio_len(RPI_GPIO_P1_15);
    /* and input hysteresis disabled on GPIOs 0 to 27 */
    bcm2835_gpio_set_pad(BCM2835_PAD_GROUP_GPIO_0_27,
-                        BCM2835_PAD_SLEW_RATE_UNLIMITED|BCM2835_PAD_DRIVE_8mA);
+                        BCM2835_PAD_SLEW_RATE_UNLIMITED | BCM2835_PAD_DRIVE_8mA);
 
 #if 1
    /* Blink */

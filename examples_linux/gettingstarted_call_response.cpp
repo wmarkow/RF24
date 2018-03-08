@@ -73,7 +73,7 @@ bool radioNumber = 1;
 
 
 // Radio pipe addresses for the 2 nodes to communicate.
-const uint8_t addresses[][6] = {"1Node","2Node"};
+const uint8_t addresses[][6] = {"1Node", "2Node"};
 
 bool role_ping_out = 1, role_pong_back = 0, role = 0;
 uint8_t counter =
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
    string input = "";
    char myChar = {0};
    cout << "Choose a role: Enter 0 for pong_back, 1 for ping_out (CTRL+C to exit)\n>";
-   getline(cin,input);
+   getline(cin, input);
 
    if(input.length() == 1)
    {
@@ -118,15 +118,15 @@ int main(int argc, char** argv)
    if ( !radioNumber )
    {
       radio.openWritingPipe(addresses[0]);
-      radio.openReadingPipe(1,addresses[1]);
+      radio.openReadingPipe(1, addresses[1]);
    }
    else
    {
       radio.openWritingPipe(addresses[1]);
-      radio.openReadingPipe(1,addresses[0]);
+      radio.openReadingPipe(1, addresses[0]);
    }
    radio.startListening();
-   radio.writeAckPayload(1,&counter,1);
+   radio.writeAckPayload(1, &counter, 1);
 
 // forever loop
    while (1)
@@ -152,7 +152,7 @@ int main(int argc, char** argv)
          {
             if(!radio.available())                              // If nothing in the buffer, we got an ack but it is blank
             {
-               printf("Got blank response. round-trip delay: %lu ms\n\r",millis()-time);
+               printf("Got blank response. round-trip delay: %lu ms\n\r", millis() - time);
             }
             else
             {
@@ -160,7 +160,8 @@ int main(int argc, char** argv)
                {
                   radio.read( &gotByte,
                               1 );                  // Read it, and display the response time
-                  printf("Got response %d, round-trip delay: %lu ms\n\r",gotByte,millis()-time);
+                  printf("Got response %d, round-trip delay: %lu ms\n\r", gotByte,
+                         millis() - time);
                   counter++;                                  // Increment the counter variable
                }
             }
@@ -186,7 +187,7 @@ int main(int argc, char** argv)
             // Since this is a call-response. Respond directly with an ack payload.
             gotByte +=
                1;  								// Ack payloads are much more efficient than switching to transmit mode to respond to a call
-            radio.writeAckPayload(pipeNo,&gotByte,
+            radio.writeAckPayload(pipeNo, &gotByte,
                                   1 );   // This can be commented out to send empty payloads.
             printf("Loaded next response %d \n\r", gotByte);
             delay(900); //Delay after a response to minimize CPU usage on RPi

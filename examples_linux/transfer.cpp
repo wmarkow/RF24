@@ -70,7 +70,7 @@ const uint64_t addresses[2] = { 0xABCDABCD71LL, 0x544d52687CLL };
 
 
 uint8_t data[32];
-unsigned long startTime, stopTime, counter, rxTimer=0;
+unsigned long startTime, stopTime, counter, rxTimer = 0;
 
 int main(int argc, char** argv)
 {
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
    string input = "";
    char myChar = {0};
    cout << "Choose a role: Enter 0 for receiver, 1 for transmitter (CTRL+C to exit)\n>";
-   getline(cin,input);
+   getline(cin, input);
 
    if(input.length() == 1)
    {
@@ -117,18 +117,18 @@ int main(int argc, char** argv)
    if ( role == role_ping_out )
    {
       radio.openWritingPipe(addresses[1]);
-      radio.openReadingPipe(1,addresses[0]);
+      radio.openReadingPipe(1, addresses[0]);
       radio.stopListening();
    }
    else
    {
       radio.openWritingPipe(addresses[0]);
-      radio.openReadingPipe(1,addresses[1]);
+      radio.openReadingPipe(1, addresses[1]);
       radio.startListening();
    }
 
 
-   for(int i=0; i<32; i++)
+   for(int i = 0; i < 32; i++)
    {
       data[i] = rand() % 255;               			//Load the buffer with random data
    }
@@ -147,10 +147,10 @@ int main(int argc, char** argv)
          // unsigned long pauseTime = millis();		//Uncomment if autoAck == 1 ( NOACK )
          startTime = millis();
 
-         for(int i=0; i<cycles; i++)          		//Loop through a number of cycles
+         for(int i = 0; i < cycles; i++)          		//Loop through a number of cycles
          {
             data[0] = i;                        //Change the first byte of the payload for identification
-            if(!radio.writeFast(&data,32))      //Write to the FIFO buffers
+            if(!radio.writeFast(&data, 32))     //Write to the FIFO buffers
             {
                counter++;                      //Keep count of failed payloads
             }
@@ -167,14 +167,14 @@ int main(int argc, char** argv)
 
          if(!radio.txStandBy())
          {
-            counter+=3;
+            counter += 3;
          }
 
-         float numBytes = cycles*32;
+         float numBytes = cycles * 32;
          float rate = numBytes / (stopTime - startTime);
 
-         printf("Transfer complete at %.2f KB/s \n\r",rate);
-         printf("%lu of %lu Packets Failed to Send\n\r",counter,cycles);
+         printf("Transfer complete at %.2f KB/s \n\r", rate);
+         printf("%lu of %lu Packets Failed to Send\n\r", counter, cycles);
          counter = 0;
 
       }
@@ -184,15 +184,15 @@ int main(int argc, char** argv)
       {
          while(radio.available())
          {
-            radio.read(&data,32);
+            radio.read(&data, 32);
             counter++;
          }
          if(millis() - rxTimer > 1000)
          {
             rxTimer = millis();
             printf("Rate: ");
-            float numBytes = counter*32;
-            printf("%.2f KB/s \n\r",numBytes/1000);
+            float numBytes = counter * 32;
+            printf("%.2f KB/s \n\r", numBytes / 1000);
             printf("Payload Count: %lu \n\r", counter);
             counter = 0;
          }

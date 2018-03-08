@@ -20,7 +20,7 @@
 
 #define RF24_SPIDEV_BITS 8
 
-SPI::SPI():fd(-1)
+SPI::SPI(): fd(-1)
 {
 }
 

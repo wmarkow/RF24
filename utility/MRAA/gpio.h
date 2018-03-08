@@ -53,7 +53,7 @@ public:
    * @param port
    * @param value
    */
-   void write(int port,int value);
+   void write(int port, int value);
 
 private:
    int gpio_ce_pin; /** ce_pin value of the RF24 device **/

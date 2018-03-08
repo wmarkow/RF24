@@ -55,7 +55,7 @@ uint8_t values[num_channels];
 
 
 const int num_reps = 100;
-int reset_array=0;
+int reset_array = 0;
 
 
 int main(int argc, char** argv)
@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 
    while ( i < num_channels )
    {
-      printf("%x",i>>4);
+      printf("%x", i >> 4);
       ++i;
    }
    printf("\n");
@@ -94,7 +94,7 @@ int main(int argc, char** argv)
    i = 0;
    while ( i < num_channels )
    {
-      printf("%x",i&0xf);
+      printf("%x", i & 0xf);
       ++i;
    }
    printf("\n");
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
    while(1)
    {
       // Clear measurement values
-      memset(values,0,sizeof(values));
+      memset(values, 0, sizeof(values));
 
       // Scan all channels num_reps times
       int rep_counter = num_reps;
@@ -131,7 +131,7 @@ int main(int argc, char** argv)
       i = 0;
       while ( i < num_channels )
       {
-         printf("%x",min(0xf,(values[i]&0xf)));
+         printf("%x", min(0xf, (values[i] & 0xf)));
          ++i;
       }
       printf("\n");
