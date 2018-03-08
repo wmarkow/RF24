@@ -24,25 +24,33 @@ void SPI::end()
 {
    // Prophet: we should check for existence of mspi before deleting it
    if (mspi != NULL)
+   {
       delete mspi;
+   }
 }
 
 void SPI::setBitOrder(uint8_t bit_order)
 {
    if (mspi != NULL)
-      mspi->lsbmode((mraa_boolean_t)bit_order); // Prophet: bit_order
+   {
+      mspi->lsbmode((mraa_boolean_t)bit_order);   // Prophet: bit_order
+   }
 }
 
 void SPI::setDataMode(uint8_t data_mode)
 {
    if (mspi != NULL)
+   {
       mspi->mode((mraa::Spi_Mode)data_mode);
+   }
 }
 
 void SPI::setClockDivider(uint32_t spi_speed)
 {
    if (mspi != NULL)
+   {
       mspi->frequency(spi_speed);
+   }
 }
 
 void SPI::chipSelect(int csn_pin)

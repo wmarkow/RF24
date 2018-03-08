@@ -166,7 +166,9 @@ int main(int argc, char **argv)
          while (! radio.available() && ! timeout)
          {
             if (millis() - started_waiting_at > 200)
+            {
                timeout = true;
+            }
          }
 
 

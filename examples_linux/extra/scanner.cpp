@@ -123,7 +123,10 @@ int main(int argc, char **argv)
             radio.stopListening();
 
             // Did we get a carrier?
-            if (radio.testCarrier()) ++values[i];
+            if (radio.testCarrier())
+            {
+               ++values[i];
+            }
          }
       }
 

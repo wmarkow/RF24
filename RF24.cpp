@@ -49,7 +49,9 @@ void RF24::csn(bool mode)
 #endif
 #elif defined (RF24_RPi)
    if (!mode)
+   {
       _SPI.chipSelect(csn_pin);
+   }
 #endif
 
 #if !defined (RF24_LINUX)
@@ -64,7 +66,10 @@ void RF24::csn(bool mode)
 void RF24::ce(bool level)
 {
    //Allow for 3-pin use on ATTiny
-   if (ce_pin != csn_pin) digitalWrite(ce_pin, level);
+   if (ce_pin != csn_pin)
+   {
+      digitalWrite(ce_pin, level);
+   }
 }
 
 /****************************************************************************/
@@ -177,7 +182,9 @@ uint8_t RF24::write_register(uint8_t reg, const uint8_t *buf, uint8_t len)
 
    *ptx++ = (W_REGISTER | (REGISTER_MASK & reg));
    while (len--)
+   {
       *ptx++ = *buf++;
+   }
 
    _SPI.transfernb((char *) spi_txbuff, (char *) spi_rxbuff, size);
    status = *prx; // status is 1st byte of receive buffer
@@ -187,7 +194,9 @@ uint8_t RF24::write_register(uint8_t reg, const uint8_t *buf, uint8_t len)
    beginTransaction();
    status = _SPI.transfer(W_REGISTER | (REGISTER_MASK & reg));
    while (len--)
+   {
       _SPI.transfer(*buf++);
+   }
    endTransaction();
 
 #endif
@@ -249,9 +258,13 @@ uint8_t RF24::write_payload(const void *buf, uint8_t data_len,
 
    *ptx++ =  writeType;
    while (data_len--)
+   {
       *ptx++ =  *current++;
+   }
    while (blank_len--)
+   {
       *ptx++ =  0;
+   }
 
    _SPI.transfernb((char *) spi_txbuff, (char *) spi_rxbuff, size);
    status = *prx; // status is 1st byte of receive buffer
@@ -283,7 +296,10 @@ uint8_t RF24::read_payload(void *buf, uint8_t data_len)
    uint8_t status;
    uint8_t *current = reinterpret_cast<uint8_t *>(buf);
 
-   if (data_len > payload_size) data_len = payload_size;
+   if (data_len > payload_size)
+   {
+      data_len = payload_size;
+   }
    uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
 
    //printf("[Reading %u bytes %u blanks]",data_len,blank_len);
@@ -300,7 +316,9 @@ uint8_t RF24::read_payload(void *buf, uint8_t data_len)
 
    *ptx++ =  R_RX_PAYLOAD;
    while (--size)
+   {
       *ptx++ = RF24_NOP;
+   }
 
    size = data_len + blank_len + 1; // Size has been lost during while, re affect
 
@@ -311,7 +329,9 @@ uint8_t RF24::read_payload(void *buf, uint8_t data_len)
    if (data_len > 0)
    {
       while (--data_len)   // Decrement before to skip 1st status byte
+      {
          *current++ = *prx++;
+      }
 
       *current = *prx;
    }
@@ -407,7 +427,9 @@ void RF24::print_byte_register(const char *name, uint8_t reg, uint8_t qty)
    printf_P(PSTR(PRIPSTR"\t ="), name);
 #endif
    while (qty--)
+   {
       printf_P(PSTR(" 0x%02x"), read_register(reg++));
+   }
    printf_P(PSTR("\r\n"));
 }
 
@@ -429,7 +451,9 @@ void RF24::print_address_register(const char *name, uint8_t reg, uint8_t qty)
       printf_P(PSTR(" 0x"));
       uint8_t *bufptr = buffer + sizeof buffer;
       while (--bufptr >= buffer)
+      {
          printf_P(PSTR("%02x"), *bufptr);
+      }
    }
 
    printf_P(PSTR("\r\n"));
@@ -680,14 +704,20 @@ bool RF24::begin(void)
    _SPI.begin();
    csn(HIGH);
 #elif defined(XMEGA_D3)
-   if (ce_pin != csn_pin) pinMode(ce_pin, OUTPUT);
+   if (ce_pin != csn_pin)
+   {
+      pinMode(ce_pin, OUTPUT);
+   }
    _SPI.begin(csn_pin);
    ce(LOW);
    csn(HIGH);
    delay(200);
 #else
    // Initialize pins
-   if (ce_pin != csn_pin) pinMode(ce_pin, OUTPUT);
+   if (ce_pin != csn_pin)
+   {
+      pinMode(ce_pin, OUTPUT);
+   }
 
 #if ! defined(LITTLEWIRE)
    if (ce_pin != csn_pin)
@@ -1498,7 +1528,9 @@ void RF24::writeAckPayload(uint8_t pipe, const void *buf, uint8_t len)
    _SPI.transfer(W_ACK_PAYLOAD | (pipe & 0x07));
 
    while (data_len--)
+   {
       _SPI.transfer(*current++);
+   }
    endTransaction();
 
 #endif
@@ -1524,9 +1556,13 @@ bool RF24::isPVariant(void)
 void RF24::setAutoAck(bool enable)
 {
    if (enable)
+   {
       write_register(EN_AA, 0x3F);
+   }
    else
+   {
       write_register(EN_AA, 0);
+   }
 }
 
 /****************************************************************************/
@@ -1702,9 +1738,13 @@ rf24_crclength_e RF24::getCRCLength(void)
    if (config & _BV(EN_CRC) || AA)
    {
       if (config & _BV(CRCO))
+      {
          result = RF24_CRC_16;
+      }
       else
+      {
          result = RF24_CRC_8;
+      }
    }
 
    return result;
@@ -1774,7 +1814,9 @@ byte SPIClass::transfer(byte b)
    USIDR = b;
    USISR = _BV(USIOIF);
    do
+   {
       USICR = _BV(USIWM0) | _BV(USICS1) | _BV(USICLK) | _BV(USITC);
+   }
    while ((USISR & _BV(USIOIF)) == 0);
    return USIDR;
 

@@ -156,5 +156,7 @@ void SPI::transfernb(char *tbuf, char *rbuf, uint32_t len)
 SPI::~SPI()
 {
    if (!(this->fd < 0))
+   {
       close(this->fd);
+   }
 }

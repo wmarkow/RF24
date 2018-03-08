@@ -124,7 +124,9 @@ int main(int argc, char **argv)
 
          // reset pipe to 0
          if (pipe > 6)
+         {
             pipe = 0;
+         }
       }
 
       delayMicroseconds(20);

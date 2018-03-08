@@ -48,7 +48,9 @@ int waitForInterrupt(int pin, int mS)
    struct pollfd polls ;
 
    if ((fd = sysFds [pin]) == -1)
+   {
       return -2 ;
+   }
 
 // Setup poll structure
 
@@ -76,9 +78,13 @@ int piHiPri(const int pri)
    memset(&sched, 0, sizeof(sched)) ;
 
    if (pri > sched_get_priority_max(SCHED_RR))
+   {
       sched.sched_priority = sched_get_priority_max(SCHED_RR) ;
+   }
    else
+   {
       sched.sched_priority = pri ;
+   }
 
    return sched_setscheduler(0, SCHED_RR, &sched) ;
 }
@@ -121,16 +127,24 @@ int attachInterrupt(int pin, int mode, void (*function)(void))
    if (mode != INT_EDGE_SETUP)
    {
       /**/ if (mode == INT_EDGE_FALLING)
+      {
          modeS = "falling" ;
+      }
       else if (mode == INT_EDGE_RISING)
+      {
          modeS = "rising" ;
+      }
       else
+      {
          modeS = "both" ;
+      }
 
       sprintf(pinS, "%d", bcmGpioPin) ;
 
       if ((pid = fork()) < 0)     // Fail
+      {
          return printf("wiringPiISR: fork failed: %s\n", strerror(errno)) ;
+      }
 
       if (pid == 0)       // Child, exec
       {
@@ -145,10 +159,14 @@ int attachInterrupt(int pin, int mode, void (*function)(void))
             return printf("wiringPiISR: execl failed: %s\n", strerror(errno)) ;
          }
          else
+         {
             return printf("wiringPiISR: Can't find gpio program\n") ;
+         }
       }
       else                // Parent, wait
+      {
          wait(NULL) ;
+      }
    }
 
    if (sysFds [bcmGpioPin] == -1)
@@ -161,7 +179,9 @@ int attachInterrupt(int pin, int mode, void (*function)(void))
 
    ioctl(sysFds [bcmGpioPin], FIONREAD, &count) ;
    for (i = 0 ; i < count ; ++i)
+   {
       read(sysFds [bcmGpioPin], &c, 1) ;
+   }
 
    isrFunctions [pin] = function ;
 
@@ -169,7 +189,9 @@ int attachInterrupt(int pin, int mode, void (*function)(void))
    pinPass = pin ;
    pthread_create(&threadId[bcmGpioPin], NULL, interruptHandler, NULL) ;
    while (pinPass != -1)
+   {
       delay(1) ;
+   }
    pthread_mutex_unlock(&pinMutex) ;
 
    return 0 ;
@@ -196,7 +218,9 @@ int detachInterrupt(int pin)
    sprintf(pinS, "%d", pin) ;
 
    if ((pid = fork()) < 0)     // Fail
+   {
       return printf("wiringPiISR: fork failed: %s\n", strerror(errno)) ;
+   }
 
    if (pid == 0)       // Child, exec
    {
@@ -211,10 +235,14 @@ int detachInterrupt(int pin)
          return printf("wiringPiISR: execl failed: %s\n", strerror(errno)) ;
       }
       else
+      {
          return printf("wiringPiISR: Can't find gpio program\n") ;
+      }
    }
    else                // Parent, wait
+   {
       wait(NULL) ;
+   }
 
    return 1;
 }

@@ -37,7 +37,9 @@ void SPI::begin(int csn_pin)
       abort();
    }
    else
+   {
       printf("Configured SPI fd: %d - pin: %d\n", fd, csn_pin);
+   }
 }
 
 uint8_t SPI::transfer(uint8_t tx)

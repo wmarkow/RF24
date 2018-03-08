@@ -110,7 +110,9 @@ void loop(void)
 
          // Did we get a carrier?
          if (radio.testCarrier())
+         {
             ++values[i];
+         }
       }
    }
 

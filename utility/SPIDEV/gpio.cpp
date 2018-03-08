@@ -44,8 +44,13 @@ void GPIO::open(int port, int DDR)
       }
    }
    if (DDR == 0)
+   {
       fprintf(f, "in\n");
-   else  fprintf(f, "out\n");
+   }
+   else
+   {
+      fprintf(f, "out\n");
+   }
 
    fclose(f);
 
@@ -81,8 +86,14 @@ void GPIO::write(int port, int value)
    sprintf(file, "/sys/class/gpio/gpio%d/value", port);
    f = fopen(file, "w");
 
-   if (value == 0)	fprintf(f, "0\n");
-   else		fprintf(f, "1\n");
+   if (value == 0)
+   {
+      fprintf(f, "0\n");
+   }
+   else
+   {
+      fprintf(f, "1\n");
+   }
 
    fclose(f);
 }

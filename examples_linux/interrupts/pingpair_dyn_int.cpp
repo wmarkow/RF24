@@ -159,7 +159,9 @@ int main(int argc, char **argv)
          bool timeout = false;
          while (! radio.available() && ! timeout)
             if (millis() - started_waiting_at > 500)
+            {
                timeout = true;
+            }
 
          // Describe the results
          if (timeout)
@@ -182,7 +184,9 @@ int main(int argc, char **argv)
          // Update size for next time.
          next_payload_size += payload_size_increments_by;
          if (next_payload_size > max_payload_size)
+         {
             next_payload_size = min_payload_size;
+         }
 
          // Try again 1s later
          delay(100);

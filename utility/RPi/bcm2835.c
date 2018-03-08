@@ -412,7 +412,9 @@ void bcm2835_gpio_pudclk(uint8_t pin, uint8_t on)
 uint32_t bcm2835_gpio_pad(uint8_t group)
 {
    if (bcm2835_pads == MAP_FAILED)
+   {
       return 0;
+   }
 
    volatile uint32_t *paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27 / 4 + group;
    return bcm2835_peri_read(paddr);
@@ -425,7 +427,9 @@ uint32_t bcm2835_gpio_pad(uint8_t group)
 void bcm2835_gpio_set_pad(uint8_t group, uint32_t control)
 {
    if (bcm2835_pads == MAP_FAILED)
+   {
       return;
+   }
 
    volatile uint32_t *paddr = bcm2835_pads + BCM2835_PADS_GPIO_0_27 / 4 + group;
    bcm2835_peri_write(paddr, control | BCM2835_PAD_PASSWRD);
@@ -492,18 +496,26 @@ unsigned int bcm2835_millis(void)
 void bcm2835_gpio_write(uint8_t pin, uint8_t on)
 {
    if (on)
+   {
       bcm2835_gpio_set(pin);
+   }
    else
+   {
       bcm2835_gpio_clr(pin);
+   }
 }
 
 /* Set the state of a all 32 outputs in the mask to on or off */
 void bcm2835_gpio_write_multi(uint32_t mask, uint8_t on)
 {
    if (on)
+   {
       bcm2835_gpio_set_multi(mask);
+   }
    else
+   {
       bcm2835_gpio_clr_multi(mask);
+   }
 }
 
 /* Set the state of a all 32 outputs in the mask to the values in value */
@@ -546,7 +558,9 @@ int bcm2835_spi_begin(void)
    volatile uint32_t *paddr;
 
    if (bcm2835_spi0 == MAP_FAILED)
-      return 0; /* bcm2835_init() failed, or not root */
+   {
+      return 0;   /* bcm2835_init() failed, or not root */
+   }
 
    /* Set the SPI0 pins to the Alt 0 function to enable SPI0 access on them */
    bcm2835_gpio_fsel(RPI_GPIO_P1_26, BCM2835_GPIO_FSEL_ALT0); /* CE1 */
@@ -709,14 +723,18 @@ void bcm2835_spi_writenb(char *tbuf, uint32_t len)
 
       /* Read from FIFO to prevent stalling */
       while (bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)
+      {
          (void) bcm2835_peri_read_nb(fifo);
+      }
    }
 
    /* Wait for DONE to be set */
    while (!(bcm2835_peri_read_nb(paddr) & BCM2835_SPI0_CS_DONE))
    {
       while (bcm2835_peri_read(paddr) & BCM2835_SPI0_CS_RXD)
+      {
          (void) bcm2835_peri_read_nb(fifo);
+      }
    };
 
    /* Set TA = 0, and also set the barrier */
@@ -752,7 +770,9 @@ int bcm2835_i2c_begin(void)
 
    if (bcm2835_bsc0 == MAP_FAILED
          || bcm2835_bsc1 == MAP_FAILED)
-      return 0; /* bcm2835_init() failed, or not root */
+   {
+      return 0;   /* bcm2835_init() failed, or not root */
+   }
 
 #ifdef I2C_V1
    volatile uint32_t *paddr = bcm2835_bsc0 + BCM2835_BSC_DIV / 4;
@@ -1013,7 +1033,9 @@ uint8_t bcm2835_i2c_read_register_rs(char *regaddr, char *buf, uint32_t len)
    {
       /* Linux may cause us to miss entire transfer stage */
       if (bcm2835_peri_read(status) & BCM2835_BSC_S_DONE)
+      {
          break;
+      }
    }
 
    /* Send a repeated start with read bit set in address */
@@ -1117,7 +1139,9 @@ uint8_t bcm2835_i2c_write_read_rs(char *cmds, uint32_t cmds_len, char *buf,
    {
       /* Linux may cause us to miss entire transfer stage */
       if (bcm2835_peri_read_nb(status) & BCM2835_BSC_S_DONE)
+      {
          break;
+      }
    }
 
    remaining = buf_len;
@@ -1221,7 +1245,9 @@ void bcm2835_pwm_set_clock(uint32_t divisor)
 {
    if (bcm2835_clk == MAP_FAILED
          || bcm2835_pwm == MAP_FAILED)
-      return; /* bcm2835_init() failed or not root */
+   {
+      return;   /* bcm2835_init() failed or not root */
+   }
 
    /* From Gerts code */
    divisor &= 0xfff;
@@ -1231,7 +1257,9 @@ void bcm2835_pwm_set_clock(uint32_t divisor)
    bcm2835_delay(110); /* Prevents clock going slow */
    /* Wait for the clock to be not busy */
    while ((bcm2835_peri_read(bcm2835_clk + BCM2835_PWMCLK_CNTL) & 0x80) != 0)
+   {
       bcm2835_delay(1);
+   }
    /* set the clock divider and enable PWM clock */
    bcm2835_peri_write(bcm2835_clk + BCM2835_PWMCLK_DIV,
                       BCM2835_PWM_PASSWRD | (divisor << 12));
@@ -1243,31 +1271,49 @@ void bcm2835_pwm_set_mode(uint8_t channel, uint8_t markspace, uint8_t enabled)
 {
    if (bcm2835_clk == MAP_FAILED
          || bcm2835_pwm == MAP_FAILED)
-      return; /* bcm2835_init() failed or not root */
+   {
+      return;   /* bcm2835_init() failed or not root */
+   }
 
    uint32_t control = bcm2835_peri_read(bcm2835_pwm + BCM2835_PWM_CONTROL);
 
    if (channel == 0)
    {
       if (markspace)
+      {
          control |= BCM2835_PWM0_MS_MODE;
+      }
       else
+      {
          control &= ~BCM2835_PWM0_MS_MODE;
+      }
       if (enabled)
+      {
          control |= BCM2835_PWM0_ENABLE;
+      }
       else
+      {
          control &= ~BCM2835_PWM0_ENABLE;
+      }
    }
    else if (channel == 1)
    {
       if (markspace)
+      {
          control |= BCM2835_PWM1_MS_MODE;
+      }
       else
+      {
          control &= ~BCM2835_PWM1_MS_MODE;
+      }
       if (enabled)
+      {
          control |= BCM2835_PWM1_ENABLE;
+      }
       else
+      {
          control &= ~BCM2835_PWM1_ENABLE;
+      }
    }
 
    /* If you use the barrier here, wierd things happen, and the commands dont work */
@@ -1280,24 +1326,36 @@ void bcm2835_pwm_set_range(uint8_t channel, uint32_t range)
 {
    if (bcm2835_clk == MAP_FAILED
          || bcm2835_pwm == MAP_FAILED)
-      return; /* bcm2835_init() failed or not root */
+   {
+      return;   /* bcm2835_init() failed or not root */
+   }
 
    if (channel == 0)
+   {
       bcm2835_peri_write_nb(bcm2835_pwm + BCM2835_PWM0_RANGE, range);
+   }
    else if (channel == 1)
+   {
       bcm2835_peri_write_nb(bcm2835_pwm + BCM2835_PWM1_RANGE, range);
+   }
 }
 
 void bcm2835_pwm_set_data(uint8_t channel, uint32_t data)
 {
    if (bcm2835_clk == MAP_FAILED
          || bcm2835_pwm == MAP_FAILED)
-      return; /* bcm2835_init() failed or not root */
+   {
+      return;   /* bcm2835_init() failed or not root */
+   }
 
    if (channel == 0)
+   {
       bcm2835_peri_write_nb(bcm2835_pwm + BCM2835_PWM0_DATA, data);
+   }
    else if (channel == 1)
+   {
       bcm2835_peri_write_nb(bcm2835_pwm + BCM2835_PWM1_DATA, data);
+   }
 }
 
 /* Allocate page-aligned memory. */
@@ -1316,13 +1374,18 @@ static void *mapmem(const char *msg, size_t size, int fd, off_t off)
 {
    void *map = mmap(NULL, size, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, off);
    if (map == MAP_FAILED)
+   {
       fprintf(stderr, "bcm2835_init: %s mmap failed: %s\n", msg, strerror(errno));
+   }
    return map;
 }
 
 static void unmapmem(void **pmem, size_t size)
 {
-   if (*pmem == MAP_FAILED) return;
+   if (*pmem == MAP_FAILED)
+   {
+      return;
+   }
    munmap(*pmem, size);
    *pmem = MAP_FAILED;
 }
@@ -1387,7 +1450,10 @@ int bcm2835_init(void)
       /* Base of the peripherals block is mapped to VM */
       bcm2835_peripherals = mapmem("gpio", bcm2835_peripherals_size, memfd,
                                    (uint32_t)bcm2835_peripherals_base);
-      if (bcm2835_peripherals == MAP_FAILED) goto exit;
+      if (bcm2835_peripherals == MAP_FAILED)
+      {
+         goto exit;
+      }
 
       /* Now compute the base addresses of various peripherals,
       // which are at fixed offsets within the mapped peripherals block
@@ -1419,17 +1485,24 @@ int bcm2835_init(void)
       bcm2835_peripherals_base = 0;
       bcm2835_peripherals = mapmem("gpio", bcm2835_peripherals_size, memfd,
                                    (uint32_t)bcm2835_peripherals_base);
-      if (bcm2835_peripherals == MAP_FAILED) goto exit;
+      if (bcm2835_peripherals == MAP_FAILED)
+      {
+         goto exit;
+      }
       bcm2835_gpio = bcm2835_peripherals;
       ok = 1;
    }
 
 exit:
    if (memfd >= 0)
+   {
       close(memfd);
+   }
 
    if (!ok)
+   {
       bcm2835_close();
+   }
 
    return ok;
 }
@@ -1437,7 +1510,10 @@ exit:
 /* Close this library and deallocate everything */
 int bcm2835_close(void)
 {
-   if (debug) return 1; /* Success */
+   if (debug)
+   {
+      return 1;   /* Success */
+   }
 
    unmapmem((void **) &bcm2835_peripherals, bcm2835_peripherals_size);
    bcm2835_peripherals = MAP_FAILED;
@@ -1462,7 +1538,9 @@ int main(int argc, char **argv)
    bcm2835_set_debug(1);
 
    if (!bcm2835_init())
+   {
       return 1;
+   }
 
    /* Configure some GPIO pins fo some testing
    // Set RPI pin P1-11 to be an output
@@ -1528,7 +1606,9 @@ int main(int argc, char **argv)
 #endif
 
    if (!bcm2835_close())
+   {
       return 1;
+   }
 
    return 0;
 }
