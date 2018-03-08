@@ -80,7 +80,7 @@ uint8_t counter =
    1;                                                          // A single byte to keep track of the data being sent back and forth
 
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 
 

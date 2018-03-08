@@ -46,14 +46,14 @@ public:
    * @param rbuf Receive buffer
    * @param len Length of the data
    */
-   void transfernb(char*, char*, uint32_t);
+   void transfernb(char *, char *, uint32_t);
 
    /**
    * Transfer a buffer of data without using an rx buffer
    * @param buf Pointer to a buffer of data
    * @param len Length of the data
    */
-   void transfern(char*, const uint32_t);
+   void transfern(char *, const uint32_t);
 
    /**
    * SPI destructor

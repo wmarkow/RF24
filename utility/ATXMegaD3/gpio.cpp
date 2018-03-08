@@ -12,7 +12,7 @@
 void GPIO::open(int port, int DDR)
 {
    uint8_t pin;
-   PORT_t * p = GPIO_getPort(port, &pin);
+   PORT_t *p = GPIO_getPort(port, &pin);
    if (DDR == 0)
    {
       p->DIRCLR = pin;
@@ -31,14 +31,14 @@ void GPIO::close(int port)
 int read(int port)
 {
    uint8_t pin;
-   PORT_t * p = GPIO_getPort(port, &pin);
+   PORT_t *p = GPIO_getPort(port, &pin);
    return p->IN;
 }
 
 void GPIO::write(int port, int value)
 {
    uint8_t pin;
-   PORT_t * p = GPIO_getPort(port, &pin);
+   PORT_t *p = GPIO_getPort(port, &pin);
    if (value == 0)
    {
       p->OUTCLR = pin;

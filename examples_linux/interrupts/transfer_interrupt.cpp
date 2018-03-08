@@ -83,7 +83,7 @@ void intHandler()
    }
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 
    bool role_ping_out = 1, role_pong_back = 0;

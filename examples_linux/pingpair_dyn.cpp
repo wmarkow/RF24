@@ -74,7 +74,7 @@ int next_payload_size = min_payload_size;
 char receive_payload[max_payload_size
                      +1]; // +1 to allow room for a terminating NULL char
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 
    bool role_ping_out = 1, role_pong_back = 0;

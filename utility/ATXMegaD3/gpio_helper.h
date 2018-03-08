@@ -80,7 +80,7 @@ extern "C" {
 
 //void GPIO_getPort(int pinnum, PORT_t * port, uint8_t pin);
 //void GPIO_getPort(int pinnum, PORT_t * port, uint8_t * pin_bm);
-PORT_t * GPIO_getPort(int pinnum, uint8_t * pin_bm);
+PORT_t *GPIO_getPort(int pinnum, uint8_t *pin_bm);
 
 #ifdef	__cplusplus
 }

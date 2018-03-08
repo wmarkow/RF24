@@ -54,8 +54,8 @@ public:
    virtual ~SPI();
 
    inline static uint8_t transfer(uint8_t _data);
-   inline static void transfernb(char* tbuf, char* rbuf, uint32_t len);
-   inline static void transfern(char* buf, uint32_t len);
+   inline static void transfernb(char *tbuf, char *rbuf, uint32_t len);
+   inline static void transfern(char *buf, uint32_t len);
 
    static void begin(int busNo);
    static void end();
@@ -78,12 +78,12 @@ uint8_t SPI::transfer(uint8_t _data)
    return data;
 }
 
-void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
+void SPI::transfernb(char *tbuf, char *rbuf, uint32_t len)
 {
    bcm2835_spi_transfernb(tbuf, rbuf, len);
 }
 
-void SPI::transfern(char* buf, uint32_t len)
+void SPI::transfern(char *buf, uint32_t len)
 {
    transfernb(buf, buf, len);
 }

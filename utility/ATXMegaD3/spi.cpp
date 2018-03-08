@@ -60,7 +60,7 @@ SPI::~SPI()
 
 }
 
-void operator delete (void * p) // or delete(void *, std::size_t)
+void operator delete (void *p)  // or delete(void *, std::size_t)
 {
 
 }

@@ -72,7 +72,7 @@ const uint64_t addresses[2] = { 0xABCDABCD71LL, 0x544d52687CLL };
 uint8_t data[32];
 unsigned long startTime, stopTime, counter, rxTimer = 0;
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 
    bool role_ping_out = 1, role_pong_back = 0;

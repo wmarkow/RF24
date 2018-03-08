@@ -132,7 +132,7 @@ uint8_t SPI::transfer(uint8_t tx)
    return rx;
 }
 
-void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
+void SPI::transfernb(char *tbuf, char *rbuf, uint32_t len)
 {
    struct spi_ioc_transfer tr;
    memset(&tr, 0, sizeof(tr));

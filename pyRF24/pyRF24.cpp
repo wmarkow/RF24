@@ -39,7 +39,7 @@ int get_bytes_or_bytearray_ln(bp::object buf)
    return 0;
 }
 
-bp::object read_wrap(RF24& ref, int maxlen)
+bp::object read_wrap(RF24 &ref, int maxlen)
 {
    char *buf = new char[maxlen + 1];
    ref.read(buf, maxlen);
@@ -49,74 +49,74 @@ bp::object read_wrap(RF24& ref, int maxlen)
    return py_ba;
 }
 
-bool write_wrap1(RF24& ref, bp::object buf)
+bool write_wrap1(RF24 &ref, bp::object buf)
 {
    return ref.write(get_bytes_or_bytearray_str(buf),
                     get_bytes_or_bytearray_ln(buf));
 }
 
-bool write_wrap2(RF24& ref, bp::object buf, const bool multicast)
+bool write_wrap2(RF24 &ref, bp::object buf, const bool multicast)
 {
    return ref.write(get_bytes_or_bytearray_str(buf),
                     get_bytes_or_bytearray_ln(buf), multicast);
 }
 
-void writeAckPayload_wrap(RF24& ref, uint8_t pipe, bp::object buf)
+void writeAckPayload_wrap(RF24 &ref, uint8_t pipe, bp::object buf)
 {
    ref.writeAckPayload(pipe, get_bytes_or_bytearray_str(buf),
                        get_bytes_or_bytearray_ln(buf));
 
 }
 
-bool writeFast_wrap1(RF24& ref, bp::object buf)
+bool writeFast_wrap1(RF24 &ref, bp::object buf)
 {
    return ref.writeFast(get_bytes_or_bytearray_str(buf),
                         get_bytes_or_bytearray_ln(buf));
 }
 
-bool writeFast_wrap2(RF24& ref, bp::object buf, const bool multicast)
+bool writeFast_wrap2(RF24 &ref, bp::object buf, const bool multicast)
 {
    return ref.writeFast(get_bytes_or_bytearray_str(buf),
                         get_bytes_or_bytearray_ln(buf), multicast);
 }
 
-bool writeBlocking_wrap(RF24& ref, bp::object buf, uint32_t timeout)
+bool writeBlocking_wrap(RF24 &ref, bp::object buf, uint32_t timeout)
 {
    return ref.writeBlocking(get_bytes_or_bytearray_str(buf),
                             get_bytes_or_bytearray_ln(buf), timeout);
 }
 
-void startFastWrite_wrap1(RF24& ref, bp::object buf, const bool multicast)
+void startFastWrite_wrap1(RF24 &ref, bp::object buf, const bool multicast)
 {
    ref.startFastWrite(get_bytes_or_bytearray_str(buf),
                       get_bytes_or_bytearray_ln(buf), multicast);
 }
 
-void startFastWrite_wrap2(RF24& ref, bp::object buf, const bool multicast,
+void startFastWrite_wrap2(RF24 &ref, bp::object buf, const bool multicast,
                           bool startTx)
 {
    ref.startFastWrite(get_bytes_or_bytearray_str(buf),
                       get_bytes_or_bytearray_ln(buf), multicast, startTx);
 }
 
-void startWrite_wrap(RF24& ref, bp::object buf, const bool multicast)
+void startWrite_wrap(RF24 &ref, bp::object buf, const bool multicast)
 {
    ref.startWrite(get_bytes_or_bytearray_str(buf), get_bytes_or_bytearray_ln(buf),
                   multicast);
 }
 
-void openWritingPipe_wrap(RF24& ref, const bp::object address)
+void openWritingPipe_wrap(RF24 &ref, const bp::object address)
 {
    ref.openWritingPipe((const uint8_t *)(get_bytes_or_bytearray_str(address)));
 }
 
-void openReadingPipe_wrap(RF24& ref, uint8_t number, const bp::object address)
+void openReadingPipe_wrap(RF24 &ref, uint8_t number, const bp::object address)
 {
    ref.openReadingPipe(number,
                        (const uint8_t *)(get_bytes_or_bytearray_str(address)));
 }
 
-bp::tuple whatHappened_wrap(RF24& ref)
+bp::tuple whatHappened_wrap(RF24 &ref)
 {
    bool tx_ok;
    bool tx_fail;
@@ -126,7 +126,7 @@ bp::tuple whatHappened_wrap(RF24& ref)
    return bp::make_tuple(tx_ok, tx_fail, tx_ready);
 }
 
-bp::tuple available_wrap(RF24& ref)
+bp::tuple available_wrap(RF24 &ref)
 {
    bool result;
    uint8_t pipe;

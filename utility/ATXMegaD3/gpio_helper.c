@@ -10,10 +10,10 @@
 /**
 * Get the port corresponding in portnum. Default is PORTC.
 */
-PORT_t * GPIO_getPort(int pinnum, uint8_t * pin_bm)
+PORT_t *GPIO_getPort(int pinnum, uint8_t *pin_bm)
 //PORT_t * GPIO_getPort(int portnum)
 {
-   PORT_t * port = &PORTC;
+   PORT_t *port = &PORTC;
    if ((pinnum >= XMEGA_PORTA_PIN0) && (pinnum <= XMEGA_PORTA_PIN7))
    {
       port = &PORTA;

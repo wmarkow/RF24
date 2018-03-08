@@ -83,7 +83,7 @@ bool radioNumber = 1;
 const uint8_t pipes[][6] = {"1Node", "2Node"};
 
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 
    bool role_ping_out = true, role_pong_back = false;

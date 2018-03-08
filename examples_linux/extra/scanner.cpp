@@ -58,7 +58,7 @@ const int num_reps = 100;
 int reset_array = 0;
 
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
    //
    // Print preamble

@@ -55,7 +55,7 @@ uint8_t SPI::transfer(uint8_t tx)
    return msgByte;
 }
 
-void SPI::transfern(char* buf, uint32_t len)
+void SPI::transfern(char *buf, uint32_t len)
 {
    printf("transfern(tx: %s)\n", buf);
 
@@ -67,7 +67,7 @@ void SPI::transfern(char* buf, uint32_t len)
    }
 }
 
-void SPI::transfernb(char* tbuf, char* rbuf, uint32_t len)
+void SPI::transfernb(char *tbuf, char *rbuf, uint32_t len)
 {
    // using an auxiliary buffer to keep tx and rx different
    memset(msg, 0, sizeof(msg));

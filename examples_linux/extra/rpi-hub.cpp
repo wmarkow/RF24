@@ -54,7 +54,7 @@ const uint64_t pipes[6] =
 RF24 radio(RPI_V2_GPIO_P1_15, RPI_V2_GPIO_P1_24, BCM2835_SPI_SPEED_8MHZ);
 
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
    uint8_t len;
 

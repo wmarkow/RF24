@@ -89,14 +89,14 @@ inline void RF24::endTransaction()
 
 /****************************************************************************/
 
-uint8_t RF24::read_register(uint8_t reg, uint8_t* buf, uint8_t len)
+uint8_t RF24::read_register(uint8_t reg, uint8_t *buf, uint8_t len)
 {
    uint8_t status;
 
 #if defined (RF24_LINUX)
    beginTransaction(); //configures the spi settings for RPi, locks mutex and setting csn low
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    uint8_t size = len + 1; // Add register value to transmit buffer
 
    *ptx++ = (R_REGISTER | (REGISTER_MASK & reg));
@@ -142,8 +142,8 @@ uint8_t RF24::read_register(uint8_t reg)
 
    beginTransaction();
 
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    *ptx++ = (R_REGISTER | (REGISTER_MASK & reg));
    *ptx++ = RF24_NOP ; // Dummy operation, just for reading
 
@@ -165,14 +165,14 @@ uint8_t RF24::read_register(uint8_t reg)
 
 /****************************************************************************/
 
-uint8_t RF24::write_register(uint8_t reg, const uint8_t* buf, uint8_t len)
+uint8_t RF24::write_register(uint8_t reg, const uint8_t *buf, uint8_t len)
 {
    uint8_t status;
 
 #if defined (RF24_LINUX)
    beginTransaction();
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    uint8_t size = len + 1; // Add register value to transmit buffer
 
    *ptx++ = (W_REGISTER | (REGISTER_MASK & reg));
@@ -205,8 +205,8 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 
 #if defined (RF24_LINUX)
    beginTransaction();
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    *ptx++ = (W_REGISTER | (REGISTER_MASK & reg));
    *ptx = value ;
 
@@ -227,11 +227,11 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 
 /****************************************************************************/
 
-uint8_t RF24::write_payload(const void* buf, uint8_t data_len,
+uint8_t RF24::write_payload(const void *buf, uint8_t data_len,
                             const uint8_t writeType)
 {
    uint8_t status;
-   const uint8_t* current = reinterpret_cast<const uint8_t*>(buf);
+   const uint8_t *current = reinterpret_cast<const uint8_t *>(buf);
 
    data_len = rf24_min(data_len, payload_size);
    uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
@@ -242,8 +242,8 @@ uint8_t RF24::write_payload(const void* buf, uint8_t data_len,
 
 #if defined (RF24_LINUX)
    beginTransaction();
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    uint8_t size;
    size = data_len + blank_len + 1 ; // Add register value to transmit buffer
 
@@ -278,10 +278,10 @@ uint8_t RF24::write_payload(const void* buf, uint8_t data_len,
 
 /****************************************************************************/
 
-uint8_t RF24::read_payload(void* buf, uint8_t data_len)
+uint8_t RF24::read_payload(void *buf, uint8_t data_len)
 {
    uint8_t status;
-   uint8_t* current = reinterpret_cast<uint8_t*>(buf);
+   uint8_t *current = reinterpret_cast<uint8_t *>(buf);
 
    if (data_len > payload_size) data_len = payload_size;
    uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
@@ -293,8 +293,8 @@ uint8_t RF24::read_payload(void* buf, uint8_t data_len)
 
 #if defined (RF24_LINUX)
    beginTransaction();
-   uint8_t * prx = spi_rxbuff;
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *prx = spi_rxbuff;
+   uint8_t *ptx = spi_txbuff;
    uint8_t size;
    size = data_len + blank_len + 1; // Add register value to transmit buffer
 
@@ -397,7 +397,7 @@ void RF24::print_observe_tx(uint8_t value)
 
 /****************************************************************************/
 
-void RF24::print_byte_register(const char* name, uint8_t reg, uint8_t qty)
+void RF24::print_byte_register(const char *name, uint8_t reg, uint8_t qty)
 {
    //char extra_tab = strlen_P(name) < 8 ? '\t' : 0;
    //printf_P(PSTR(PRIPSTR"\t%c ="),name,extra_tab);
@@ -413,7 +413,7 @@ void RF24::print_byte_register(const char* name, uint8_t reg, uint8_t qty)
 
 /****************************************************************************/
 
-void RF24::print_address_register(const char* name, uint8_t reg, uint8_t qty)
+void RF24::print_address_register(const char *name, uint8_t reg, uint8_t qty)
 {
 
 #if defined (RF24_LINUX)
@@ -427,7 +427,7 @@ void RF24::print_address_register(const char* name, uint8_t reg, uint8_t qty)
       read_register(reg++, buffer, sizeof buffer);
 
       printf_P(PSTR(" 0x"));
-      uint8_t* bufptr = buffer + sizeof buffer;
+      uint8_t *bufptr = buffer + sizeof buffer;
       while (--bufptr >= buffer)
          printf_P(PSTR("%02x"), *bufptr);
    }
@@ -492,7 +492,7 @@ uint8_t RF24::getPayloadSize(void)
 static const char rf24_datarate_e_str_0[] PROGMEM = "1MBPS";
 static const char rf24_datarate_e_str_1[] PROGMEM = "2MBPS";
 static const char rf24_datarate_e_str_2[] PROGMEM = "250KBPS";
-static const char * const rf24_datarate_e_str_P[] PROGMEM =
+static const char *const rf24_datarate_e_str_P[] PROGMEM =
 {
    rf24_datarate_e_str_0,
    rf24_datarate_e_str_1,
@@ -500,7 +500,7 @@ static const char * const rf24_datarate_e_str_P[] PROGMEM =
 };
 static const char rf24_model_e_str_0[] PROGMEM = "nRF24L01";
 static const char rf24_model_e_str_1[] PROGMEM = "nRF24L01+";
-static const char * const rf24_model_e_str_P[] PROGMEM =
+static const char *const rf24_model_e_str_P[] PROGMEM =
 {
    rf24_model_e_str_0,
    rf24_model_e_str_1,
@@ -508,7 +508,7 @@ static const char * const rf24_model_e_str_P[] PROGMEM =
 static const char rf24_crclength_e_str_0[] PROGMEM = "Disabled";
 static const char rf24_crclength_e_str_1[] PROGMEM = "8 bits";
 static const char rf24_crclength_e_str_2[] PROGMEM = "16 bits" ;
-static const char * const rf24_crclength_e_str_P[] PROGMEM =
+static const char *const rf24_crclength_e_str_P[] PROGMEM =
 {
    rf24_crclength_e_str_0,
    rf24_crclength_e_str_1,
@@ -518,7 +518,7 @@ static const char rf24_pa_dbm_e_str_0[] PROGMEM = "PA_MIN";
 static const char rf24_pa_dbm_e_str_1[] PROGMEM = "PA_LOW";
 static const char rf24_pa_dbm_e_str_2[] PROGMEM = "PA_HIGH";
 static const char rf24_pa_dbm_e_str_3[] PROGMEM = "PA_MAX";
-static const char * const rf24_pa_dbm_e_str_P[] PROGMEM =
+static const char *const rf24_pa_dbm_e_str_P[] PROGMEM =
 {
    rf24_pa_dbm_e_str_0,
    rf24_pa_dbm_e_str_1,
@@ -531,7 +531,7 @@ static const char rf24_csn_e_str_0[] = "CE0 (PI Hardware Driven)";
 static const char rf24_csn_e_str_1[] = "CE1 (PI Hardware Driven)";
 static const char rf24_csn_e_str_2[] = "CE2 (PI Hardware Driven)";
 static const char rf24_csn_e_str_3[] = "Custom GPIO Software Driven";
-static const char * const rf24_csn_e_str_P[] =
+static const char *const rf24_csn_e_str_P[] =
 {
    rf24_csn_e_str_0,
    rf24_csn_e_str_1,
@@ -893,7 +893,7 @@ void RF24::errNotify()
 /******************************************************************/
 
 //Similar to the previous write, clears the interrupt flags
-bool RF24::write(const void* buf, uint8_t len, const bool multicast)
+bool RF24::write(const void *buf, uint8_t len, const bool multicast)
 {
    //Start Writing
    startFastWrite(buf, len, multicast);
@@ -933,14 +933,14 @@ bool RF24::write(const void* buf, uint8_t len, const bool multicast)
    return 1;
 }
 
-bool RF24::write(const void* buf, uint8_t len)
+bool RF24::write(const void *buf, uint8_t len)
 {
    return write(buf, len, 0);
 }
 /****************************************************************************/
 
 //For general use, the interrupt flags are not important to clear
-bool RF24::writeBlocking(const void* buf, uint8_t len, uint32_t timeout)
+bool RF24::writeBlocking(const void *buf, uint8_t len, uint32_t timeout)
 {
    //Block until the FIFO is NOT full.
    //Keep track of the MAX retries and set auto-retry if seeing failures
@@ -992,7 +992,7 @@ void RF24::reUseTX()
 
 /****************************************************************************/
 
-bool RF24::writeFast(const void* buf, uint8_t len, const bool multicast)
+bool RF24::writeFast(const void *buf, uint8_t len, const bool multicast)
 {
    //Block until the FIFO is NOT full.
    //Keep track of the MAX retries and set auto-retry if seeing failures
@@ -1030,7 +1030,7 @@ bool RF24::writeFast(const void* buf, uint8_t len, const bool multicast)
    return 1;
 }
 
-bool RF24::writeFast(const void* buf, uint8_t len)
+bool RF24::writeFast(const void *buf, uint8_t len)
 {
    return writeFast(buf, len, 0);
 }
@@ -1042,7 +1042,7 @@ bool RF24::writeFast(const void* buf, uint8_t len)
 //Otherwise we enter Standby-II mode, which is still faster than standby mode
 //Also, we remove the need to keep writing the config register over and over and delaying for 150 us each time if sending a stream of data
 
-void RF24::startFastWrite(const void* buf, uint8_t len, const bool multicast,
+void RF24::startFastWrite(const void *buf, uint8_t len, const bool multicast,
                           bool startTx)   //TMRh20
 {
 
@@ -1059,7 +1059,7 @@ void RF24::startFastWrite(const void* buf, uint8_t len, const bool multicast,
 
 //Added the original startWrite back in so users can still use interrupts, ack payloads, etc
 //Allows the library to pass all tests
-void RF24::startWrite(const void* buf, uint8_t len, const bool multicast)
+void RF24::startWrite(const void *buf, uint8_t len, const bool multicast)
 {
 
    // Send the payload
@@ -1207,7 +1207,7 @@ bool RF24::available(void)
 
 /****************************************************************************/
 
-bool RF24::available(uint8_t* pipe_num)
+bool RF24::available(uint8_t *pipe_num)
 {
    if (!(read_register(FIFO_STATUS) & _BV(RX_EMPTY)))
    {
@@ -1229,7 +1229,7 @@ bool RF24::available(uint8_t* pipe_num)
 
 /****************************************************************************/
 
-void RF24::read(void* buf, uint8_t len)
+void RF24::read(void *buf, uint8_t len)
 {
 
    // Fetch the payload
@@ -1242,7 +1242,7 @@ void RF24::read(void* buf, uint8_t len)
 
 /****************************************************************************/
 
-void RF24::whatHappened(bool& tx_ok, bool& tx_fail, bool& rx_ready)
+void RF24::whatHappened(bool &tx_ok, bool &tx_fail, bool &rx_ready)
 {
    // Read the status & reset the status in one easy call
    // Or is that such a good idea?
@@ -1262,8 +1262,8 @@ void RF24::openWritingPipe(uint64_t value)
    // Note that AVR 8-bit uC's store this LSB first, and the NRF24L01(+)
    // expects it LSB first too, so we're good.
 
-   write_register(RX_ADDR_P0, reinterpret_cast<uint8_t*>(&value), addr_width);
-   write_register(TX_ADDR, reinterpret_cast<uint8_t*>(&value), addr_width);
+   write_register(RX_ADDR_P0, reinterpret_cast<uint8_t *>(&value), addr_width);
+   write_register(TX_ADDR, reinterpret_cast<uint8_t *>(&value), addr_width);
 
 
    //const uint8_t max_payload_size = 32;
@@ -1311,10 +1311,10 @@ void RF24::openReadingPipe(uint8_t child, uint64_t address)
       // For pipes 2-5, only write the LSB
       if (child < 2)
          write_register(pgm_read_byte(&child_pipe[child]),
-                        reinterpret_cast<const uint8_t*>(&address), addr_width);
+                        reinterpret_cast<const uint8_t *>(&address), addr_width);
       else
          write_register(pgm_read_byte(&child_pipe[child]),
-                        reinterpret_cast<const uint8_t*>(&address), 1);
+                        reinterpret_cast<const uint8_t *>(&address), 1);
 
       write_register(pgm_read_byte(&child_payload_size[child]), payload_size);
 
@@ -1475,15 +1475,15 @@ void RF24::enableDynamicAck(void)
 
 /****************************************************************************/
 
-void RF24::writeAckPayload(uint8_t pipe, const void* buf, uint8_t len)
+void RF24::writeAckPayload(uint8_t pipe, const void *buf, uint8_t len)
 {
-   const uint8_t* current = reinterpret_cast<const uint8_t*>(buf);
+   const uint8_t *current = reinterpret_cast<const uint8_t *>(buf);
 
    uint8_t data_len = rf24_min(len, 32);
 
 #if defined (RF24_LINUX)
    beginTransaction();
-   uint8_t * ptx = spi_txbuff;
+   uint8_t *ptx = spi_txbuff;
    uint8_t size = data_len + 1 ; // Add register value to transmit buffer
    *ptx++ =  W_ACK_PAYLOAD | (pipe & 0x07);
    while (data_len--)

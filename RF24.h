@@ -204,7 +204,7 @@ public:
     * @endcode
     * @return No return value. Use available().
     */
-   void read(void* buf, uint8_t len);
+   void read(void *buf, uint8_t len);
 
    /**
     * Be sure to call openWritingPipe() first to set the destination
@@ -229,7 +229,7 @@ public:
     * @endcode
     * @return True if the payload was delivered successfully false if not
     */
-   bool write(const void* buf, uint8_t len);
+   bool write(const void *buf, uint8_t len);
 
    /**
     * New: Open a pipe for writing via byte array. Old addressing format retained
@@ -328,7 +328,7 @@ public:
     * @endcode
     * @return True if there is a payload available, false if none is
     */
-   bool available(uint8_t* pipe_num);
+   bool available(uint8_t *pipe_num);
 
    /**
     * Check if the radio needs to be read. Can be used to prevent data loss
@@ -377,7 +377,7 @@ public:
    * @param len Number of bytes to be sent
    * @param multicast Request ACK (0), NOACK (1)
    */
-   bool write(const void* buf, uint8_t len, const bool multicast);
+   bool write(const void *buf, uint8_t len, const bool multicast);
 
    /**
     * This will not block until the 3 FIFO buffers are filled with data.
@@ -407,7 +407,7 @@ public:
     * @param len Number of bytes to be sent
     * @return True if the payload was delivered successfully false if not
     */
-   bool writeFast(const void* buf, uint8_t len);
+   bool writeFast(const void *buf, uint8_t len);
 
    /**
    * WriteFast for single NOACK writes. Disables acknowledgements/autoretries for a single write.
@@ -420,7 +420,7 @@ public:
    * @param len Number of bytes to be sent
    * @param multicast Request ACK (0) or NOACK (1)
    */
-   bool writeFast(const void* buf, uint8_t len, const bool multicast);
+   bool writeFast(const void *buf, uint8_t len, const bool multicast);
 
    /**
     * This function extends the auto-retry mechanism to any specified duration.
@@ -448,7 +448,7 @@ public:
     * @param timeout User defined timeout in milliseconds.
     * @return True if the payload was loaded into the buffer successfully false if not
     */
-   bool writeBlocking(const void* buf, uint8_t len, uint32_t timeout);
+   bool writeBlocking(const void *buf, uint8_t len, uint32_t timeout);
 
    /**
     * This function should be called as soon as transmission is finished to
@@ -514,7 +514,7 @@ public:
     * @param len Length of the data to send, up to 32 bytes max.  Not affected
     * by the static payload set by setPayloadSize().
     */
-   void writeAckPayload(uint8_t pipe, const void* buf, uint8_t len);
+   void writeAckPayload(uint8_t pipe, const void *buf, uint8_t len);
 
    /**
     * Determine if an ack payload was received in the most recent call to
@@ -536,7 +536,7 @@ public:
     * @param[out] tx_fail The send failed, too many retries (MAX_RT)
     * @param[out] rx_ready There is a message waiting to be read (RX_DS)
     */
-   void whatHappened(bool& tx_ok, bool& tx_fail, bool& rx_ready);
+   void whatHappened(bool &tx_ok, bool &tx_fail, bool &rx_ready);
 
    /**
     * Non-blocking write to the open writing pipe used for buffered writes
@@ -562,7 +562,7 @@ public:
     * @param multicast Request ACK (0) or NOACK (1)
     * @return True if the payload was delivered successfully false if not
     */
-   void startFastWrite(const void* buf, uint8_t len, const bool multicast,
+   void startFastWrite(const void *buf, uint8_t len, const bool multicast,
                        bool startTx = 1);
 
    /**
@@ -585,7 +585,7 @@ public:
     * @param multicast Request ACK (0) or NOACK (1)
     *
     */
-   void startWrite(const void* buf, uint8_t len, const bool multicast);
+   void startWrite(const void *buf, uint8_t len, const bool multicast);
 
    /**
     * This function is mainly used internally to take advantage of the auto payload
@@ -1041,7 +1041,7 @@ private:
     * @param len How many bytes of data to transfer
     * @return Current value of status register
     */
-   uint8_t read_register(uint8_t reg, uint8_t* buf, uint8_t len);
+   uint8_t read_register(uint8_t reg, uint8_t *buf, uint8_t len);
 
    /**
     * Read single byte from a register
@@ -1059,7 +1059,7 @@ private:
     * @param len How many bytes of data to transfer
     * @return Current value of status register
     */
-   uint8_t write_register(uint8_t reg, const uint8_t* buf, uint8_t len);
+   uint8_t write_register(uint8_t reg, const uint8_t *buf, uint8_t len);
 
    /**
     * Write a single byte to a register
@@ -1079,7 +1079,7 @@ private:
     * @param len Number of bytes to be sent
     * @return Current value of status register
     */
-   uint8_t write_payload(const void* buf, uint8_t len, const uint8_t writeType);
+   uint8_t write_payload(const void *buf, uint8_t len, const uint8_t writeType);
 
    /**
     * Read the receive payload
@@ -1090,7 +1090,7 @@ private:
     * @param len Maximum number of bytes to read
     * @return Current value of status register
     */
-   uint8_t read_payload(void* buf, uint8_t len);
+   uint8_t read_payload(void *buf, uint8_t len);
 
    /**
     * Retrieve the current status of the chip
@@ -1129,7 +1129,7 @@ private:
     * @param reg Which register. Use constants from nRF24L01.h
     * @param qty How many successive registers to print
     */
-   void print_byte_register(const char* name, uint8_t reg, uint8_t qty = 1);
+   void print_byte_register(const char *name, uint8_t reg, uint8_t qty = 1);
 
    /**
     * Print the name and value of a 40-bit address register to stdout
@@ -1142,7 +1142,7 @@ private:
     * @param reg Which register. Use constants from nRF24L01.h
     * @param qty How many successive registers to print
     */
-   void print_address_register(const char* name, uint8_t reg, uint8_t qty = 1);
+   void print_address_register(const char *name, uint8_t reg, uint8_t qty = 1);
 #endif
    /**
     * Turn on or off the special features of the chip

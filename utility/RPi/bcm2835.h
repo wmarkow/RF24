@@ -1091,7 +1091,7 @@ extern unsigned int bcm2835_version(void);
   \return the register base
   \sa Physical Addresses
 */
-extern uint32_t* bcm2835_regbase(uint8_t regbase);
+extern uint32_t *bcm2835_regbase(uint8_t regbase);
 
 /*! Reads 32 bit value from a peripheral address WITH a memory barrier before and after each read.
   This is safe, but slow.  The MB before protects this read from any in-flight reads that didn't
@@ -1101,7 +1101,7 @@ extern uint32_t* bcm2835_regbase(uint8_t regbase);
   \return the value read from the 32 bit register
   \sa Physical Addresses
 */
-extern uint32_t bcm2835_peri_read(volatile uint32_t* paddr);
+extern uint32_t bcm2835_peri_read(volatile uint32_t *paddr);
 
 /*! Reads 32 bit value from a peripheral address WITHOUT the read barriers
   You should only use this when:
@@ -1113,7 +1113,7 @@ extern uint32_t bcm2835_peri_read(volatile uint32_t* paddr);
   \return the value read from the 32 bit register
   \sa Physical Addresses
 */
-extern uint32_t bcm2835_peri_read_nb(volatile uint32_t* paddr);
+extern uint32_t bcm2835_peri_read_nb(volatile uint32_t *paddr);
 
 
 /*! Writes 32 bit value from a peripheral address WITH a memory barrier before and after each write
@@ -1127,7 +1127,7 @@ extern uint32_t bcm2835_peri_read_nb(volatile uint32_t* paddr);
   \param[in] value The 32 bit value to write
   \sa Physical Addresses
 */
-extern void bcm2835_peri_write(volatile uint32_t* paddr, uint32_t value);
+extern void bcm2835_peri_write(volatile uint32_t *paddr, uint32_t value);
 
 /*! Writes 32 bit value from a peripheral address without the write barrier
   You should only use this when:
@@ -1141,7 +1141,7 @@ extern void bcm2835_peri_write(volatile uint32_t* paddr, uint32_t value);
   \param[in] value The 32 bit value to write
   \sa Physical Addresses
 */
-extern void bcm2835_peri_write_nb(volatile uint32_t* paddr, uint32_t value);
+extern void bcm2835_peri_write_nb(volatile uint32_t *paddr, uint32_t value);
 
 /*! Alters a number of bits in a 32 peripheral regsiter.
   It reads the current valu and then alters the bits defines as 1 in mask,
@@ -1155,7 +1155,7 @@ extern void bcm2835_peri_write_nb(volatile uint32_t* paddr, uint32_t value);
   \param[in] mask Bitmask that defines the bits that will be altered in the register.
   \sa Physical Addresses
 */
-extern void bcm2835_peri_set_bits(volatile uint32_t* paddr, uint32_t value,
+extern void bcm2835_peri_set_bits(volatile uint32_t *paddr, uint32_t value,
                                   uint32_t mask);
 /*! @}    end of lowlevel */
 
@@ -1490,7 +1490,7 @@ extern uint8_t bcm2835_spi_transfer(uint8_t value);
   \param[in] len Number of bytes in the tbuf buffer, and the number of bytes to send/received
   \sa bcm2835_spi_transfer()
 */
-extern void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len);
+extern void bcm2835_spi_transfernb(char *tbuf, char *rbuf, uint32_t len);
 
 /*! Transfers any number of bytes to and from the currently selected SPI slave
   using bcm2835_spi_transfernb.
@@ -1499,7 +1499,7 @@ extern void bcm2835_spi_transfernb(char* tbuf, char* rbuf, uint32_t len);
   \param[in] len Number of bytes int eh buffer, and the number of bytes to send/received
   \sa bcm2835_spi_transfer()
 */
-extern void bcm2835_spi_transfern(char* buf, uint32_t len);
+extern void bcm2835_spi_transfern(char *buf, uint32_t len);
 
 /*! Transfers any number of bytes to the currently selected SPI slave.
   Asserts the currently selected CS pins (as previously set by bcm2835_spi_chipSelect)
@@ -1507,7 +1507,7 @@ extern void bcm2835_spi_transfern(char* buf, uint32_t len);
   \param[in] buf Buffer of bytes to send.
   \param[in] len Number of bytes in the tbuf buffer, and the number of bytes to send
 */
-extern void bcm2835_spi_writenb(char* buf, uint32_t len);
+extern void bcm2835_spi_writenb(char *buf, uint32_t len);
 
 /*! @} */
 
@@ -1558,7 +1558,7 @@ extern void bcm2835_i2c_set_baudrate(uint32_t baudrate);
   \param[in] len Number of bytes in the buf buffer, and the number of bytes to send.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_write(const char * buf, uint32_t len);
+extern uint8_t bcm2835_i2c_write(const char *buf, uint32_t len);
 
 /*! Transfers any number of bytes from the currently selected I2C slave.
   (as previously set by \sa bcm2835_i2c_setSlaveAddress)
@@ -1566,7 +1566,7 @@ extern uint8_t bcm2835_i2c_write(const char * buf, uint32_t len);
   \param[in] len Number of bytes in the buf buffer, and the number of bytes to received.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_read(char* buf, uint32_t len);
+extern uint8_t bcm2835_i2c_read(char *buf, uint32_t len);
 
 /*! Allows reading from I2C slaves that require a repeated start (without any prior stop)
   to read after the required slave register has been set. For example, the popular
@@ -1582,7 +1582,7 @@ extern uint8_t bcm2835_i2c_read(char* buf, uint32_t len);
   \param[in] len Number of bytes in the buf buffer, and the number of bytes to received.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf,
+extern uint8_t bcm2835_i2c_read_register_rs(char *regaddr, char *buf,
       uint32_t len);
 
 /*! Allows sending an arbitrary number of bytes to I2C slaves before issuing a repeated
@@ -1595,8 +1595,8 @@ extern uint8_t bcm2835_i2c_read_register_rs(char* regaddr, char* buf,
   \param[in] buf_len Number of bytes to receive in the buf buffer.
   \return reason see \ref bcm2835I2CReasonCodes
 */
-extern uint8_t bcm2835_i2c_write_read_rs(char* cmds, uint32_t cmds_len,
-      char* buf, uint32_t buf_len);
+extern uint8_t bcm2835_i2c_write_read_rs(char *cmds, uint32_t cmds_len,
+      char *buf, uint32_t buf_len);
 
 /*! @} */
 
