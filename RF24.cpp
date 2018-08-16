@@ -665,8 +665,7 @@ bool RF24::begin(void)
   //setCRCLength( RF24_CRC_16 ) ;
 
   // Disable dynamic payloads, to match dynamic_payloads_enabled setting - Reset value is 0
-  toggle_features();
-  write_register(FEATURE,0 );
+  activate_and_disable_features();
   write_register(DYNPD,0);
   dynamic_payloads_enabled = false;
 
@@ -1240,12 +1239,18 @@ void RF24::closeReadingPipe( uint8_t pipe )
 
 /****************************************************************************/
 
-void RF24::toggle_features(void)
+void RF24::activate_and_disable_features(void)
 {
-    beginTransaction();
-	_SPI.transfer( ACTIVATE );
-    _SPI.transfer( 0x73 );
-	endTransaction();
+    write_register(FEATURE, 0x01);
+    if(read_register(FEATURE) == 0)
+    {
+        beginTransaction();
+        _SPI.transfer( ACTIVATE );
+        _SPI.transfer( 0x73 );
+        endTransaction();
+    }
+
+    write_register(FEATURE, 0x00);
 }
 
 /****************************************************************************/
@@ -1254,7 +1259,6 @@ void RF24::enableDynamicPayloads(void)
 {
   // Enable dynamic payload throughout the system
 
-    //toggle_features();
     write_register(FEATURE,read_register(FEATURE) | _BV(EN_DPL) );
 
 
@@ -1274,7 +1278,6 @@ void RF24::disableDynamicPayloads(void)
 {
   // Disables dynamic payload throughout the system.  Also disables Ack Payloads
 
-  //toggle_features();
   write_register(FEATURE, 0);
 
 
@@ -1297,7 +1300,6 @@ void RF24::enableAckPayload(void)
   // enable ack payload and dynamic payload features
   //
 
-    //toggle_features();
     write_register(FEATURE,read_register(FEATURE) | _BV(EN_ACK_PAY) | _BV(EN_DPL) );
 
   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));
@@ -1316,7 +1318,6 @@ void RF24::enableDynamicAck(void){
   //
   // enable dynamic ack features
   //
-    //toggle_features();
     write_register(FEATURE,read_register(FEATURE) | _BV(EN_DYN_ACK) );
 
   IF_SERIAL_DEBUG(printf("FEATURE=%i\r\n",read_register(FEATURE)));

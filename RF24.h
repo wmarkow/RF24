@@ -1139,12 +1139,12 @@ private:
   void print_address_register(const char* name, uint8_t reg, uint8_t qty = 1);
 #endif
   /**
-   * Turn on or off the special features of the chip
+   * Activate and disable the special features of the chip
    *
    * The chip has certain 'features' which are only available when the 'features'
    * are enabled.  See the datasheet for details.
    */
-  void toggle_features(void);
+  void activate_and_disable_features(void);
 
   /**
    * Built in spi transfer function to simplify repeating code repeating code
